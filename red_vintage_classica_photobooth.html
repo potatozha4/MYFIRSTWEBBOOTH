@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Red Vintage Classica Photobooth | Authentic Retro Keepsakes</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;0,800;1,400;1,700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        velvet: {
+                            900: '#360206',
+                            800: '#4A040A',
+                            700: '#6E0D15',
+                            600: '#8B0000',
+                            500: '#A3121C',
+                        },
+                        gold: {
+                            100: '#FFF8DC',
+                            300: '#F3E5AB',
+                            400: '#E6CA65',
+                            500: '#D4AF37',
+                            600: '#AA7C11',
+                            700: '#855E08',
+                        },
+                        cream: {
+                            50: '#FFFDF9',
+                            100: '#FDF5E6',
+                            200: '#F4EBD0',
+                            300: '#E8DAB2',
+                        },
+                        espresso: {
+                            950: '#0B0304',
+                            900: '#140507',
+                            800: '#210A0D',
+                        }
+                    },
+                    fontFamily: {
+                        cinzel: ['Cinzel', 'serif'],
+                        playfair: ['Playfair Display', 'serif'],
+                        courier: ['Courier Prime', 'monospace'],
+                        script: ['Great Vibes', 'cursive'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Vintage Styling & Effects */
+        body {
+            background-color: #140507;
+            color: #FDF5E6;
+            font-family: 'Playfair Display', serif;
+            overflow-x: hidden;
+        }
+
+        /* Subtle Vintage Grain Effect Overlay */
+        .grain-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 999;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Gold Foil Metallic Gradients */
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #FFF8DC 0%, #D4AF37 50%, #AA7C11 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gold-border-gradient {
+            border-image: linear-gradient(to bottom right, #F3E5AB, #D4AF37, #855E08) 1;
+        }
+
+        .gold-box-shadow {
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.25), inset 0 0 15px rgba(212, 175, 55, 0.15);
+        }
+
+        /* Marquee Bulb Pulsing Animation */
+        @keyframes bulbGlow {
+            0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 8px #FFD700; }
+            50% { opacity: 0.5; transform: scale(0.92); box-shadow: 0 0 2px #D4AF37; }
+        }
+
+        .marquee-bulb {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #FFF8DC;
+            display: inline-block;
+            animation: bulbGlow 1.8s infinite ease-in-out;
+        }
+
+        .marquee-bulb:nth-child(even) {
+            animation-delay: 0.9s;
+        }
+
+        /* Velvet Curtain Drapery Simulation */
+        .velvet-curtain-bg {
+            background: 
+                linear-gradient(90deg, 
+                    #360206 0%, 
+                    #6E0D15 15%, 
+                    #4A040A 30%, 
+                    #8B0000 50%, 
+                    #4A040A 70%, 
+                    #6E0D15 85%, 
+                    #360206 100%);
+            box-shadow: inset 0 0 100px rgba(0,0,0,0.8);
+        }
+
+        /* Flash Flash Overlay */
+        @keyframes flashAnim {
+            0% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        .camera-flash-active {
+            animation: flashAnim 0.4s ease-out forwards;
+        }
+
+        /* Real-Time Live Viewfinder Video CSS Filters */
+        .filter-original { filter: none; }
+        .filter-bw { filter: grayscale(100%) contrast(125%) brightness(95%); }
+        .filter-sepia { filter: sepia(90%) hue-rotate(-15deg) contrast(110%) brightness(95%); }
+        .filter-kodachrome { filter: saturate(160%) contrast(115%) hue-rotate(-5deg) sepia(15%); }
+        .filter-noir { filter: grayscale(100%) contrast(170%) brightness(85%); }
+
+        /* Custom Vintage Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #140507;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #6E0D15;
+            border: 1px solid #D4AF37;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #8B0000;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-velvet-600 selection:text-gold-300">
+
+    <!-- Subtle Grain Overlay -->
+    <div class="grain-overlay"></div>
+
+    <!-- Toast Notification Box -->
+    <div id="toast-container" class="fixed top-6 right-6 z-[1000] flex flex-col gap-3 pointer-events-none"></div>
+
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-50 bg-espresso-950/90 backdrop-blur-md border-b-2 border-gold-500/40 shadow-2xl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-full border-2 border-gold-500 bg-velvet-800 flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
+                    <i class="fa-solid fa-camera-retro text-gold-400 text-lg"></i>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-cinzel text-lg sm:text-xl font-bold tracking-wider gold-gradient-text">RED VINTAGE</span>
+                    <span class="font-script text-xs sm:text-sm text-gold-300 tracking-widest -mt-1">Classica Photobooth</span>
+                </div>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-cinzel tracking-widest text-cream-200">
+                <a href="#about" class="hover:text-gold-400 transition-colors">The Experience</a>
+                <a href="#booth-section" class="hover:text-gold-400 transition-colors text-gold-400 font-bold">Live Booth</a>
+                <a href="#gallery" class="hover:text-gold-400 transition-colors">Gallery</a>
+                <a href="#packages" class="hover:text-gold-400 transition-colors">Packages</a>
+                <a href="#contact" class="hover:text-gold-400 transition-colors">Bookings</a>
+            </nav>
+
+            <!-- CTA Header Button -->
+            <a href="#booth-section" class="inline-flex items-center gap-2 bg-velvet-700 hover:bg-velvet-600 text-gold-300 font-cinzel text-xs sm:text-sm tracking-wider px-4 py-2.5 rounded border border-gold-500/60 shadow-lg hover:shadow-gold-500/20 transition-all duration-300">
+                <i class="fa-solid fa-camera"></i>
+                <span>Step Inside</span>
+            </a>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <!-- Hero Section -->
+        <section class="relative pt-16 pb-20 md:pt-24 md:pb-32 velvet-curtain-bg overflow-hidden border-b-4 border-gold-600">
+            <!-- Decorative Marquee Lights Header -->
+            <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
+                <div class="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-espresso-950/80 border border-gold-500/50 mb-6 shadow-2xl">
+                    <span class="marquee-bulb"></span>
+                    <span class="font-courier text-xs sm:text-sm text-gold-300 tracking-widest uppercase">Est. 1928 • Authentic Analog Aesthetic</span>
+                    <span class="marquee-bulb"></span>
+                </div>
+
+                <h1 class="font-cinzel text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-cream-100 mb-6 leading-tight drop-shadow-md">
+                    Capture Timeless Elegance in <br>
+                    <span class="gold-gradient-text font-serif italic">Deep Crimson Velvet</span>
+                </h1>
+
+                <p class="font-playfair text-base sm:text-lg md:text-xl text-cream-200 max-w-2xl mx-auto mb-10 leading-relaxed italic">
+                    Step into our classic portrait cabinet. Experience authentic vintage monochrome, sepia tone warmth, and custom gold-embossed photographic keepsakes.
+                </p>
+
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+                    <a href="#booth-section" class="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-gold-600 via-gold-500 to-gold-700 text-espresso-950 font-cinzel font-bold tracking-wider rounded border-2 border-gold-300 shadow-xl hover:brightness-110 hover:scale-105 transition-all text-center">
+                        <i class="fa-solid fa-circle-dot mr-2"></i> Take Vintage Photos Now
+                    </a>
+                    <a href="#gallery" class="w-full sm:w-auto px-8 py-4 bg-espresso-950/80 hover:bg-espresso-900 text-cream-100 font-cinzel tracking-wider rounded border border-gold-500/40 shadow-lg transition-all text-center">
+                        View Strip Gallery
+                    </a>
+                </div>
+            </div>
+
+            <!-- Vintage Frame Graphic Accents -->
+            <div class="absolute left-4 top-1/2 -translate-y-1/2 hidden lg:block opacity-30 pointer-events-none">
+                <i class="fa-solid fa-crown text-8xl text-gold-500"></i>
+            </div>
+            <div class="absolute right-4 top-1/2 -translate-y-1/2 hidden lg:block opacity-30 pointer-events-none">
+                <i class="fa-solid fa-crown text-8xl text-gold-500"></i>
+            </div>
+        </section>
+
+        <!-- About / Features Banner -->
+        <section id="about" class="py-12 bg-espresso-900 border-b border-gold-500/20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="bg-espresso-950 p-6 rounded-lg border border-gold-500/30 text-center shadow-lg hover:border-gold-500/60 transition-all">
+                        <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-velvet-800 border border-gold-500 flex items-center justify-center text-gold-400 text-2xl">
+                            <i class="fa-solid fa-sliders"></i>
+                        </div>
+                        <h3 class="font-cinzel text-lg font-bold text-gold-300 mb-2">Authentic Filter Presets</h3>
+                        <p class="font-playfair text-sm text-cream-200/80">From deep velvet noir contrast to 1970s Kodachrome warm color shifts, rendered directly onto high-res strips.</p>
+                    </div>
+
+                    <div class="bg-espresso-950 p-6 rounded-lg border border-gold-500/30 text-center shadow-lg hover:border-gold-500/60 transition-all">
+                        <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-velvet-800 border border-gold-500 flex items-center justify-center text-gold-400 text-2xl">
+                            <i class="fa-solid fa-layer-group"></i>
+                        </div>
+                        <h3 class="font-cinzel text-lg font-bold text-gold-300 mb-2">Classic Layout Presets</h3>
+                        <p class="font-playfair text-sm text-cream-200/80">Choose between vertical 4-pose film strips, 3-pose portrait strips, or full single vintage postcards with custom stamps.</p>
+                    </div>
+
+                    <div class="bg-espresso-950 p-6 rounded-lg border border-gold-500/30 text-center shadow-lg hover:border-gold-500/60 transition-all">
+                        <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-velvet-800 border border-gold-500 flex items-center justify-center text-gold-400 text-2xl">
+                            <i class="fa-solid fa-download"></i>
+                        </div>
+                        <h3 class="font-cinzel text-lg font-bold text-gold-300 mb-2">Instant High-Res Export</h3>
+                        <p class="font-playfair text-sm text-cream-200/80">One-click download of ready-to-print PNG photo strips complete with custom event typography & date branding.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LIVE PHOTOBOOTH STUDIO SECTION -->
+        <section id="booth-section" class="py-16 md:py-24 bg-espresso-950 relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <!-- Section Header -->
+                <div class="text-center mb-12">
+                    <span class="font-courier text-xs sm:text-sm text-gold-400 tracking-widest uppercase">The Interactive Studio</span>
+                    <h2 class="font-cinzel text-3xl sm:text-4xl md:text-5xl font-bold text-cream-100 mt-2">
+                        Classica Photobooth Cabinet
+                    </h2>
+                    <div class="w-24 h-1 bg-gradient-to-r from-transparent via-gold-500 to-transparent mx-auto mt-4"></div>
+                </div>
+
+                <!-- Photobooth Cabinet Container -->
+                <div class="bg-velvet-900 border-4 border-gold-500/80 rounded-2xl p-4 sm:p-6 lg:p-8 gold-box-shadow max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 relative overflow-hidden">
+                    
+                    <!-- Decorative Vintage Corner Filigree -->
+                    <div class="absolute top-2 left-2 text-gold-500/40 text-xl"><i class="fa-solid fa-spaghetti-monster-flying hidden"></i>✦</div>
+                    <div class="absolute top-2 right-2 text-gold-500/40 text-xl">✦</div>
+                    <div class="absolute bottom-2 left-2 text-gold-500/40 text-xl">✦</div>
+                    <div class="absolute bottom-2 right-2 text-gold-500/40 text-xl">✦</div>
+
+                    <!-- LEFT COLUMN: Live Camera Viewfinder & Controls (7 Cols) -->
+                    <div class="lg:col-span-7 flex flex-col gap-6">
+                        
+                        <!-- Camera Screen Frame -->
+                        <div class="relative bg-espresso-950 border-4 border-gold-600 rounded-xl p-3 shadow-2xl flex flex-col items-center">
+                            
+                            <!-- Marquee Indicator Light Ring Header -->
+                            <div class="w-full flex items-center justify-between px-3 py-1.5 bg-velvet-900 border-b border-gold-500/40 mb-3 rounded">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-3 h-3 rounded-full bg-red-600 animate-pulse" id="status-dot"></span>
+                                    <span class="font-courier text-xs text-gold-300 tracking-wider uppercase" id="booth-status-text">CAMERA READY</span>
+                                </div>
+                                <div class="font-script text-gold-400 text-sm">Classica Lens No. 4</div>
+                            </div>
+
+                            <!-- Live Camera Viewfinder Screen -->
+                            <div class="relative w-full aspect-[4/3] bg-black rounded-lg overflow-hidden border border-gold-500/30 flex items-center justify-center">
+                                
+                                <!-- WebRTC Video Element -->
+                                <video id="webcam-video" autoplay playsinline muted class="w-full h-full object-cover filter-original transition-all duration-300"></video>
+                                
+                                <!-- Fallback Demo Canvas (Used if camera permission denied or missing) -->
+                                <canvas id="demo-canvas" class="hidden w-full h-full object-cover"></canvas>
+
+                                <!-- Flash Overlay -->
+                                <div id="camera-flash" class="absolute inset-0 bg-white pointer-events-none opacity-0 z-40"></div>
+
+                                <!-- Countdown Overlay -->
+                                <div id="countdown-overlay" class="absolute inset-0 bg-black/50 backdrop-blur-xs flex items-center justify-center z-30 opacity-0 pointer-events-none transition-opacity duration-200">
+                                    <span id="countdown-text" class="font-cinzel text-8xl font-extrabold gold-gradient-text drop-shadow-[0_5px_15px_rgba(0,0,0,0.9)] animate-bounce">3</span>
+                                </div>
+
+                                <!-- Camera Overlay Reticle -->
+                                <div class="absolute inset-0 pointer-events-none border border-gold-500/20 m-4 rounded flex flex-col justify-between p-2">
+                                    <div class="flex justify-between text-gold-500/50 text-xs font-courier">
+                                        <span>[ ISO 100 ]</span>
+                                        <span>35MM FILM</span>
+                                    </div>
+                                    <div class="flex justify-between text-gold-500/50 text-xs font-courier">
+                                        <span>F/2.8</span>
+                                        <span id="viewfinder-filter-label">ORIGINAL</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Mute Audio Toggle -->
+                            <div class="w-full flex justify-between items-center mt-3 px-2">
+                                <button id="btn-toggle-audio" class="text-xs font-courier text-gold-300 hover:text-gold-100 flex items-center gap-1">
+                                    <i class="fa-solid fa-volume-high" id="audio-icon"></i> <span id="audio-status-label">Sound On</span>
+                                </button>
+                                <button id="btn-camera-switch" class="text-xs font-courier text-gold-300 hover:text-gold-100 flex items-center gap-1">
+                                    <i class="fa-solid fa-camera-rotate"></i> <span>Toggle Demo / Cam</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Studio Controls: Preset Layout & Filters -->
+                        <div class="bg-espresso-950/80 border border-gold-500/30 p-4 rounded-xl flex flex-col gap-4">
+                            
+                            <!-- 1. Layout Selector -->
+                            <div>
+                                <label class="block font-cinzel text-xs font-bold text-gold-300 tracking-wider mb-2">1. SELECT STRIP LAYOUT</label>
+                                <div class="grid grid-cols-3 gap-2">
+                                    <button data-layout="4-strip" class="layout-btn bg-velvet-800 text-gold-300 border border-gold-500/50 py-2 px-2 rounded font-cinzel text-xs hover:bg-velvet-700 transition-all flex flex-col items-center gap-1 active border-gold-400 font-bold">
+                                        <i class="fa-solid fa-film"></i>
+                                        <span>4-Pose Strip</span>
+                                    </button>
+                                    <button data-layout="3-strip" class="layout-btn bg-espresso-900 text-cream-200/70 border border-gold-500/20 py-2 px-2 rounded font-cinzel text-xs hover:bg-velvet-700 transition-all flex flex-col items-center gap-1">
+                                        <i class="fa-solid fa-images"></i>
+                                        <span>3-Pose Strip</span>
+                                    </button>
+                                    <button data-layout="single-card" class="layout-btn bg-espresso-900 text-cream-200/70 border border-gold-500/20 py-2 px-2 rounded font-cinzel text-xs hover:bg-velvet-700 transition-all flex flex-col items-center gap-1">
+                                        <i class="fa-solid fa-id-card"></i>
+                                        <span>Vintage Postcard</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- 2. Vintage Filters Selector -->
+                            <div>
+                                <label class="block font-cinzel text-xs font-bold text-gold-300 tracking-wider mb-2">2. SELECT VINTAGE FILTER</label>
+                                <div class="grid grid-cols-5 gap-1.5">
+                                    <button data-filter="filter-original" class="filter-btn bg-velvet-800 text-gold-300 border border-gold-500/60 py-1.5 text-[10px] sm:text-xs rounded font-courier hover:border-gold-400 active">
+                                        Original
+                                    </button>
+                                    <button data-filter="filter-bw" class="filter-btn bg-espresso-900 text-cream-200/70 border border-gold-500/20 py-1.5 text-[10px] sm:text-xs rounded font-courier hover:border-gold-400">
+                                        Classic B&W
+                                    </button>
+                                    <button data-filter="filter-sepia" class="filter-btn bg-espresso-900 text-cream-200/70 border border-gold-500/20 py-1.5 text-[10px] sm:text-xs rounded font-courier hover:border-gold-400">
+                                        Sepia
+                                    </button>
+                                    <button data-filter="filter-kodachrome" class="filter-btn bg-espresso-900 text-cream-200/70 border border-gold-500/20 py-1.5 text-[10px] sm:text-xs rounded font-courier hover:border-gold-400">
+                                        1970s Tint
+                                    </button>
+                                    <button data-filter="filter-noir" class="filter-btn bg-espresso-900 text-cream-200/70 border border-gold-500/20 py-1.5 text-[10px] sm:text-xs rounded font-courier hover:border-gold-400">
+                                        Velvet Noir
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- 3. Custom Strip Footer Caption Text Input -->
+                            <div>
+                                <label for="strip-footer-text" class="block font-cinzel text-xs font-bold text-gold-300 tracking-wider mb-1">3. FOOTER EVENT CAPTION</label>
+                                <input type="text" id="strip-footer-text" value="VINTAGE MEMORIES • 2026" maxlength="40" class="w-full bg-espresso-900 border border-gold-500/40 rounded px-3 py-2 text-xs font-courier text-gold-200 focus:outline-none focus:border-gold-400">
+                            </div>
+
+                            <!-- Big Trigger Action Button -->
+                            <button id="btn-start-session" class="w-full py-4 bg-gradient-to-r from-gold-500 via-gold-400 to-gold-600 hover:from-gold-400 hover:to-gold-500 text-espresso-950 font-cinzel font-extrabold text-base tracking-widest rounded-lg shadow-xl hover:shadow-gold-500/30 transition-all border border-gold-200 flex items-center justify-center gap-3">
+                                <i class="fa-solid fa-camera text-xl"></i>
+                                <span>START PHOTO SESSION</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT COLUMN: Generated Photo Strip Preview (5 Cols) -->
+                    <div class="lg:col-span-5 flex flex-col items-center justify-between bg-espresso-950/90 border border-gold-500/30 p-4 sm:p-6 rounded-xl min-h-[500px]">
+                        
+                        <div class="w-full flex items-center justify-between border-b border-gold-500/30 pb-3 mb-4">
+                            <span class="font-cinzel text-xs font-bold text-gold-300 tracking-wider">STRIP PREVIEW</span>
+                            <span class="font-script text-gold-400 text-base">Red Classica Output</span>
+                        </div>
+
+                        <!-- Canvas Strip Render Destination Container -->
+                        <div class="relative max-w-[280px] w-full my-auto flex justify-center items-center py-2">
+                            <!-- Hidden Canvas used for high-res final export generation -->
+                            <canvas id="output-strip-canvas" class="hidden"></canvas>
+
+                            <!-- Rendered Preview Image Display -->
+                            <img id="strip-preview-img" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='720' viewBox='0 0 240 720'%3E%3Crect width='240' height='720' fill='%23FDF5E6'/%3E%3Crect x='15' y='20' width='210' height='140' fill='%23210A0D'/%3E%3Crect x='15' y='180' width='210' height='140' fill='%23210A0D'/%3E%3Crect x='15' y='340' width='210' height='140' fill='%23210A0D'/%3E%3Crect x='15' y='500' width='210' height='140' fill='%23210A0D'/%3E%3Ctext x='120' y='670' font-family='serif' font-size='12' fill='%236E0D15' text-anchor='middle'%3ERED VINTAGE CLASSICA%3E%3C/text%3E%3Ctext x='120' y='690' font-family='monospace' font-size='10' fill='%23855E08' text-anchor='middle'%3EPRESS START SESSION%3E%3C/text%3E%3C/svg%3E" alt="Photo Strip Preview" class="rounded shadow-2xl border-2 border-gold-500/40 max-h-[550px] object-contain transition-all duration-300">
+                        </div>
+
+                        <!-- Strip Action Buttons -->
+                        <div class="w-full flex flex-col gap-2 mt-4 pt-3 border-t border-gold-500/30">
+                            <button id="btn-download-strip" disabled class="w-full py-2.5 bg-velvet-700 hover:bg-velvet-600 text-gold-200 disabled:opacity-50 disabled:cursor-not-allowed font-cinzel text-xs tracking-wider rounded border border-gold-500/40 transition-all flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-download"></i>
+                                <span>Download Photo Strip (PNG)</span>
+                            </button>
+                            <div class="grid grid-cols-2 gap-2">
+                                <button id="btn-copy-strip" disabled class="py-2 bg-espresso-900 hover:bg-espresso-800 text-cream-200 disabled:opacity-50 disabled:cursor-not-allowed font-cinzel text-[11px] rounded border border-gold-500/20 transition-all flex items-center justify-center gap-1">
+                                    <i class="fa-solid fa-copy"></i>
+                                    <span>Copy Image</span>
+                                </button>
+                                <button id="btn-reset-booth" class="py-2 bg-espresso-900 hover:bg-espresso-800 text-cream-200 font-cinzel text-[11px] rounded border border-gold-500/20 transition-all flex items-center justify-center gap-1">
+                                    <i class="fa-solid fa-rotate-right"></i>
+                                    <span>Clear / Retake</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SAMPLE PHOTO STRIP GALLERY SECTION -->
+        <section id="gallery" class="py-16 bg-espresso-900 border-t border-b border-gold-500/30">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="text-center mb-12">
+                    <span class="font-courier text-xs sm:text-sm text-gold-400 tracking-widest uppercase">Memory Archive</span>
+                    <h2 class="font-cinzel text-3xl sm:text-4xl font-bold text-cream-100 mt-2">
+                        Vintage Gallery Showcase
+                    </h2>
+                    <p class="font-playfair text-sm text-cream-200/80 italic mt-2">A glimpse at custom strips generated for past galas, weddings, and secret soirées.</p>
+                </div>
+
+                <!-- Gallery Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+                    
+                    <!-- Gallery Item 1 -->
+                    <div class="bg-espresso-950 p-4 rounded-xl border border-gold-500/30 hover:border-gold-500 transition-all duration-300 group shadow-xl">
+                        <div class="bg-cream-100 p-3 rounded shadow-inner text-center font-courier text-espresso-950 flex flex-col gap-2">
+                            <div class="bg-espresso-950 text-gold-300 aspect-[4/3] rounded flex items-center justify-center border border-gold-500/40 overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=400&q=80" alt="Wedding Strip" class="w-full h-full object-cover filter grayscale">
+                            </div>
+                            <div class="bg-espresso-950 text-gold-300 aspect-[4/3] rounded flex items-center justify-center border border-gold-500/40 overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=400&q=80" alt="Wedding Strip 2" class="w-full h-full object-cover filter grayscale">
+                            </div>
+                            <div class="bg-espresso-950 text-gold-300 aspect-[4/3] rounded flex items-center justify-center border border-gold-500/40 overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1469371670807-013ccf25f16a?auto=format&fit=crop&w=400&q=80" alt="Wedding Strip 3" class="w-full h-full object-cover filter grayscale">
+                            </div>
+                            <div class="pt-2 border-t border-velvet-900">
+                                <div class="font-cinzel text-xs font-bold text-velvet-900">THE GRAND WEDDING</div>
+                                <div class="text-[10px] text-gold-700">SEPTEMBER • 2025</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Gallery Item 2 -->
+                    <div class="bg-espresso-950 p-4 rounded-xl border border-gold-500/30 hover:border-gold-500 transition-all duration-300 group shadow-xl">
+                        <div class="bg-cream-100 p-3 rounded shadow-inner text-center font-courier text-espresso-950 flex flex-col gap-2">
+                            <div class="bg-espresso-950 text-gold-300 aspect-[4/3] rounded flex items-center justify-center border border-gold-500/40 overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=400&q=80" alt="Gala Strip 1" class="w-full h-full object-cover filter sepia">
+                            </div>
+                            <div class="bg-espresso-950 text-gold-300 aspect-[4/3] rounded flex items-center justify-center border border-gold-500/40 overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=400&q=80" alt="Gala Strip 2" class="w-full h-full object-cover filter sepia">
+                            </div>
+                            <div class="bg-espresso-950 text-gold-300 aspect-[4/3] rounded flex items-center justify-center border border-gold-500/40 overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=400&q=80" alt="Gala Strip 3" class="w-full h-full object-cover filter sepia">
+                            </div>
+                            <div class="pt-2 border-t border-velvet-900">
+                                <div class="font-cinzel text-xs font-bold text-velvet-900">VELVET SOIREE GALA</div>
+                                <div class="text-[10px] text-gold-700">DECEMBER • 2025</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Gallery Item 3 -->
+                    <div class="bg-espresso-950 p-4 rounded-xl border border-gold-500/30 hover:border-gold-500 transition-all duration-300 group shadow-xl">
+                        <div class="bg-cream-100 p-3 rounded shadow-inner text-center font-courier text-espresso-950 flex flex-col gap-2">
+                            <div class="bg-espresso-950 text-gold-300 aspect-[4/3] rounded flex items-center justify-center border border-gold-500/40 overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=400&q=80" alt="Party Strip 1" class="w-full h-full object-cover">
+                            </div>
+                            <div class="bg-espresso-950 text-gold-300 aspect-[4/3] rounded flex items-center justify-center border border-gold-500/40 overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=400&q=80" alt="Party Strip 2" class="w-full h-full object-cover">
+                            </div>
+                            <div class="bg-espresso-950 text-gold-300 aspect-[4/3] rounded flex items-center justify-center border border-gold-500/40 overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1527529482837-4698179dc6ce?auto=format&fit=crop&w=400&q=80" alt="Party Strip 3" class="w-full h-full object-cover">
+                            </div>
+                            <div class="pt-2 border-t border-velvet-900">
+                                <div class="font-cinzel text-xs font-bold text-velvet-900">THE JAZZ CLUB NIGHT</div>
+                                <div class="text-[10px] text-gold-700">JANUARY • 2026</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Gallery Item 4 -->
+                    <div class="bg-espresso-950 p-4 rounded-xl border border-gold-500/30 hover:border-gold-500 transition-all duration-300 group shadow-xl">
+                        <div class="bg-cream-100 p-3 rounded shadow-inner text-center font-courier text-espresso-950 flex flex-col gap-2">
+                            <div class="bg-espresso-950 text-gold-300 aspect-[4/3] rounded flex items-center justify-center border border-gold-500/40 overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=400&q=80" alt="Retro Strip 1" class="w-full h-full object-cover filter grayscale contrast-150">
+                            </div>
+                            <div class="bg-espresso-950 text-gold-300 aspect-[4/3] rounded flex items-center justify-center border border-gold-500/40 overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=400&q=80" alt="Retro Strip 2" class="w-full h-full object-cover filter grayscale contrast-150">
+                            </div>
+                            <div class="bg-espresso-950 text-gold-300 aspect-[4/3] rounded flex items-center justify-center border border-gold-500/40 overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" alt="Retro Strip 3" class="w-full h-full object-cover filter grayscale contrast-150">
+                            </div>
+                            <div class="pt-2 border-t border-velvet-900">
+                                <div class="font-cinzel text-xs font-bold text-velvet-900">NOIR HOLLYWOOD</div>
+                                <div class="text-[10px] text-gold-700">FEBRUARY • 2026</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- PACKAGES & PRICING SECTION -->
+        <section id="packages" class="py-16 md:py-24 bg-espresso-950">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="text-center mb-16">
+                    <span class="font-courier text-xs sm:text-sm text-gold-400 tracking-widest uppercase">Rental Packages</span>
+                    <h2 class="font-cinzel text-3xl sm:text-4xl md:text-5xl font-bold text-cream-100 mt-2">
+                        Bring Classica To Your Event
+                    </h2>
+                    <p class="font-playfair text-sm sm:text-base text-cream-200/80 max-w-xl mx-auto mt-3 italic">
+                        Full-service vintage booth installation with custom print templates, deep red velvet backdrop, and instant digital sharing.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    
+                    <!-- Package 1 -->
+                    <div class="bg-espresso-900 border border-gold-500/30 rounded-2xl p-8 flex flex-col justify-between hover:border-gold-500 transition-all shadow-xl">
+                        <div>
+                            <div class="font-cinzel text-xs font-bold text-gold-400 tracking-widest mb-2">ESSENTIAL PACKAGE</div>
+                            <h3 class="font-cinzel text-2xl font-bold text-cream-100 mb-4">The Vintage Keepsake</h3>
+                            <div class="flex items-baseline gap-1 mb-6">
+                                <span class="font-cinzel text-4xl font-bold gold-gradient-text">$450</span>
+                                <span class="font-courier text-xs text-cream-200/60">/ 2 Hours</span>
+                            </div>
+                            <ul class="font-playfair text-sm text-cream-200/90 space-y-3 mb-8">
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-gold-400 text-xs"></i> Unlimited High-Res Digital Photo Strips</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-gold-400 text-xs"></i> Authentic B&W & Sepia Live Filters</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-gold-400 text-xs"></i> Customized Event Footer Typography</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-gold-400 text-xs"></i> On-Site Professional Attendant</li>
+                                <li class="flex items-center gap-2 text-cream-200/40"><i class="fa-solid fa-xmark text-xs"></i> Physical Dye-Sublimation Prints</li>
+                            </ul>
+                        </div>
+                        <a href="#contact" class="w-full py-3 text-center bg-espresso-950 hover:bg-velvet-800 text-gold-300 font-cinzel text-xs font-bold tracking-wider rounded border border-gold-500/40 transition-all">
+                            Book Vintage Keepsake
+                        </a>
+                    </div>
+
+                    <!-- Package 2 (Featured) -->
+                    <div class="bg-velvet-900 border-2 border-gold-500 rounded-2xl p-8 flex flex-col justify-between shadow-2xl relative transform md:-translate-y-4">
+                        <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gold-500 text-espresso-950 font-cinzel text-[10px] font-extrabold tracking-widest px-4 py-1 rounded-full uppercase border border-gold-200">
+                            Most Popular Choice
+                        </div>
+                        <div>
+                            <div class="font-cinzel text-xs font-bold text-gold-300 tracking-widest mb-2 mt-2">PREMIUM EXPERIENCE</div>
+                            <h3 class="font-cinzel text-2xl font-bold text-cream-100 mb-4">The Velvet Imperial</h3>
+                            <div class="flex items-baseline gap-1 mb-6">
+                                <span class="font-cinzel text-4xl font-bold gold-gradient-text">$750</span>
+                                <span class="font-courier text-xs text-cream-200/60">/ 4 Hours</span>
+                            </div>
+                            <ul class="font-playfair text-sm text-cream-200 space-y-3 mb-8">
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-gold-400 text-xs"></i> Dual Strip Physical Dye-Sub Printing</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-gold-400 text-xs"></i> Unlimited High-Res Digital Downloads</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-gold-400 text-xs"></i> Deep Red Velvet Backdrop & Vintage Props</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-gold-400 text-xs"></i> Custom Gold Embossed Footer Branding</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-gold-400 text-xs"></i> Guest Memory Guestbook Album</li>
+                            </ul>
+                        </div>
+                        <a href="#contact" class="w-full py-3 text-center bg-gradient-to-r from-gold-500 to-gold-600 text-espresso-950 font-cinzel text-xs font-bold tracking-wider rounded shadow-lg hover:brightness-110 transition-all">
+                            Book Velvet Imperial
+                        </a>
+                    </div>
+
+                    <!-- Package 3 -->
+                    <div class="bg-espresso-900 border border-gold-500/30 rounded-2xl p-8 flex flex-col justify-between hover:border-gold-500 transition-all shadow-xl">
+                        <div>
+                            <div class="font-cinzel text-xs font-bold text-gold-400 tracking-widest mb-2">LUXURY GRAND GALA</div>
+                            <h3 class="font-cinzel text-2xl font-bold text-cream-100 mb-4">The Grand Premiere</h3>
+                            <div class="flex items-baseline gap-1 mb-6">
+                                <span class="font-cinzel text-4xl font-bold gold-gradient-text">$1,200</span>
+                                <span class="font-courier text-xs text-cream-200/60">/ Full Day</span>
+                            </div>
+                            <ul class="font-playfair text-sm text-cream-200/90 space-y-3 mb-8">
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-gold-400 text-xs"></i> Unlimited Physical & Digital Strips</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-gold-400 text-xs"></i> Complete Custom Filter Color Preset Tuning</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-gold-400 text-xs"></i> Leatherbound Gold Foil Keepsake Album</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-gold-400 text-xs"></i> VIP Audio Guestbook Retro Phone Integration</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-gold-400 text-xs"></i> Private Cloud Online Gallery for Guests</li>
+                            </ul>
+                        </div>
+                        <a href="#contact" class="w-full py-3 text-center bg-espresso-950 hover:bg-velvet-800 text-gold-300 font-cinzel text-xs font-bold tracking-wider rounded border border-gold-500/40 transition-all">
+                            Book Grand Premiere
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- BOOKING / CONTACT FORM SECTION -->
+        <section id="contact" class="py-16 md:py-24 velvet-curtain-bg border-t-2 border-gold-600 relative">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="bg-espresso-950 border-2 border-gold-500/80 rounded-2xl p-6 sm:p-10 shadow-2xl relative">
+                    <div class="text-center mb-8">
+                        <span class="font-courier text-xs text-gold-400 tracking-widest uppercase">Reserve The Booth</span>
+                        <h2 class="font-cinzel text-3xl sm:text-4xl font-bold text-cream-100 mt-1">
+                            Inquire For Your Date
+                        </h2>
+                        <div class="w-16 h-0.5 bg-gold-500 mx-auto mt-3"></div>
+                    </div>
+
+                    <form id="booking-form" class="space-y-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block font-cinzel text-xs font-bold text-gold-300 tracking-wider mb-2">YOUR FULL NAME *</label>
+                                <input type="text" required placeholder="e.g. Lord Eleanor Vance" class="w-full bg-espresso-900 border border-gold-500/40 rounded px-4 py-3 text-sm font-playfair text-cream-100 focus:outline-none focus:border-gold-400">
+                            </div>
+
+                            <div>
+                                <label class="block font-cinzel text-xs font-bold text-gold-300 tracking-wider mb-2">EMAIL ADDRESS *</label>
+                                <input type="email" required placeholder="e.g. eleanor@vanceestate.com" class="w-full bg-espresso-900 border border-gold-500/40 rounded px-4 py-3 text-sm font-playfair text-cream-100 focus:outline-none focus:border-gold-400">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block font-cinzel text-xs font-bold text-gold-300 tracking-wider mb-2">EVENT DATE *</label>
+                                <input type="date" required class="w-full bg-espresso-900 border border-gold-500/40 rounded px-4 py-3 text-sm font-courier text-gold-300 focus:outline-none focus:border-gold-400">
+                            </div>
+
+                            <div>
+                                <label class="block font-cinzel text-xs font-bold text-gold-300 tracking-wider mb-2">EVENT TYPE / PACKAGE</label>
+                                <select class="w-full bg-espresso-900 border border-gold-500/40 rounded px-4 py-3 text-sm font-playfair text-cream-100 focus:outline-none focus:border-gold-400">
+                                    <option value="wedding">Wedding Gala</option>
+                                    <option value="birthday">Milestone Celebration</option>
+                                    <option value="corporate">Corporate Gala / Launch</option>
+                                    <option value="private">Private Retro Party</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block font-cinzel text-xs font-bold text-gold-300 tracking-wider mb-2">SPECIAL REQUESTS / VENUE DETAILS</label>
+                            <textarea rows="4" placeholder="Tell us about your venue, custom text requirements, or custom branding..." class="w-full bg-espresso-900 border border-gold-500/40 rounded px-4 py-3 text-sm font-playfair text-cream-100 focus:outline-none focus:border-gold-400"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full py-4 bg-gradient-to-r from-gold-600 via-gold-500 to-gold-700 hover:brightness-110 text-espresso-950 font-cinzel font-bold tracking-widest text-sm rounded shadow-xl transition-all">
+                            <i class="fa-solid fa-paper-plane mr-2"></i> SEND BOOKING INQUIRY
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-espresso-950 border-t border-gold-500/30 py-12 text-cream-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+            
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full border border-gold-500 bg-velvet-800 flex items-center justify-center text-gold-400 text-sm">
+                    <i class="fa-solid fa-camera-retro"></i>
+                </div>
+                <div>
+                    <span class="font-cinzel text-sm font-bold text-gold-300">RED VINTAGE CLASSICA</span>
+                    <p class="font-courier text-[10px] text-cream-200/50">Designed for GitHub Pages & Vintage Aficionados</p>
+                </div>
+            </div>
+
+            <div class="flex gap-6 text-gold-400 text-lg">
+                <a href="#" class="hover:text-gold-200 transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="hover:text-gold-200 transition-colors"><i class="fa-brands fa-pinterest"></i></a>
+                <a href="#" class="hover:text-gold-200 transition-colors"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#" class="hover:text-gold-200 transition-colors"><i class="fa-brands fa-github"></i></a>
+            </div>
+
+            <div class="font-courier text-xs text-cream-200/60 text-center md:text-right">
+                &copy; <span id="year-copy">2026</span> Red Vintage Classica Photobooth. All Rights Reserved.
+            </div>
+
+        </div>
+    </footer>
+
+
+    <!-- ==================== INTERACTIVE PHOTOBOOTH SCRIPT ==================== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Update Copyright Year dynamically
+            document.getElementById('year-copy').textContent = new Date().getFullYear();
+
+            // WebRTC & Canvas Elements
+            const videoEl = document.getElementById('webcam-video');
+            const demoCanvas = document.getElementById('demo-canvas');
+            const demoCtx = demoCanvas.getContext('2d');
+            const outputCanvas = document.getElementById('output-strip-canvas');
+            const outputCtx = outputCanvas.getContext('2d');
+            const previewImg = document.getElementById('strip-preview-img');
+
+            // UI Elements & Controls
+            const btnStartSession = document.getElementById('btn-start-session');
+            const btnDownloadStrip = document.getElementById('btn-download-strip');
+            const btnCopyStrip = document.getElementById('btn-copy-strip');
+            const btnResetBooth = document.getElementById('btn-reset-booth');
+            const btnToggleAudio = document.getElementById('btn-toggle-audio');
+            const btnCameraSwitch = document.getElementById('btn-camera-switch');
+            const audioIcon = document.getElementById('audio-icon');
+            const audioStatusLabel = document.getElementById('audio-status-label');
+            
+            const countdownOverlay = document.getElementById('countdown-overlay');
+            const countdownText = document.getElementById('countdown-text');
+            const cameraFlash = document.getElementById('camera-flash');
+            const footerTextInput = document.getElementById('strip-footer-text');
+            const viewfinderFilterLabel = document.getElementById('viewfinder-filter-label');
+            const statusDot = document.getElementById('status-dot');
+            const statusText = document.getElementById('booth-status-text');
+
+            // State Management
+            let currentLayout = '4-strip'; // '4-strip', '3-strip', 'single-card'
+            let currentFilter = 'filter-original'; // 'filter-original', 'filter-bw', 'filter-sepia', 'filter-kodachrome', 'filter-noir'
+            let isMuted = false;
+            let useDemoMode = false;
+            let isCapturing = false;
+            let capturedPhotos = [];
+            let demoAnimId = null;
+
+            // Audio Context initialization for synthesized retro shutter click and countdown beep
+            let audioCtx = null;
+            function initAudio() {
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+            }
+
+            function playBeep(freq = 880, duration = 0.08) {
+                if (isMuted) return;
+                try {
+                    initAudio();
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                    gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + duration);
+                } catch (e) {
+                    console.log('Audio beep notice:', e);
+                }
+            }
+
+            function playShutterSound() {
+                if (isMuted) return;
+                try {
+                    initAudio();
+                    const bufferSize = audioCtx.sampleRate * 0.08;
+                    const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+                    const data = buffer.getChannelData(0);
+                    for (let i = 0; i < bufferSize; i++) {
+                        data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.15));
+                    }
+                    const noise = audioCtx.createBufferSource();
+                    noise.buffer = buffer;
+
+                    const filter = audioCtx.createBiquadFilter();
+                    filter.type = 'bandpass';
+                    filter.frequency.value = 1400;
+                    filter.Q.value = 2.5;
+
+                    const gain = audioCtx.createGain();
+                    gain.gain.setValueAtTime(0.8, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.08);
+
+                    noise.connect(filter);
+                    filter.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    noise.start();
+                } catch (e) {
+                    console.log('Audio shutter notice:', e);
+                }
+            }
+
+            // Toast Notification Helper
+            function showToast(message, type = 'info') {
+                const toastContainer = document.getElementById('toast-container');
+                const toast = document.createElement('div');
+                toast.className = `px-4 py-3 rounded shadow-2xl border font-cinzel text-xs flex items-center gap-2 pointer-events-auto transition-all duration-300 transform translate-y-2 ${
+                    type === 'success' 
+                        ? 'bg-velvet-800 text-gold-300 border-gold-500' 
+                        : 'bg-espresso-950 text-cream-100 border-gold-500/40'
+                }`;
+                toast.innerHTML = `<i class="fa-solid ${type === 'success' ? 'fa-circle-check text-gold-400' : 'fa-circle-info text-gold-400'}"></i> <span>${message}</span>`;
+                toastContainer.appendChild(toast);
+                setTimeout(() => {
+                    toast.classList.add('opacity-0', '-translate-y-2');
+                    setTimeout(() => toast.remove(), 300);
+                }, 3000);
+            }
+
+            // WebRTC Webcam Setup & Fallback Demo Mode
+            async function initCamera() {
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({
+                        video: { width: { ideal: 1280 }, height: { ideal: 960 }, facingMode: "user" },
+                        audio: false
+                    });
+                    videoEl.srcObject = stream;
+                    videoEl.classList.remove('hidden');
+                    demoCanvas.classList.add('hidden');
+                    useDemoMode = false;
+                    statusDot.className = 'w-3 h-3 rounded-full bg-emerald-500 animate-pulse';
+                    statusText.textContent = 'CAMERA ONLINE';
+                } catch (err) {
+                    console.warn('Webcam unavailable or permission denied. Launching vintage animated demo canvas mode.', err);
+                    startDemoMode();
+                }
+            }
+
+            // Demo Mode Animated Canvas (Simulates camera feed with vintage animated portrait)
+            function startDemoMode() {
+                useDemoMode = true;
+                videoEl.classList.add('hidden');
+                demoCanvas.classList.remove('hidden');
+                statusDot.className = 'w-3 h-3 rounded-full bg-amber-500 animate-pulse';
+                statusText.textContent = 'DEMO STUDIO FEED';
+                
+                demoCanvas.width = 640;
+                demoCanvas.height = 480;
+
+                let t = 0;
+                function renderDemoFrame() {
+                    t += 0.03;
+                    demoCtx.fillStyle = '#140507';
+                    demoCtx.fillRect(0, 0, 640, 480);
+
+                    // Vintage Velvet Curtain Background simulation on canvas
+                    for (let x = 0; x < 640; x += 40) {
+                        const fold = Math.sin(x * 0.05 + t * 0.5) * 20;
+                        demoCtx.fillStyle = `rgb(${70 + fold}, ${10 + fold/2}, ${20 + fold/2})`;
+                        demoCtx.fillRect(x, 0, 40, 480);
+                    }
+
+                    // Draw Vintage Silhouette Portrait Model
+                    demoCtx.save();
+                    demoCtx.translate(320, 260 + Math.sin(t) * 8);
+
+                    // Head / Shadow
+                    demoCtx.fillStyle = '#FDF5E6';
+                    demoCtx.beginPath();
+                    demoCtx.ellipse(0, -40, 45, 55, 0, 0, Math.PI * 2);
+                    demoCtx.fill();
+
+                    // Eyes & Vintage Glasses Frame
+                    demoCtx.strokeStyle = '#360206';
+                    demoCtx.lineWidth = 4;
+                    demoCtx.beginPath();
+                    demoCtx.arc(-18, -45, 14, 0, Math.PI * 2);
+                    demoCtx.arc(18, -45, 14, 0, Math.PI * 2);
+                    demoCtx.stroke();
+                    demoCtx.beginPath();
+                    demoCtx.moveTo(-4, -45);
+                    demoCtx.lineTo(4, -45);
+                    demoCtx.stroke();
+
+                    // Smile
+                    demoCtx.beginPath();
+                    demoCtx.arc(0, -30, 16, 0.2, Math.PI - 0.2);
+                    demoCtx.stroke();
+
+                    // Vintage Hat / Bowler
+                    demoCtx.fillStyle = '#360206';
+                    demoCtx.beginPath();
+                    demoCtx.ellipse(0, -85, 60, 12, 0, 0, Math.PI * 2);
+                    demoCtx.fill();
+                    demoCtx.beginPath();
+                    demoCtx.arc(0, -95, 35, Math.PI, 0);
+                    demoCtx.fill();
+
+                    demoCtx.restore();
+
+                    // Notice text
+                    demoCtx.fillStyle = '#D4AF37';
+                    demoCtx.font = '14px Courier Prime';
+                    demoCtx.textAlign = 'center';
+                    demoCtx.fillText('DEMO FEED • CAMERA PREVIEW MODE', 320, 450);
+
+                    demoAnimId = requestAnimationFrame(renderDemoFrame);
+                }
+                renderDemoFrame();
+            }
+
+            // Layout Button Event Listeners
+            document.querySelectorAll('.layout-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    document.querySelectorAll('.layout-btn').forEach(b => {
+                        b.classList.remove('active', 'border-gold-400', 'bg-velvet-800', 'font-bold');
+                        b.classList.add('bg-espresso-900', 'text-cream-200/70');
+                    });
+                    const target = e.currentTarget;
+                    target.classList.add('active', 'border-gold-400', 'bg-velvet-800', 'font-bold');
+                    target.classList.remove('bg-espresso-900', 'text-cream-200/70');
+                    currentLayout = target.getAttribute('data-layout');
+                    showToast(`Layout changed to ${target.innerText.trim()}`);
+                });
+            });
+
+            // Filter Button Event Listeners
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    document.querySelectorAll('.filter-btn').forEach(b => {
+                        b.classList.remove('active', 'bg-velvet-800', 'border-gold-500/60');
+                        b.classList.add('bg-espresso-900', 'text-cream-200/70');
+                    });
+                    const target = e.currentTarget;
+                    target.classList.add('active', 'bg-velvet-800', 'border-gold-500/60');
+                    target.classList.remove('bg-espresso-900', 'text-cream-200/70');
+                    
+                    currentFilter = target.getAttribute('data-filter');
+                    
+                    // Update live video preview CSS filter class
+                    videoEl.className = `w-full h-full object-cover transition-all duration-300 ${currentFilter}`;
+                    viewfinderFilterLabel.textContent = target.innerText.trim().toUpperCase();
+                });
+            });
+
+            // Toggle Audio Sound Effects
+            btnToggleAudio.addEventListener('click', () => {
+                isMuted = !isMuted;
+                if (isMuted) {
+                    audioIcon.className = 'fa-solid fa-volume-xmark';
+                    audioStatusLabel.textContent = 'Muted';
+                } else {
+                    audioIcon.className = 'fa-solid fa-volume-high';
+                    audioStatusLabel.textContent = 'Sound On';
+                    playBeep(600, 0.05);
+                }
+            });
+
+            // Toggle Camera vs Demo Mode manual override
+            btnCameraSwitch.addEventListener('click', () => {
+                if (useDemoMode) {
+                    if (demoAnimId) cancelAnimationFrame(demoAnimId);
+                    initCamera();
+                } else {
+                    if (videoEl.srcObject) {
+                        videoEl.srcObject.getTracks().forEach(track => track.stop());
+                    }
+                    startDemoMode();
+                }
+            });
+
+            // Capture Frame from Live Feed
+            function grabCurrentFrame() {
+                const tempCanvas = document.createElement('canvas');
+                tempCanvas.width = 640;
+                tempCanvas.height = 480;
+                const tempCtx = tempCanvas.getContext('2d');
+
+                if (useDemoMode) {
+                    tempCtx.drawImage(demoCanvas, 0, 0, 640, 480);
+                } else {
+                    tempCtx.drawImage(videoEl, 0, 0, 640, 480);
+                }
+
+                // Apply selected pixel filter onto the captured frame data
+                applyPixelFilter(tempCtx, 640, 480, currentFilter);
+
+                return tempCanvas;
+            }
+
+            // Apply Vintage Filter Presets via HTML5 Canvas ImageData
+            function applyPixelFilter(ctx, width, height, filterName) {
+                if (filterName === 'filter-original') return;
+
+                const imgData = ctx.getImageData(0, 0, width, height);
+                const data = imgData.data;
+
+                for (let i = 0; i < data.length; i += 4) {
+                    let r = data[i];
+                    let g = data[i+1];
+                    let b = data[i+2];
+
+                    if (filterName === 'filter-bw') {
+                        // High-contrast Classic Monochrome
+                        let gray = 0.299 * r + 0.587 * g + 0.114 * b;
+                        gray = ((gray - 128) * 1.2) + 128; // contrast boost
+                        gray = Math.max(0, Math.min(255, gray));
+                        data[i] = gray;
+                        data[i+1] = gray;
+                        data[i+2] = gray;
+                    } 
+                    else if (filterName === 'filter-sepia') {
+                        // Warm Sepia Tone Formula
+                        let sr = (r * 0.393) + (g * 0.769) + (b * 0.189);
+                        let sg = (r * 0.349) + (g * 0.686) + (b * 0.168);
+                        let sb = (r * 0.272) + (g * 0.534) + (b * 0.131);
+                        data[i] = Math.min(255, sr);
+                        data[i+1] = Math.min(255, sg);
+                        data[i+2] = Math.min(255, sb);
+                    }
+                    else if (filterName === 'filter-kodachrome') {
+                        // 1970s Kodachrome (Saturated reds/yellows, slightly boosted warmth)
+                        data[i] = Math.min(255, r * 1.25);
+                        data[i+1] = Math.min(255, g * 1.05);
+                        data[i+2] = Math.max(0, b * 0.85);
+                    }
+                    else if (filterName === 'filter-noir') {
+                        // Velvet Noir (Deep dramatic black & white contrast with dark vignette)
+                        let gray = 0.3 * r + 0.59 * g + 0.11 * b;
+                        gray = ((gray - 128) * 1.6) + 110;
+                        gray = Math.max(0, Math.min(255, gray));
+                        data[i] = gray * 0.9;   // slight dark velvet tint
+                        data[i+1] = gray * 0.8;
+                        data[i+2] = gray * 0.85;
+                    }
+                }
+                ctx.putImageData(imgData, 0, 0);
+            }
+
+            // Trigger Photo Shooting Session
+            btnStartSession.addEventListener('click', async () => {
+                if (isCapturing) return;
+                isCapturing = true;
+                capturedPhotos = [];
+                btnStartSession.disabled = true;
+                btnStartSession.classList.add('opacity-50');
+
+                let totalShots = 4;
+                if (currentLayout === '3-strip') totalShots = 3;
+                if (currentLayout === 'single-card') totalShots = 1;
+
+                showToast(`Starting session! Total poses: ${totalShots}`, 'success');
+
+                for (let poseIndex = 1; poseIndex <= totalShots; poseIndex++) {
+                    await runCountdown(3);
+                    triggerFlashAndShutter();
+                    const frame = grabCurrentFrame();
+                    capturedPhotos.push(frame);
+
+                    // Render interim composite strip
+                    renderFinalPhotoStrip();
+
+                    if (poseIndex < totalShots) {
+                        await new Promise(r => setTimeout(r, 1500)); // Pause between shots
+                    }
+                }
+
+                isCapturing = false;
+                btnStartSession.disabled = false;
+                btnStartSession.classList.remove('opacity-50');
+                btnDownloadStrip.disabled = false;
+                btnCopyStrip.disabled = false;
+                showToast('Photo session complete! Ready for export.', 'success');
+            });
+
+            // Countdown Timer Overlay Controller
+            function runCountdown(seconds) {
+                return new Promise((resolve) => {
+                    countdownOverlay.classList.remove('opacity-0', 'pointer-events-none');
+                    let count = seconds;
+                    countdownText.textContent = count;
+                    playBeep(880, 0.1);
+
+                    const timer = setInterval(() => {
+                        count--;
+                        if (count > 0) {
+                            countdownText.textContent = count;
+                            playBeep(880, 0.1);
+                        } else {
+                            clearInterval(timer);
+                            countdownOverlay.classList.add('opacity-0', 'pointer-events-none');
+                            playBeep(1200, 0.2);
+                            resolve();
+                        }
+                    }, 1000);
+                });
+            }
+
+            // Flash Animation & Shutter Sound Trigger
+            function triggerFlashAndShutter() {
+                playShutterSound();
+                cameraFlash.classList.add('camera-flash-active');
+                setTimeout(() => {
+                    cameraFlash.classList.remove('camera-flash-active');
+                }, 400);
+            }
+
+            // High-Res Canvas Photo Strip Compositing & Rendering Engine
+            function renderFinalPhotoStrip() {
+                if (capturedPhotos.length === 0) return;
+
+                const count = capturedPhotos.length;
+                const captionText = footerTextInput.value.trim().toUpperCase() || "RED VINTAGE CLASSICA • 2026";
+                const dateStr = new Date().toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' }).toUpperCase();
+
+                if (currentLayout === '4-strip' || currentLayout === '3-strip') {
+                    // Vertical Vintage Strip Layout
+                    const photoW = 540;
+                    const photoH = 405; // 4:3 ratio
+                    const borderPadding = 30;
+                    const gap = 20;
+                    const headerHeight = 80;
+                    const footerHeight = 160;
+
+                    const totalW = photoW + (borderPadding * 2);
+                    const totalH = headerHeight + (count * photoH) + ((count - 1) * gap) + footerHeight + borderPadding;
+
+                    outputCanvas.width = totalW;
+                    outputCanvas.height = totalH;
+
+                    // 1. Background Paper Texture (Warm Ivory Cream `#FDF5E6`)
+                    outputCtx.fillStyle = '#FDF5E6';
+                    outputCtx.fillRect(0, 0, totalW, totalH);
+
+                    // Subtle Vintage Outer Gold Foil Border Line
+                    outputCtx.strokeStyle = '#D4AF37';
+                    outputCtx.lineWidth = 6;
+                    outputCtx.strokeRect(12, 12, totalW - 24, totalH - 24);
+
+                    outputCtx.strokeStyle = '#855E08';
+                    outputCtx.lineWidth = 1;
+                    outputCtx.strokeRect(16, 16, totalW - 32, totalH - 32);
+
+                    // 2. Header Emblem
+                    outputCtx.fillStyle = '#6E0D15';
+                    outputCtx.font = 'bold 22px Cinzel';
+                    outputCtx.textAlign = 'center';
+                    outputCtx.fillText('✦ RED VINTAGE CLASSICA ✦', totalW / 2, 50);
+
+                    // 3. Draw Captured Photos into Framed Slots
+                    let currentY = headerHeight;
+                    capturedPhotos.forEach((photoCanvas) => {
+                        // Dark Velvet Photo Frame Border
+                        outputCtx.fillStyle = '#140507';
+                        outputCtx.fillRect(borderPadding - 4, currentY - 4, photoW + 8, photoH + 8);
+
+                        outputCtx.drawImage(photoCanvas, borderPadding, currentY, photoW, photoH);
+
+                        // Inner Gold Filigree Line around individual photo frame
+                        outputCtx.strokeStyle = 'rgba(212, 175, 55, 0.4)';
+                        outputCtx.lineWidth = 2;
+                        outputCtx.strokeRect(borderPadding, currentY, photoW, photoH);
+
+                        currentY += photoH + gap;
+                    });
+
+                    // 4. Draw Footer Typography
+                    const footerY = currentY + 30;
+                    outputCtx.fillStyle = '#4A040A';
+                    outputCtx.font = 'bold 24px Playfair Display';
+                    outputCtx.textAlign = 'center';
+                    outputCtx.fillText(captionText, totalW / 2, footerY);
+
+                    outputCtx.fillStyle = '#855E08';
+                    outputCtx.font = '16px Courier Prime';
+                    outputCtx.fillText(`DATE: ${dateStr}  •  AUTHENTIC CLASSICA`, totalW / 2, footerY + 35);
+
+                    // Vintage Stamp Graphic Icon
+                    outputCtx.font = '14px Great Vibes';
+                    outputCtx.fillStyle = '#6E0D15';
+                    outputCtx.fillText('Memories Preserved in Crimson Velvet', totalW / 2, footerY + 65);
+
+                } else if (currentLayout === 'single-card') {
+                    // Vintage Postcard Layout (1200 x 900)
+                    outputCanvas.width = 1000;
+                    outputCanvas.height = 800;
+
+                    outputCtx.fillStyle = '#FDF5E6';
+                    outputCtx.fillRect(0, 0, 1000, 800);
+
+                    // Ornate Borders
+                    outputCtx.strokeStyle = '#D4AF37';
+                    outputCtx.lineWidth = 8;
+                    outputCtx.strokeRect(20, 20, 960, 760);
+
+                    // Main Single Photo
+                    const photoCanvas = capturedPhotos[0];
+                    outputCtx.fillStyle = '#140507';
+                    outputCtx.fillRect(45, 45, 910, 580);
+                    outputCtx.drawImage(photoCanvas, 50, 50, 900, 570);
+
+                    // Footer Text
+                    outputCtx.fillStyle = '#4A040A';
+                    outputCtx.font = 'bold 28px Cinzel';
+                    outputCtx.textAlign = 'center';
+                    outputCtx.fillText(captionText, 500, 680);
+
+                    outputCtx.fillStyle = '#855E08';
+                    outputCtx.font = '18px Courier Prime';
+                    outputCtx.fillText(`POSTCARD MEMOIR  •  ${dateStr}`, 500, 720);
+                }
+
+                // Update Display Preview Image
+                previewImg.src = outputCanvas.toDataURL('image/png');
+            }
+
+            // Real-time footer text synchronization
+            footerTextInput.addEventListener('input', () => {
+                if (capturedPhotos.length > 0) {
+                    renderFinalPhotoStrip();
+                }
+            });
+
+            // One-Click PNG Download Handler
+            btnDownloadStrip.addEventListener('click', () => {
+                if (capturedPhotos.length === 0) return;
+                const dataUrl = outputCanvas.toDataURL('image/png');
+                const link = document.createElement('a');
+                link.download = `Red_Vintage_Classica_Strip_${Date.now()}.png`;
+                link.href = dataUrl;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                showToast('Photo strip downloaded successfully!', 'success');
+            });
+
+            // Copy Image to Clipboard Handler
+            btnCopyStrip.addEventListener('click', async () => {
+                if (capturedPhotos.length === 0) return;
+                try {
+                    outputCanvas.toBlob(async (blob) => {
+                        const item = new ClipboardItem({ 'image/png': blob });
+                        await navigator.clipboard.write([item]);
+                        showToast('Photo strip copied to clipboard!', 'success');
+                    });
+                } catch (err) {
+                    console.error('Clipboard error:', err);
+                    showToast('Direct copy restricted by browser. Use Download button.');
+                }
+            });
+
+            // Reset / Clear Booth State
+            btnResetBooth.addEventListener('click', () => {
+                capturedPhotos = [];
+                previewImg.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='720' viewBox='0 0 240 720'%3E%3Crect width='240' height='720' fill='%23FDF5E6'/%3E%3Crect x='15' y='20' width='210' height='140' fill='%23210A0D'/%3E%3Crect x='15' y='180' width='210' height='140' fill='%23210A0D'/%3E%3Crect x='15' y='340' width='210' height='140' fill='%23210A0D'/%3E%3Crect x='15' y='500' width='210' height='140' fill='%23210A0D'/%3E%3Ctext x='120' y='670' font-family='serif' font-size='12' fill='%236E0D15' text-anchor='middle'%3ERED VINTAGE CLASSICA%3E%3C/text%3E%3Ctext x='120' y='690' font-family='monospace' font-size='10' fill='%23855E08' text-anchor='middle'%3EPRESS START SESSION%3E%3C/text%3E%3C/svg%3E";
+                btnDownloadStrip.disabled = true;
+                btnCopyStrip.disabled = true;
+                showToast('Booth reset. Ready for next session.');
+            });
+
+            // Booking Form Handler
+            document.getElementById('booking-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                showToast('Thank you! Your reservation inquiry has been received.', 'success');
+                e.target.reset();
+            });
+
+            // Initialize Camera / Studio on Load
+            initCamera();
+        });
+    </script>
+</body>
+</html>
