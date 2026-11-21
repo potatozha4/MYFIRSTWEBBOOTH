@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOME — 6-Shot House Photobooth Studio</title>
+
+    <!-- Google Fonts: Fredoka, Caveat, Shantell Sans, Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Fredoka:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Shantell+Sans:ital,wght@0,600;0,700;1,700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        house: {
+                            red: '#b83b2d',
+                            darkred: '#8c281d',
+                            terracotta: '#c94a3b',
+                            yellow: '#fadb38',
+                            sky: '#1e3a6c',
+                            skyline: '#284b87',
+                            plaidgreen: '#3b6e4e',
+                            plaidorange: '#d96c34',
+                            paper: '#fcf8f2'
+                        }
+                    },
+                    fontFamily: {
+                        hand: ['"Caveat"', 'cursive'],
+                        boldhand: ['"Shantell Sans"', 'cursive'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        display: ['"Fredoka"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Denim Sky & Texture Styles */
+        body {
+            background-color: #162a4d;
+            color: #fcf8f2;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 10%, rgba(40, 75, 135, 0.5) 0%, transparent 40%),
+                radial-gradient(circle at 90% 90%, rgba(201, 74, 59, 0.2) 0%, transparent 40%);
+        }
+
+        /* Denim Sky Dot Pattern */
+        .denim-pattern {
+            background-color: #1e3a6c;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.12) 1.5px, transparent 1.5px);
+            background-size: 14px 14px;
+        }
+
+        /* Glassmorphism Cards */
+        .glass-card {
+            background: rgba(30, 58, 108, 0.65);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 2px solid rgba(250, 219, 56, 0.25);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
+        }
+
+        .glass-btn {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px);
+            border: 1.5px solid rgba(250, 219, 56, 0.3);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-btn:hover {
+            background: rgba(250, 219, 56, 0.2);
+            border-color: #fadb38;
+            transform: translateY(-2px);
+        }
+        .glass-btn.active {
+            background: #fadb38;
+            color: #1e3a6c;
+            border-color: #ffffff;
+            font-weight: 700;
+            box-shadow: 0 0 15px rgba(250, 219, 56, 0.4);
+        }
+
+        /* Flash Animation */
+        @keyframes flashPop {
+            0% { opacity: 0.95; }
+            100% { opacity: 0; }
+        }
+        .flash-active {
+            animation: flashPop 0.45s ease-out forwards;
+        }
+
+        /* Custom Scrollbars */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #162a4d;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c94a3b;
+            border-radius: 4px;
+        }
+
+        /* Slot Card Hover Effect */
+        .slot-thumbnail {
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+        .slot-thumbnail:hover {
+            transform: scale(1.03);
+            border-color: #fadb38;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col relative denim-pattern selection:bg-house-yellow selection:text-house-sky">
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="toast-container" class="fixed top-5 right-5 z-[1000] flex flex-col gap-2.5 pointer-events-none"></div>
+
+    <!-- HEADER BAR -->
+    <header class="sticky top-0 z-50 bg-house-sky/90 backdrop-blur-md border-b-2 border-house-yellow/20 px-4 sm:px-8 py-3.5">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-xl bg-house-red border-2 border-house-yellow flex items-center justify-center text-house-yellow shadow-md group-hover:rotate-6 transition-transform">
+                    <i class="fa-solid fa-house text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="font-boldhand text-2xl text-house-yellow tracking-wide leading-none">HOME</h1>
+                    <p class="font-display text-[10px] text-white/80 tracking-widest uppercase mt-0.5">6-Shot House Photobooth Studio</p>
+                </div>
+            </a>
+
+            <!-- Header Controls -->
+            <div class="flex items-center gap-3">
+                <div class="hidden md:flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-house-yellow/30 bg-house-sky/80 font-display text-xs text-house-yellow">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span>HOUSE FRAME READY</span>
+                </div>
+
+                <button id="btn-toggle-sound" class="glass-btn px-4 py-2 rounded-full font-display text-xs text-white flex items-center gap-2">
+                    <i class="fa-solid fa-volume-high" id="sound-icon"></i>
+                    <span class="hidden sm:inline" id="sound-label">SOUND ON</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN STUDIO AREA -->
+    <main class="flex-grow py-6 px-4 sm:px-6 relative z-10">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+            <!-- LEFT COLUMN: CAMERA VIEWFINDER & SLOT CONTROLS (7 cols) -->
+            <div class="lg:col-span-7 flex flex-col gap-6">
+
+                <!-- VIEWFINDER CONTAINER -->
+                <div class="glass-card rounded-3xl p-4 sm:p-5 border-2 border-house-yellow/30 flex flex-col">
+                    
+                    <!-- Viewfinder Top Bar -->
+                    <div class="w-full flex items-center justify-between px-3 py-2 bg-house-sky/90 rounded-xl border border-white/10 mb-3 font-display text-xs text-house-yellow">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" id="status-indicator"></span>
+                            <span id="status-text" class="tracking-wider">LIVE CAMERA ACTIVE</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <!-- Camera Select Dropdown -->
+                            <select id="camera-select" class="bg-house-sky text-white border border-house-yellow/30 rounded px-2 py-1 text-xs focus:outline-none hidden max-w-[140px] truncate">
+                                <option value="">Default Camera</option>
+                            </select>
+                            <button id="btn-mirror-toggle" class="hover:text-white transition-colors" title="Toggle Mirror View">
+                                <i class="fa-solid fa-arrows-rotate mr-1"></i> MIRROR
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Diagnostic Error Banner (Hidden unless camera fails) -->
+                    <div id="camera-error-banner" class="w-full bg-red-900/90 border-2 border-red-400 p-3.5 rounded-2xl mb-3 font-sans text-xs text-white hidden flex flex-col gap-2 text-center">
+                        <span id="camera-error-msg">⚠️ Unable to start camera feed. Permission denied or restricted preview.</span>
+                        <div class="flex flex-wrap justify-center gap-2 mt-1">
+                            <button id="btn-retry-camera" class="px-3.5 py-1.5 rounded-xl bg-house-yellow text-house-sky font-bold font-display text-xs hover:bg-white transition-colors">
+                                <i class="fa-solid fa-rotate-right mr-1"></i> RETRY CAMERA
+                            </button>
+                            <button id="btn-use-demo" class="px-3.5 py-1.5 rounded-xl bg-house-sky text-house-yellow border border-house-yellow/40 text-xs font-display hover:bg-house-red transition-colors">
+                                🏠 USE 6-POSE DEMO FEED
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Main Viewfinder Screen -->
+                    <div class="relative w-full aspect-[4/3] bg-black rounded-2xl overflow-hidden border-2 border-house-yellow/40 flex items-center justify-center">
+                        <!-- Hidden HTML Video Element -->
+                        <video id="webcam-video" autoplay playsinline webkit-playsinline muted class="hidden"></video>
+                        
+                        <!-- Live Viewfinder Canvas -->
+                        <canvas id="studio-canvas" class="w-full h-full object-cover"></canvas>
+
+                        <!-- Camera Flash Overlay -->
+                        <div id="camera-flash" class="absolute inset-0 bg-white opacity-0 pointer-events-none z-40"></div>
+
+                        <!-- Animated Countdown Overlay -->
+                        <div id="countdown-overlay" class="absolute inset-0 bg-house-sky/80 backdrop-blur-sm flex flex-col items-center justify-center z-30 opacity-0 pointer-events-none transition-opacity duration-200">
+                            <span id="countdown-text" class="font-boldhand text-9xl text-house-yellow drop-shadow-[0_0_25px_rgba(250,219,56,0.6)]">3</span>
+                            <span class="font-display text-xs text-white uppercase tracking-widest mt-2">get ready for pose <span id="countdown-slot-label">1</span>!</span>
+                        </div>
+
+                        <!-- Target Slot Badge Reticle Overlay -->
+                        <div class="absolute top-4 left-4 z-20 px-3 py-1 rounded-full bg-house-red/90 border border-house-yellow font-display text-xs text-white flex items-center gap-1.5 shadow-md">
+                            <span>TARGET: SLOT</span>
+                            <span id="active-slot-badge" class="w-5 h-5 rounded-full bg-house-yellow text-house-sky font-bold flex items-center justify-center">1</span>
+                        </div>
+                    </div>
+
+                    <!-- Viewfinder Bottom Switch -->
+                    <div class="w-full flex items-center justify-between mt-3 px-1 font-display text-xs text-white/70">
+                        <button id="btn-toggle-demo" class="hover:text-house-yellow transition-colors flex items-center gap-1.5">
+                            <i class="fa-solid fa-repeat"></i>
+                            <span id="demo-toggle-text">SWITCH TO DEMO FEED</span>
+                        </button>
+                        <span>SLOT RESOLUTION: 640x480</span>
+                    </div>
+                </div>
+
+                <!-- CONTROLS & SLOT SELECTOR GRID -->
+                <div class="glass-card rounded-3xl p-5 border-2 border-house-yellow/30 flex flex-col gap-5">
+                    
+                    <!-- Filters Selector -->
+                    <div>
+                        <label class="block font-display text-xs text-house-yellow uppercase tracking-wider mb-2.5">
+                            1. CHOOSE COLOR FILTER
+                        </label>
+                        <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
+                            <button data-filter="normal" class="filter-btn glass-btn py-2 px-2.5 rounded-xl font-display text-xs text-white active text-center">
+                                ☀️ Normal
+                            </button>
+                            <button data-filter="warm" class="filter-btn glass-btn py-2 px-2.5 rounded-xl font-display text-xs text-white text-center">
+                                🏠 Warm Cozy
+                            </button>
+                            <button data-filter="vintage" class="filter-btn glass-btn py-2 px-2.5 rounded-xl font-display text-xs text-white text-center">
+                                🎞️ Retro Film
+                            </button>
+                            <button data-filter="soft" class="filter-btn glass-btn py-2 px-2.5 rounded-xl font-display text-xs text-white text-center">
+                                ✨ Soft Glow
+                            </button>
+                            <button data-filter="bw" class="filter-btn glass-btn py-2 px-2.5 rounded-xl font-display text-xs text-white text-center">
+                                🖤 Noir B&W
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 6 Slot Picker Grid (Retake or Upload per slot) -->
+                    <div>
+                        <div class="flex items-center justify-between mb-2.5">
+                            <label class="block font-display text-xs text-house-yellow uppercase tracking-wider">
+                                2. MANAGE 6 PHOTO SLOTS (CLICK SLOT TO RETAKE / UPLOAD)
+                            </label>
+                            <span class="font-display text-[11px] text-white/70">SELECT OR UPLOAD</span>
+                        </div>
+                        <div class="grid grid-cols-3 sm:grid-cols-6 gap-2.5" id="slots-picker-grid">
+                            <!-- 6 Slots populated via JS -->
+                        </div>
+                        <input type="file" id="slot-file-input" accept="image/*" class="hidden">
+                    </div>
+
+                    <!-- Custom Text Input for Header & Subtitle -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block font-display text-xs text-house-yellow uppercase tracking-wider mb-1.5">
+                                MAIN HOUSE HEADER TEXT
+                            </label>
+                            <input type="text" id="input-house-header" value="HOME" maxlength="12" class="w-full bg-house-sky/90 border-2 border-house-yellow/40 rounded-xl px-3.5 py-2 font-boldhand text-xl text-house-yellow focus:outline-none focus:border-house-yellow">
+                        </div>
+                        <div>
+                            <label class="block font-display text-xs text-house-yellow uppercase tracking-wider mb-1.5">
+                                SIDE SCRIPT TAG (KETEMU STYLE)
+                            </label>
+                            <input type="text" id="input-side-tag" value="ketemu" maxlength="15" class="w-full bg-house-sky/90 border-2 border-house-yellow/40 rounded-xl px-3.5 py-2 font-hand text-xl text-white focus:outline-none focus:border-house-yellow">
+                        </div>
+                    </div>
+
+                    <!-- MAIN ACTION BUTTONS -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                        <!-- Auto 6-Shot Sequence -->
+                        <button id="btn-start-full-session" class="py-3.5 px-4 rounded-2xl bg-gradient-to-r from-house-red to-house-terracotta border-2 border-house-yellow text-white font-display text-sm sm:text-base font-bold shadow-lg hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-play"></i>
+                            <span>Snap All 6 Shots Auto</span>
+                        </button>
+                        <!-- Single Snap Target Slot -->
+                        <button id="btn-snap-single-slot" class="py-3.5 px-4 rounded-2xl bg-house-yellow text-house-sky font-display text-sm sm:text-base font-bold shadow-lg hover:bg-white active:scale-[0.98] transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-camera"></i>
+                            <span>Snap Active Slot (<span id="btn-active-slot-num">1</span>)</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- RIGHT COLUMN: HOUSE COLLAGE HIGH-RES CANVAS PREVIEW (5 cols) -->
+            <div class="lg:col-span-5 flex flex-col items-center glass-card rounded-3xl p-5 border-2 border-house-yellow/30 min-h-[600px]">
+                
+                <div class="w-full flex items-center justify-between border-b-2 border-house-yellow/20 pb-3 mb-4">
+                    <span class="font-boldhand text-2xl text-house-yellow">HOUSE COLLAGE</span>
+                    <span class="font-display text-xs text-white/80 bg-house-red px-2.5 py-1 rounded-full border border-house-yellow/40">2x3 GRID</span>
+                </div>
+
+                <!-- Export Canvas Element (Hidden or Live Preview Image) -->
+                <canvas id="house-export-canvas" class="hidden"></canvas>
+
+                <!-- Displayed Render Preview Image -->
+                <div class="relative w-full max-w-[340px] flex justify-center my-auto py-2">
+                    <img id="collage-preview-img" src="" alt="Home House Photobooth Collage" class="rounded-2xl border-2 border-house-yellow/50 shadow-2xl max-h-[580px] w-auto object-contain transition-all duration-300">
+                </div>
+
+                <!-- EXPORT ACTIONS -->
+                <div class="w-full flex flex-col gap-2.5 mt-4 pt-4 border-t-2 border-house-yellow/20">
+                    <button id="btn-download-png" class="w-full py-3.5 rounded-xl bg-house-yellow text-house-sky font-display font-bold text-xs sm:text-sm tracking-wider uppercase hover:bg-white transition-all shadow-md flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-download text-base"></i>
+                        <span>DOWNLOAD HIGH-RES COLLAGE (PNG)</span>
+                    </button>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <button id="btn-copy-image" class="glass-btn py-2.5 rounded-xl text-white font-display text-xs flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-copy text-house-yellow"></i>
+                            <span>Copy Image</span>
+                        </button>
+                        <button id="btn-reset-all" class="glass-btn py-2.5 rounded-xl text-white font-display text-xs flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-rotate-right text-house-yellow"></i>
+                            <span>Reset Photos</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-house-sky/95 border-t-2 border-house-yellow/20 py-6 text-center text-white/80 text-xs font-display mt-8">
+        <div class="max-w-4xl mx-auto px-4 flex flex-col items-center gap-2">
+            <div class="font-boldhand text-xl text-house-yellow">HOME PHOTOBOOTH</div>
+            <p class="text-white/70 max-w-md">
+                Inspired by the classic house-shaped "ketemu / Pick Your Level" photo strip layout. Powered by WebRTC, HTML5 Canvas, and Web Audio API.
+            </p>
+            <span class="text-[10px] text-white/40 mt-1">&copy; <span id="year-label">2026</span> • ALL RIGHTS RESERVED</span>
+        </div>
+    </footer>
+
+
+    <!-- ==================== PHOTOBOOTH ENGINE SCRIPT ==================== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('year-label').textContent = new Date().getFullYear();
+
+            // WebRTC Video & Viewfinder Canvases
+            const videoEl = document.getElementById('webcam-video');
+            const studioCanvas = document.getElementById('studio-canvas');
+            const studioCtx = studioCanvas.getContext('2d');
+            const exportCanvas = document.getElementById('house-export-canvas');
+            const exportCtx = exportCanvas.getContext('2d');
+            const previewImg = document.getElementById('collage-preview-img');
+
+            // UI Elements
+            const cameraSelect = document.getElementById('camera-select');
+            const cameraErrorBanner = document.getElementById('camera-error-banner');
+            const cameraErrorMsg = document.getElementById('camera-error-msg');
+            const btnRetryCamera = document.getElementById('btn-retry-camera');
+            const btnUseDemo = document.getElementById('btn-use-demo');
+            const btnToggleDemo = document.getElementById('btn-toggle-demo');
+            const btnMirrorToggle = document.getElementById('btn-mirror-toggle');
+            const btnToggleSound = document.getElementById('btn-toggle-sound');
+            const soundIcon = document.getElementById('sound-icon');
+            const soundLabel = document.getElementById('sound-label');
+            const statusIndicator = document.getElementById('status-indicator');
+            const statusText = document.getElementById('status-text');
+
+            const countdownOverlay = document.getElementById('countdown-overlay');
+            const countdownText = document.getElementById('countdown-text');
+            const countdownSlotLabel = document.getElementById('countdown-slot-label');
+            const cameraFlash = document.getElementById('camera-flash');
+
+            const inputHouseHeader = document.getElementById('input-house-header');
+            const inputSideTag = document.getElementById('input-side-tag');
+            const activeSlotBadge = document.getElementById('active-slot-badge');
+            const btnActiveSlotNum = document.getElementById('btn-active-slot-num');
+            const slotsPickerGrid = document.getElementById('slots-picker-grid');
+            const slotFileInput = document.getElementById('slot-file-input');
+
+            const btnStartFullSession = document.getElementById('btn-start-full-session');
+            const btnSnapSingleSlot = document.getElementById('btn-snap-single-slot');
+            const btnDownloadPng = document.getElementById('btn-download-png');
+            const btnCopyImage = document.getElementById('btn-copy-image');
+            const btnResetAll = document.getElementById('btn-reset-all');
+
+            // State
+            let currentFilter = 'normal';
+            let isMuted = false;
+            let isMirrored = true;
+            let useDemoMode = false;
+            let isCapturing = false;
+            let activeSlot = 1; // 1 to 6
+            let currentStream = null;
+            let studioAnimId = null;
+
+            // 6 Slot Photos Storage Array (holds HTMLCanvasElement or HTMLImageElement)
+            const slotsData = [null, null, null, null, null, null];
+
+            // Web Audio API Synthesizer
+            let audioCtx = null;
+            function initAudio() {
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+            }
+
+            function playChime(freq = 523.25, duration = 0.25) {
+                if (isMuted) return;
+                try {
+                    initAudio();
+                    const now = audioCtx.currentTime;
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, now);
+                    gain.gain.setValueAtTime(0.15, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now);
+                    osc.stop(now + duration);
+                } catch(e){}
+            }
+
+            function playShutterPop() {
+                if (isMuted) return;
+                try {
+                    initAudio();
+                    const now = audioCtx.currentTime;
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(180, now);
+                    osc.frequency.exponentialRampToValueAtTime(30, now + 0.15);
+                    gain.gain.setValueAtTime(0.35, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.15);
+                } catch(e){}
+            }
+
+            function showToast(msg, type = 'info') {
+                const container = document.getElementById('toast-container');
+                const toast = document.createElement('div');
+                toast.className = `px-4 py-3 rounded-2xl border-2 font-display text-xs flex items-center gap-2 pointer-events-auto transition-all duration-300 shadow-xl ${
+                    type === 'success' 
+                        ? 'bg-house-red text-white border-house-yellow' 
+                        : 'bg-house-sky text-house-yellow border-house-yellow/40'
+                }`;
+                toast.innerHTML = `<span>${type === 'success' ? '🏠' : '✨'}</span> <span>${msg}</span>`;
+                container.appendChild(toast);
+                setTimeout(() => {
+                    toast.classList.add('opacity-0');
+                    setTimeout(() => toast.remove(), 300);
+                }, 3000);
+            }
+
+            // Stop Camera Tracks Cleanly
+            function stopCurrentStream() {
+                if (currentStream) {
+                    currentStream.getTracks().forEach(track => track.stop());
+                    currentStream = null;
+                }
+                if (videoEl.srcObject) {
+                    videoEl.srcObject = null;
+                }
+            }
+
+            // Enumerate Camera Devices
+            async function populateCameraDevices() {
+                if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) return;
+                try {
+                    const devices = await navigator.mediaDevices.enumerateDevices();
+                    const videoDevices = devices.filter(d => d.kind === 'videoinput');
+                    cameraSelect.innerHTML = '';
+                    if (videoDevices.length > 0) {
+                        videoDevices.forEach((device, index) => {
+                            const option = document.createElement('option');
+                            option.value = device.deviceId;
+                            option.textContent = device.label || `Camera ${index + 1}`;
+                            cameraSelect.appendChild(option);
+                        });
+                        cameraSelect.classList.remove('hidden');
+                    }
+                } catch(e) {
+                    console.warn('Unable to enumerate cameras:', e);
+                }
+            }
+
+            // WebRTC Camera Initialization
+            async function initCamera(targetDeviceId = null) {
+                stopCurrentStream();
+                cameraErrorBanner.classList.add('hidden');
+                useDemoMode = false;
+                statusIndicator.className = 'w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping';
+                statusText.textContent = 'CONNECTING CAMERA...';
+
+                if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                    showCameraError('WebRTC camera API is not supported by your browser.');
+                    return;
+                }
+
+                let stream = null;
+                try {
+                    const constraints = {
+                        video: targetDeviceId 
+                            ? { deviceId: { exact: targetDeviceId } }
+                            : { facingMode: 'user', width: { ideal: 640 }, height: { ideal: 480 } },
+                        audio: false
+                    };
+                    stream = await navigator.mediaDevices.getUserMedia(constraints);
+                } catch (err1) {
+                    try {
+                        stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+                    } catch (err2) {
+                        let errorDetail = 'Camera permission denied or camera unaccessible.';
+                        if (err2.name === 'NotAllowedError') {
+                            errorDetail = 'Camera permission was blocked by your browser settings.';
+                        } else if (err2.name === 'NotFoundError') {
+                            errorDetail = 'No physical camera device was detected.';
+                        } else if (window.self !== window.top) {
+                            errorDetail = 'Camera restricted inside iframe preview. Click "Use 6-Pose Demo Feed".';
+                        }
+                        showCameraError(errorDetail);
+                        return;
+                    }
+                }
+
+                try {
+                    currentStream = stream;
+                    videoEl.srcObject = stream;
+                    videoEl.setAttribute('playsinline', '');
+                    videoEl.setAttribute('webkit-playsinline', '');
+                    videoEl.muted = true;
+
+                    await videoEl.play().catch(e => console.log('Auto-play handling:', e));
+
+                    statusIndicator.className = 'w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse';
+                    statusText.textContent = 'LIVE CAMERA ACTIVE';
+                    document.getElementById('demo-toggle-text').textContent = 'SWITCH TO DEMO FEED';
+                    cameraErrorBanner.classList.add('hidden');
+
+                    await populateCameraDevices();
+                    if (targetDeviceId && cameraSelect) {
+                        cameraSelect.value = targetDeviceId;
+                    }
+
+                    startStudioLoop();
+                } catch (err) {
+                    showCameraError('Camera stream attached but playback failed.');
+                }
+            }
+
+            function showCameraError(msg) {
+                useDemoMode = true;
+                statusIndicator.className = 'w-2.5 h-2.5 rounded-full bg-house-yellow animate-bounce';
+                statusText.textContent = 'DEMO MODE ACTIVE';
+                cameraErrorMsg.textContent = `⚠️ ${msg}`;
+                cameraErrorBanner.classList.remove('hidden');
+                document.getElementById('demo-toggle-text').textContent = 'SWITCH TO LIVE WEBCAM';
+                startStudioLoop();
+            }
+
+            // Real-Time Viewfinder Render Loop (60 FPS)
+            function startStudioLoop() {
+                if (studioAnimId) cancelAnimationFrame(studioAnimId);
+
+                studioCanvas.width = 640;
+                studioCanvas.height = 480;
+
+                let t = 0;
+                function renderFrame() {
+                    t += 0.04;
+                    const isVideoReady = !useDemoMode && videoEl.readyState >= 2 && videoEl.videoWidth > 0;
+
+                    if (useDemoMode || !isVideoReady) {
+                        // Render Animated 6-Pose Demo Feed
+                        studioCtx.fillStyle = '#1e3a6c';
+                        studioCtx.fillRect(0, 0, 640, 480);
+
+                        // Warm Cozy Wall Background
+                        studioCtx.fillStyle = '#e8d4b8';
+                        studioCtx.fillRect(40, 40, 560, 400);
+
+                        // Wood Panel Pattern Lines
+                        studioCtx.strokeStyle = '#d4bc96';
+                        studioCtx.lineWidth = 2;
+                        for (let x = 40; x < 600; x += 80) {
+                            studioCtx.beginPath();
+                            studioCtx.moveTo(x, 40);
+                            studioCtx.lineTo(x, 440);
+                            studioCtx.stroke();
+                        }
+
+                        // Demo Silhouette Character corresponding to active slot pose
+                        studioCtx.save();
+                        studioCtx.translate(320, 240 + Math.sin(t * 2) * 8);
+
+                        // Head
+                        studioCtx.fillStyle = '#fce4c8';
+                        studioCtx.beginPath();
+                        studioCtx.arc(0, -30, 65, 0, Math.PI * 2);
+                        studioCtx.fill();
+
+                        // Cute Hair
+                        studioCtx.fillStyle = '#5c3a21';
+                        studioCtx.beginPath();
+                        studioCtx.arc(0, -45, 68, Math.PI, 0);
+                        studioCtx.fill();
+
+                        // Cute Eyes
+                        studioCtx.fillStyle = '#2c1510';
+                        studioCtx.beginPath();
+                        studioCtx.arc(-22, -30, 6, 0, Math.PI * 2);
+                        studioCtx.arc(22, -30, 6, 0, Math.PI * 2);
+                        studioCtx.fill();
+
+                        // Smile / Expression based on activeSlot
+                        studioCtx.strokeStyle = '#c94a3b';
+                        studioCtx.lineWidth = 4;
+                        studioCtx.beginPath();
+                        if (activeSlot % 2 === 0) {
+                            studioCtx.arc(0, -15, 18, 0.1, Math.PI - 0.1); // Big Smile
+                        } else {
+                            studioCtx.arc(0, -10, 12, 0.2, Math.PI - 0.2); // Soft Smile
+                        }
+                        studioCtx.stroke();
+
+                        // Pose Hands / Gestures
+                        studioCtx.fillStyle = '#fce4c8';
+                        if (activeSlot === 1) {
+                            // Peace signs
+                            studioCtx.beginPath();
+                            studioCtx.arc(-80, 10, 16, 0, Math.PI * 2);
+                            studioCtx.arc(80, 10, 16, 0, Math.PI * 2);
+                            studioCtx.fill();
+                        } else if (activeSlot === 2) {
+                            // Cheeks touch
+                            studioCtx.beginPath();
+                            studioCtx.arc(-55, -15, 14, 0, Math.PI * 2);
+                            studioCtx.arc(55, -15, 14, 0, Math.PI * 2);
+                            studioCtx.fill();
+                        }
+
+                        studioCtx.restore();
+
+                        if (!useDemoMode && !isVideoReady) {
+                            studioCtx.fillStyle = 'rgba(30, 58, 108, 0.75)';
+                            studioCtx.fillRect(0, 0, 640, 480);
+                            studioCtx.fillStyle = '#fadb38';
+                            studioCtx.font = '16px "Fredoka"';
+                            studioCtx.textAlign = 'center';
+                            studioCtx.fillText('CONNECTING TO WEBCAM...', 320, 240);
+                        }
+                    } else {
+                        // Render Live Video Stream (Mirrored or Normal)
+                        studioCtx.save();
+                        if (isMirrored) {
+                            studioCtx.translate(640, 0);
+                            studioCtx.scale(-1, 1);
+                        }
+                        studioCtx.drawImage(videoEl, 0, 0, 640, 480);
+                        studioCtx.restore();
+                    }
+
+                    // Apply Selected Filter
+                    if (currentFilter !== 'normal') {
+                        applyColorFilter(studioCtx, 640, 480, currentFilter);
+                    }
+
+                    studioAnimId = requestAnimationFrame(renderFrame);
+                }
+                renderFrame();
+            }
+
+            // Apply Filters to Canvas Context
+            function applyColorFilter(ctx, width, height, filterType) {
+                const imgData = ctx.getImageData(0, 0, width, height);
+                const d = imgData.data;
+
+                if (filterType === 'warm') {
+                    // Warm Cozy Terracotta Glow
+                    for (let i = 0; i < d.length; i += 4) {
+                        d[i] = Math.min(255, d[i] * 1.15 + 15);     // Red
+                        d[i+1] = Math.min(255, d[i+1] * 1.02 + 5);  // Green
+                        d[i+2] = Math.min(255, d[i+2] * 0.88);      // Blue
+                    }
+                } else if (filterType === 'vintage') {
+                    // Vintage Film Grain 35mm
+                    for (let i = 0; i < d.length; i += 4) {
+                        d[i] = Math.min(255, d[i] * 1.1 + 10);
+                        d[i+1] = Math.min(255, d[i+1] * 0.95);
+                        d[i+2] = Math.min(255, d[i+2] * 0.82 + 10);
+                    }
+                } else if (filterType === 'soft') {
+                    // Soft Glow & Brightening
+                    for (let i = 0; i < d.length; i += 4) {
+                        d[i] = Math.min(255, d[i] * 1.08 + 12);
+                        d[i+1] = Math.min(255, d[i+1] * 1.08 + 12);
+                        d[i+2] = Math.min(255, d[i+2] * 1.08 + 12);
+                    }
+                } else if (filterType === 'bw') {
+                    // High Contrast Noir Monochrome
+                    for (let i = 0; i < d.length; i += 4) {
+                        const gray = (d[i] * 0.299 + d[i+1] * 0.587 + d[i+2] * 0.114);
+                        const contrastGray = Math.max(0, Math.min(255, (gray - 128) * 1.25 + 128));
+                        d[i] = contrastGray;
+                        d[i+1] = contrastGray;
+                        d[i+2] = contrastGray;
+                    }
+                }
+                ctx.putImageData(imgData, 0, 0);
+            }
+
+            // Render 6 Slots Control Grid UI
+            function renderSlotsPickerUI() {
+                slotsPickerGrid.innerHTML = '';
+                for (let i = 1; i <= 6; i++) {
+                    const slotBtn = document.createElement('div');
+                    const isSelected = activeSlot === i;
+                    const hasPhoto = slotsData[i - 1] !== null;
+
+                    slotBtn.className = `relative aspect-[4/3] rounded-2xl border-2 flex flex-col items-center justify-center cursor-pointer overflow-hidden slot-thumbnail ${
+                        isSelected 
+                            ? 'border-house-yellow ring-4 ring-house-yellow/30 bg-house-sky/90' 
+                            : 'border-house-yellow/40 bg-house-sky/60 hover:border-house-yellow'
+                    }`;
+
+                    if (hasPhoto) {
+                        const thumbCanvas = slotsData[i - 1];
+                        slotBtn.innerHTML = `
+                            <img src="${thumbCanvas.toDataURL ? thumbCanvas.toDataURL() : thumbCanvas.src}" class="w-full h-full object-cover">
+                            <span class="absolute top-1 left-1 w-5 h-5 rounded-full bg-house-yellow text-house-sky font-bold text-[10px] flex items-center justify-center border border-black">${i}</span>
+                            <div class="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 flex items-center justify-center gap-1.5 transition-opacity">
+                                <button class="w-6 h-6 rounded-full bg-house-yellow text-house-sky text-[10px] flex items-center justify-center font-bold" title="Snap Again"><i class="fa-solid fa-camera"></i></button>
+                                <button class="w-6 h-6 rounded-full bg-white text-house-sky text-[10px] flex items-center justify-center font-bold btn-upload-slot" data-slot="${i}" title="Upload File"><i class="fa-solid fa-upload"></i></button>
+                            </div>
+                        `;
+                    } else {
+                        slotBtn.innerHTML = `
+                            <span class="w-6 h-6 rounded-full bg-house-yellow/20 text-house-yellow font-bold text-xs flex items-center justify-center mb-1 border border-house-yellow/50">${i}</span>
+                            <span class="font-display text-[9px] text-white/80">Slot ${i}</span>
+                        `;
+                    }
+
+                    slotBtn.addEventListener('click', (e) => {
+                        if (e.target.closest('.btn-upload-slot')) {
+                            slotFileInput.setAttribute('data-target-slot', i);
+                            slotFileInput.click();
+                            return;
+                        }
+                        setActiveSlot(i);
+                        playChime(600, 0.15);
+                    });
+
+                    slotsPickerGrid.appendChild(slotBtn);
+                }
+
+                // Sync Labels
+                activeSlotBadge.textContent = activeSlot;
+                btnActiveSlotNum.textContent = activeSlot;
+            }
+
+            function setActiveSlot(num) {
+                activeSlot = num;
+                renderSlotsPickerUI();
+            }
+
+            // Handle Slot Photo File Upload
+            slotFileInput.addEventListener('change', (e) => {
+                const targetSlot = parseInt(slotFileInput.getAttribute('data-target-slot') || activeSlot);
+                const file = e.target.files[0];
+                if (!file) return;
+
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        // Draw onto 640x480 temp canvas
+                        const c = document.createElement('canvas');
+                        c.width = 640;
+                        c.height = 480;
+                        const ctx = c.getContext('2d');
+                        ctx.drawImage(img, 0, 0, 640, 480);
+
+                        slotsData[targetSlot - 1] = c;
+                        renderSlotsPickerUI();
+                        renderHouseCollage();
+                        showToast(`Uploaded photo to Slot ${targetSlot}!`, 'success');
+                    };
+                    img.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+                slotFileInput.value = '';
+            });
+
+            // Snap Current Frame from Viewfinder Canvas
+            function snapCurrentViewfinderFrame() {
+                const tempCanvas = document.createElement('canvas');
+                tempCanvas.width = 640;
+                tempCanvas.height = 480;
+                const tempCtx = tempCanvas.getContext('2d');
+                tempCtx.drawImage(studioCanvas, 0, 0, 640, 480);
+                return tempCanvas;
+            }
+
+            // Snap Single Slot Handler
+            btnSnapSingleSlot.addEventListener('click', async () => {
+                if (isCapturing) return;
+                isCapturing = true;
+                await runCountdown(3, activeSlot);
+                triggerFlashAndShutter();
+
+                slotsData[activeSlot - 1] = snapCurrentViewfinderFrame();
+                renderSlotsPickerUI();
+                renderHouseCollage();
+
+                // Advance to next slot automatically if < 6
+                if (activeSlot < 6) {
+                    setActiveSlot(activeSlot + 1);
+                }
+
+                isCapturing = false;
+                showToast(`Pose for Slot ${activeSlot} captured!`, 'success');
+            });
+
+            // Snap All 6 Shots Auto Sequence
+            btnStartFullSession.addEventListener('click', async () => {
+                if (isCapturing) return;
+                isCapturing = true;
+                btnStartFullSession.disabled = true;
+                btnStartFullSession.classList.add('opacity-50');
+
+                showToast('Starting 6-Shot Auto Session!', 'success');
+
+                for (let slot = 1; slot <= 6; slot++) {
+                    setActiveSlot(slot);
+                    await runCountdown(3, slot);
+                    triggerFlashAndShutter();
+                    slotsData[slot - 1] = snapCurrentViewfinderFrame();
+                    renderSlotsPickerUI();
+                    renderHouseCollage();
+
+                    if (slot < 6) {
+                        await new Promise(r => setTimeout(r, 900));
+                    }
+                }
+
+                isCapturing = false;
+                btnStartFullSession.disabled = false;
+                btnStartFullSession.classList.remove('opacity-50');
+                showToast('🏠 All 6 Photos Captured! House Complete!', 'success');
+            });
+
+            function runCountdown(seconds, slotNum) {
+                return new Promise((resolve) => {
+                    countdownSlotLabel.textContent = slotNum;
+                    countdownOverlay.classList.remove('opacity-0', 'pointer-events-none');
+                    let count = seconds;
+                    countdownText.textContent = count;
+                    playChime(523.25, 0.15);
+
+                    const timer = setInterval(() => {
+                        count--;
+                        if (count > 0) {
+                            countdownText.textContent = count;
+                            playChime(523.25 + (3 - count) * 120, 0.15);
+                        } else {
+                            clearInterval(timer);
+                            countdownOverlay.classList.add('opacity-0', 'pointer-events-none');
+                            resolve();
+                        }
+                    }, 1000);
+                });
+            }
+
+            function triggerFlashAndShutter() {
+                playShutterPop();
+                cameraFlash.classList.add('flash-active');
+                setTimeout(() => {
+                    cameraFlash.classList.remove('flash-active');
+                }, 450);
+            }
+
+            // Filter Selector Event Handlers
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    playChime(650, 0.15);
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    e.currentTarget.classList.add('active');
+                    currentFilter = e.currentTarget.getAttribute('data-filter');
+                });
+            });
+
+            // Mirror & Sound Toggle Buttons
+            btnMirrorToggle.addEventListener('click', () => {
+                isMirrored = !isMirrored;
+                showToast(`Mirror feed: ${isMirrored ? 'ON' : 'OFF'}`);
+            });
+
+            btnToggleSound.addEventListener('click', () => {
+                isMuted = !isMuted;
+                if (isMuted) {
+                    soundIcon.className = 'fa-solid fa-volume-xmark';
+                    soundLabel.textContent = 'MUTED';
+                } else {
+                    soundIcon.className = 'fa-solid fa-volume-high';
+                    soundLabel.textContent = 'SOUND ON';
+                    playChime(880, 0.25);
+                }
+            });
+
+            // Demo Mode & Camera Retry Handlers
+            btnToggleDemo.addEventListener('click', () => {
+                playChime();
+                if (useDemoMode) {
+                    initCamera(cameraSelect.value || null);
+                } else {
+                    useDemoMode = true;
+                    statusIndicator.className = 'w-2.5 h-2.5 rounded-full bg-house-yellow animate-bounce';
+                    statusText.textContent = 'DEMO MODE ACTIVE';
+                    document.getElementById('demo-toggle-text').textContent = 'SWITCH TO LIVE WEBCAM';
+                }
+            });
+
+            cameraSelect.addEventListener('change', (e) => {
+                if (e.target.value) initCamera(e.target.value);
+            });
+            btnRetryCamera.addEventListener('click', () => initCamera(cameraSelect.value || null));
+            btnUseDemo.addEventListener('click', () => {
+                cameraErrorBanner.classList.add('hidden');
+                useDemoMode = true;
+                statusIndicator.className = 'w-2.5 h-2.5 rounded-full bg-house-yellow animate-bounce';
+                statusText.textContent = 'DEMO MODE ACTIVE';
+                document.getElementById('demo-toggle-text').textContent = 'SWITCH TO LIVE WEBCAM';
+            });
+
+            // Custom Text Header Live Input Handlers
+            inputHouseHeader.addEventListener('input', () => renderHouseCollage());
+            inputSideTag.addEventListener('input', () => renderHouseCollage());
+
+
+            // ==================== HOUSE COLLAGE CANVAS RENDERER ====================
+            function renderHouseCollage() {
+                const W = 1000;
+                const H = 1500;
+                exportCanvas.width = W;
+                exportCanvas.height = H;
+
+                // 1. SKY BACKGROUND (Top 1200px)
+                exportCtx.fillStyle = '#1c3b6f';
+                exportCtx.fillRect(0, 0, W, H);
+
+                // Denim Texture Speckles
+                exportCtx.fillStyle = 'rgba(255, 255, 255, 0.08)';
+                for (let x = 10; x < W; x += 16) {
+                    for (let y = 10; y < 1200; y += 16) {
+                        exportCtx.fillRect(x, y, 2, 2);
+                    }
+                }
+
+                // 2. DOODLE CLOUDS IN SKY (Top left & right sides)
+                drawDoodleCloud(exportCtx, 90, 110, 0.9);
+                drawDoodleCloud(exportCtx, 850, 160, 1.1);
+                drawDoodleCloud(exportCtx, 60, 520, 0.85);
+                drawDoodleCloud(exportCtx, 920, 680, 0.95);
+                drawDoodleCloud(exportCtx, 70, 960, 0.8);
+                drawDoodleCloud(exportCtx, 910, 1100, 0.9);
+
+                // 3. GREEN & ORANGE PLAID PATTERN (Bottom 1200px - 1500px)
+                const plaidY = 1220;
+                exportCtx.fillStyle = '#3b6e4e'; // Base Plaid Green
+                exportCtx.fillRect(0, plaidY, W, H - plaidY);
+
+                // Plaid Stripes (Orange & Cream)
+                exportCtx.fillStyle = '#d96c34'; // Orange vertical & horizontal
+                for (let x = 0; x < W; x += 60) {
+                    exportCtx.fillRect(x, plaidY, 20, H - plaidY);
+                }
+                for (let y = plaidY; y < H; y += 60) {
+                    exportCtx.fillRect(0, y, W, 20);
+                }
+
+                exportCtx.fillStyle = 'rgba(252, 248, 242, 0.4)'; // Cream thin accent lines
+                for (let x = 30; x < W; x += 60) {
+                    exportCtx.fillRect(x, plaidY, 6, H - plaidY);
+                }
+                for (let y = plaidY + 30; y < H; y += 60) {
+                    exportCtx.fillRect(0, y, W, 6);
+                }
+
+                // 4. GRASS TUFTS ALONG BOTTOM EDGE
+                exportCtx.fillStyle = '#2d573c';
+                exportCtx.strokeStyle = '#2c1510';
+                exportCtx.lineWidth = 3;
+                exportCtx.beginPath();
+                for (let x = 0; x <= W; x += 30) {
+                    exportCtx.lineTo(x + 15, H - 35);
+                    exportCtx.lineTo(x + 30, H);
+                }
+                exportCtx.fill();
+                exportCtx.stroke();
+
+
+                // 5. HOUSE SILHOUETTE FRAME (Terracotta / Red Wall)
+                const houseLeft = 100;
+                const houseRight = 900;
+                const houseWidth = 800;
+                const houseBaseY = 1450;
+                const roofEavesY = 320;
+                const roofPeakX = 500;
+                const roofPeakY = 30;
+
+                // Chimney on top right roof
+                exportCtx.fillStyle = '#8c281d';
+                exportCtx.fillRect(720, 30, 85, 180);
+                exportCtx.strokeStyle = '#2c1510';
+                exportCtx.lineWidth = 5;
+                exportCtx.strokeRect(720, 30, 85, 180);
+
+                // Main House Body Path
+                exportCtx.beginPath();
+                exportCtx.moveTo(houseLeft, houseBaseY);
+                exportCtx.lineTo(houseLeft, roofEavesY);
+                exportCtx.lineTo(roofPeakX, roofPeakY);
+                exportCtx.lineTo(houseRight, roofEavesY);
+                exportCtx.lineTo(houseRight, houseBaseY);
+                exportCtx.closePath();
+
+                // Terracotta Fill & Outline
+                exportCtx.fillStyle = '#c94a3b';
+                exportCtx.fill();
+
+                // House Wall Grain Texture
+                exportCtx.fillStyle = 'rgba(140, 40, 29, 0.18)';
+                for (let i = 0; i < 400; i++) {
+                    const rx = houseLeft + Math.random() * houseWidth;
+                    const ry = roofPeakY + Math.random() * (houseBaseY - roofPeakY);
+                    exportCtx.fillRect(rx, ry, 3, 3);
+                }
+
+                // House Thick Dark Ink Outline
+                exportCtx.strokeStyle = '#2c1510';
+                exportCtx.lineWidth = 7;
+                exportCtx.stroke();
+
+
+                // 6. MAIN HEADER TITLE ("HOME") & SIDE SCRIPT ("ketemu")
+                const headerText = inputHouseHeader.value.trim() || "HOME";
+                const sideText = inputSideTag.value.trim() || "ketemu";
+
+                // Render "HOME" Title in Roof Gable
+                exportCtx.save();
+                exportCtx.font = '700 85px "Shantell Sans", "Caveat", cursive';
+                exportCtx.textAlign = 'center';
+                exportCtx.textBaseline = 'middle';
+
+                // Shadow & Black Ink Outline for Header
+                exportCtx.lineWidth = 12;
+                exportCtx.strokeStyle = '#2c1510';
+                exportCtx.strokeText(headerText, roofPeakX, 175);
+
+                exportCtx.fillStyle = '#fadb38'; // Yellow fill
+                exportCtx.fillText(headerText, roofPeakX, 175);
+                exportCtx.restore();
+
+                // Render Side Script Accent Tag ("ketemu")
+                exportCtx.save();
+                exportCtx.translate(70, 220);
+                exportCtx.rotate(-0.25);
+                exportCtx.font = '700 42px "Caveat", cursive';
+                exportCtx.strokeStyle = '#2c1510';
+                exportCtx.lineWidth = 6;
+                exportCtx.strokeText(sideText, 0, 0);
+                exportCtx.fillStyle = '#fadb38';
+                exportCtx.fillText(sideText, 0, 0);
+                exportCtx.restore();
+
+                // Right side script accent
+                exportCtx.save();
+                exportCtx.translate(925, 980);
+                exportCtx.rotate(1.57);
+                exportCtx.font = '700 40px "Caveat", cursive';
+                exportCtx.strokeStyle = '#2c1510';
+                exportCtx.lineWidth = 6;
+                exportCtx.strokeText(sideText, 0, 0);
+                exportCtx.fillStyle = '#fadb38';
+                exportCtx.fillText(sideText, 0, 0);
+                exportCtx.restore();
+
+
+                // 7. YELLOW DOODLE FLOWERS SCATTERED ON HOUSE
+                drawDoodleFlower(exportCtx, 500, 25, 24);   // Roof top peak
+                drawDoodleFlower(exportCtx, 340, 90, 20);   // Roof left slope
+                drawDoodleFlower(exportCtx, 700, 130, 22);  // Roof right
+                drawDoodleFlower(exportCtx, 400, 715, 20);  // Center grid
+                drawDoodleFlower(exportCtx, 875, 715, 22);  // Right border
+                drawDoodleFlower(exportCtx, 505, 1080, 22); // Mid bottom
+                drawDoodleFlower(exportCtx, 105, 1200, 24); // Left bottom corner
+                drawDoodleFlower(exportCtx, 460, 1445, 22); // Bottom grass ridge
+
+
+                // 8. 6 PHOTO FRAMES (2 COLUMNS, 3 ROWS)
+                // Grid geometry:
+                // Column 1: x = 160, width = 315
+                // Column 2: x = 525, width = 315
+                // Row 1: y = 250, height = 350
+                // Row 2: y = 645, height = 350
+                // Row 3: y = 1040, height = 350
+
+                const cols = [160, 525];
+                const rows = [250, 645, 1040];
+                const frameW = 315;
+                const frameH = 350;
+
+                for (let i = 0; i < 6; i++) {
+                    const colIdx = i % 2;
+                    const rowIdx = Math.floor(i / 2);
+                    const fx = cols[colIdx];
+                    const fy = rows[rowIdx];
+
+                    // White Photo Frame Border Box
+                    exportCtx.fillStyle = '#fcf8f2';
+                    exportCtx.fillRect(fx, fy, frameW, frameH);
+                    exportCtx.strokeStyle = '#2c1510';
+                    exportCtx.lineWidth = 4;
+                    exportCtx.strokeRect(fx, fy, frameW, frameH);
+
+                    // Inner Photo Area (with 12px padding inside white frame)
+                    const px = fx + 12;
+                    const py = fy + 12;
+                    const pw = frameW - 24;
+                    const ph = frameH - 24;
+
+                    const photoData = slotsData[i];
+                    if (photoData) {
+                        exportCtx.drawImage(photoData, px, py, pw, ph);
+                    } else {
+                        // Empty Slot Placeholder Graphics
+                        exportCtx.fillStyle = '#e8d4b8';
+                        exportCtx.fillRect(px, py, pw, ph);
+                        
+                        exportCtx.fillStyle = '#c94a3b';
+                        exportCtx.font = '700 24px "Fredoka"';
+                        exportCtx.textAlign = 'center';
+                        exportCtx.fillText(`SLOT ${i + 1}`, fx + frameW / 2, fy + frameH / 2 - 10);
+                        exportCtx.font = '14px "Plus Jakarta Sans"';
+                        exportCtx.fillStyle = '#8c281d';
+                        exportCtx.fillText('Click to snap photo', fx + frameW / 2, fy + frameH / 2 + 18);
+                    }
+
+                    // Photo Inner Border Outline
+                    exportCtx.strokeStyle = '#2c1510';
+                    exportCtx.lineWidth = 2.5;
+                    exportCtx.strokeRect(px, py, pw, ph);
+
+                    // NUMBER BADGE (1 to 6) IN TOP LEFT CORNER
+                    const badgeX = fx + 26;
+                    const badgeY = fy + 26;
+                    const badgeR = 18;
+
+                    // Badge White Pill Circle
+                    exportCtx.beginPath();
+                    exportCtx.arc(badgeX, badgeY, badgeR, 0, Math.PI * 2);
+                    exportCtx.fillStyle = '#fcf8f2';
+                    exportCtx.fill();
+                    exportCtx.strokeStyle = '#2c1510';
+                    exportCtx.lineWidth = 3;
+                    exportCtx.stroke();
+
+                    // Badge Digit
+                    exportCtx.fillStyle = '#2c1510';
+                    exportCtx.font = '700 20px "Fredoka", sans-serif';
+                    exportCtx.textAlign = 'center';
+                    exportCtx.textBaseline = 'middle';
+                    exportCtx.fillText(`${i + 1}`, badgeX, badgeY + 1);
+                }
+
+                // Update Display Preview Image
+                previewImg.src = exportCanvas.toDataURL('image/png');
+            }
+
+
+            // Helper: Draw Cartoon Doodle Clouds
+            function drawDoodleCloud(ctx, cx, cy, scale = 1.0) {
+                ctx.save();
+                ctx.translate(cx, cy);
+                ctx.scale(scale, scale);
+
+                ctx.beginPath();
+                ctx.arc(-25, 0, 20, Math.PI * 0.5, Math.PI * 1.5);
+                ctx.arc(-5, -15, 22, Math.PI * 1.0, Math.PI * 1.85);
+                ctx.arc(20, -10, 18, Math.PI * 1.3, Math.PI * 0.2);
+                ctx.arc(30, 5, 16, Math.PI * 1.7, Math.PI * 0.5);
+                ctx.closePath();
+
+                ctx.fillStyle = '#ffffff';
+                ctx.fill();
+                ctx.strokeStyle = '#2c1510';
+                ctx.lineWidth = 3.5;
+                ctx.stroke();
+
+                ctx.restore();
+            }
+
+            // Helper: Draw Yellow 5-Petal Doodle Flowers
+            function drawDoodleFlower(ctx, cx, cy, radius = 20) {
+                ctx.save();
+                ctx.translate(cx, cy);
+
+                // 5 Yellow Petals
+                ctx.fillStyle = '#fadb38';
+                ctx.strokeStyle = '#2c1510';
+                ctx.lineWidth = 3;
+
+                for (let a = 0; a < Math.PI * 2; a += (Math.PI * 2) / 5) {
+                    const px = Math.cos(a) * (radius * 0.65);
+                    const py = Math.sin(a) * (radius * 0.65);
+                    ctx.beginPath();
+                    ctx.arc(px, py, radius * 0.5, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.stroke();
+                }
+
+                // Flower Center Dot
+                ctx.beginPath();
+                ctx.arc(0, 0, radius * 0.4, 0, Math.PI * 2);
+                ctx.fillStyle = '#fcf8f2';
+                ctx.fill();
+                ctx.stroke();
+
+                ctx.restore();
+            }
+
+
+            // Action Buttons: Download PNG, Copy Image, Reset
+            btnDownloadPng.addEventListener('click', () => {
+                renderHouseCollage();
+                const link = document.createElement('a');
+                link.download = `HOME_House_Photobooth_${Date.now()}.png`;
+                link.href = exportCanvas.toDataURL('image/png');
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                showToast('Downloaded High-Res House Collage PNG! 🏠', 'success');
+            });
+
+            btnCopyImage.addEventListener('click', async () => {
+                renderHouseCollage();
+                try {
+                    exportCanvas.toBlob(async (blob) => {
+                        const item = new ClipboardItem({ 'image/png': blob });
+                        await navigator.clipboard.write([item]);
+                        showToast('Copied house collage image to clipboard! 📋', 'success');
+                    });
+                } catch(e) {
+                    showToast('Direct copy restricted. Please use Download button!');
+                }
+            });
+
+            btnResetAll.addEventListener('click', () => {
+                playChime(400, 0.2);
+                for (let i = 0; i < 6; i++) slotsData[i] = null;
+                setActiveSlot(1);
+                renderHouseCollage();
+                showToast('Reset all 6 slots!');
+            });
+
+            // Initial Startup
+            renderSlotsPickerUI();
+            renderHouseCollage();
+            initCamera();
+        });
+    </script>
+</body>
+</html>
