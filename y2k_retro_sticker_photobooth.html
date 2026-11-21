@@ -1,0 +1,1738 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Y2K Retro Sticker Photobooth • 6 Custom Strip Styles</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;600;700&family=Press+Start+2P&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        y2k: {
+                            blue: '#1d4ed8',
+                            cobalt: '#2563eb',
+                            pink: '#f472b6',
+                            hotpink: '#ec4899',
+                            yellow: '#facc15',
+                            orange: '#f97316',
+                            dark: '#0f172a',
+                            card: '#1e293b'
+                        }
+                    },
+                    fontFamily: {
+                        fredoka: ['"Fredoka"', 'sans-serif'],
+                        pixel: ['"Press Start 2P"', 'monospace'],
+                        mono: ['"Space Mono"', 'monospace'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(37, 99, 235, 0.25) 0%, transparent 45%),
+                radial-gradient(circle at 85% 85%, rgba(236, 72, 153, 0.2) 0%, transparent 45%);
+        }
+
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.78);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1.5px solid rgba(255, 255, 255, 0.14);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
+        }
+
+        .style-card {
+            background: rgba(15, 23, 42, 0.75);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .style-card:hover {
+            border-color: #60a5fa;
+            transform: translateY(-2px);
+        }
+        .style-card.active {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.4), rgba(236, 72, 153, 0.3));
+            border-color: #facc15;
+            box-shadow: 0 0 18px rgba(250, 204, 21, 0.35);
+        }
+
+        .glass-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1.5px solid rgba(255, 255, 255, 0.18);
+            transition: all 0.2s ease;
+        }
+        .glass-btn:hover {
+            background: rgba(37, 99, 235, 0.35);
+            border-color: #60a5fa;
+        }
+        .glass-btn.active {
+            background: #2563eb;
+            color: #ffffff;
+            border-color: #facc15;
+            font-weight: 700;
+        }
+
+        @keyframes cameraFlash {
+            0% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        .flash-active {
+            animation: cameraFlash 0.45s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col relative selection:bg-y2k-pink selection:text-white">
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="fixed top-5 right-5 z-[1000] flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- HEADER -->
+    <header class="sticky top-0 z-50 bg-y2k-dark/90 backdrop-blur-md border-b border-white/10 px-4 sm:px-8 py-3">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-y2k-blue to-y2k-hotpink flex items-center justify-center text-white shadow-lg rotate-3">
+                    <i class="fa-solid fa-star text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="font-fredoka font-bold text-xl sm:text-2xl text-white tracking-wide leading-none">Y2K STICKER BOOTH</h1>
+                    <p class="font-mono text-[10px] text-blue-300 tracking-widest uppercase mt-0.5">6 CUSTOM PHOTOSTRIP EDITION</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <button id="btn-toggle-sound" class="glass-btn px-3.5 py-1.5 rounded-full font-mono text-xs text-white flex items-center gap-2">
+                    <i class="fa-solid fa-volume-high" id="sound-icon"></i>
+                    <span class="hidden sm:inline" id="sound-label">SFX ON</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN STUDIO -->
+    <main class="flex-grow py-6 px-4 sm:px-6 relative z-10">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+            <!-- LEFT COLUMN: CAMERA & CONTROLS (7 cols) -->
+            <div class="lg:col-span-7 flex flex-col gap-6">
+
+                <!-- 1. SELECT ONE OF THE 6 PHOTOSTRIP STYLES -->
+                <div class="glass-panel rounded-3xl p-5">
+                    <div class="flex items-center justify-between mb-3">
+                        <label class="font-mono text-xs text-y2k-yellow uppercase tracking-wider font-bold">
+                            1. CHOOSE PHOTOSTRIP DESIGN (6 STYLES)
+                        </label>
+                        <span class="font-mono text-[11px] text-slate-400">3 POSES PER STRIP</span>
+                    </div>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5" id="strip-styles-grid">
+                        <button data-style="1" class="style-card active rounded-2xl p-3 text-left flex flex-col gap-1">
+                            <div class="flex items-center justify-between">
+                                <span class="font-fredoka font-bold text-sm text-blue-400">#1 Blue Doodle</span>
+                                <span class="text-sm">🍭🐰</span>
+                            </div>
+                            <span class="font-mono text-[10px] text-slate-300">Tilted frames, bunny & checkered planet</span>
+                        </button>
+
+                        <button data-style="2" class="style-card rounded-2xl p-3 text-left flex flex-col gap-1">
+                            <div class="flex items-center justify-between">
+                                <span class="font-fredoka font-bold text-sm text-yellow-300">#2 Peace & Cool!</span>
+                                <span class="text-sm">✌️⚡</span>
+                            </div>
+                            <span class="font-mono text-[10px] text-slate-300">Warped B&W checker, circles & smiley</span>
+                        </button>
+
+                        <button data-style="3" class="style-card rounded-2xl p-3 text-left flex flex-col gap-1">
+                            <div class="flex items-center justify-between">
+                                <span class="font-fredoka font-bold text-sm text-pink-400">#3 Pixel HELLO</span>
+                                <span class="text-sm">👾💖</span>
+                            </div>
+                            <span class="font-mono text-[10px] text-slate-300">Pixel HELLO, MP3, peeking eyes & heart</span>
+                        </button>
+
+                        <button data-style="4" class="style-card rounded-2xl p-3 text-left flex flex-col gap-1">
+                            <div class="flex items-center justify-between">
+                                <span class="font-fredoka font-bold text-sm text-orange-400">#4 Awesome!</span>
+                                <span class="text-sm">🏅⚡</span>
+                            </div>
+                            <span class="font-mono text-[10px] text-slate-300">Checkerboard, ribbon medal & SO COOL</span>
+                        </button>
+
+                        <button data-style="5" class="style-card rounded-2xl p-3 text-left flex flex-col gap-1">
+                            <div class="flex items-center justify-between">
+                                <span class="font-fredoka font-bold text-sm text-red-400">#5 SHOOK!</span>
+                                <span class="text-sm">🌸👀</span>
+                            </div>
+                            <span class="font-mono text-[10px] text-slate-300">Blue flowers, pixel heart & WORK HARD</span>
+                        </button>
+
+                        <button data-style="6" class="style-card rounded-2xl p-3 text-left flex flex-col gap-1">
+                            <div class="flex items-center justify-between">
+                                <span class="font-fredoka font-bold text-sm text-cyan-300">#6 24/7 Daisies</span>
+                                <span class="text-sm">🌼🤍</span>
+                            </div>
+                            <span class="font-mono text-[10px] text-slate-300">Rubber-hose mascot, daisies & 24/7 heart</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 2. CAMERA VIEWFINDER -->
+                <div class="glass-panel rounded-3xl p-4 sm:p-5 flex flex-col">
+                    <div class="w-full flex items-center justify-between px-3 py-2 bg-slate-900/90 rounded-xl border border-white/10 mb-3 font-mono text-xs text-slate-200">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" id="status-indicator"></span>
+                            <span id="status-text">LIVE CAMERA READY</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <select id="camera-select" class="bg-slate-800 text-white border border-white/20 rounded px-2 py-1 text-xs focus:outline-none hidden max-w-[140px] truncate">
+                                <option value="">Default Camera</option>
+                            </select>
+                            <button id="btn-mirror-toggle" class="hover:text-y2k-yellow transition-colors">
+                                <i class="fa-solid fa-arrows-rotate mr-1"></i> MIRROR
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Camera Error Fallback Banner -->
+                    <div id="camera-error-banner" class="w-full bg-rose-950/90 border border-rose-500 p-3 rounded-2xl mb-3 font-mono text-xs text-rose-200 hidden flex flex-col gap-2 text-center">
+                        <span id="camera-error-msg">⚠️ Camera permission blocked or unavailable. Using Demo Mode.</span>
+                        <div class="flex justify-center gap-2">
+                            <button id="btn-retry-camera" class="px-3 py-1 rounded-lg bg-rose-600 text-white font-bold hover:bg-rose-500">RETRY CAMERA</button>
+                            <button id="btn-use-demo" class="px-3 py-1 rounded-lg bg-slate-800 text-white border border-white/20">USE DEMO</button>
+                        </div>
+                    </div>
+
+                    <!-- Live Viewfinder Canvas -->
+                    <div class="relative w-full aspect-[4/3] bg-black rounded-2xl overflow-hidden border-2 border-blue-500/40 flex items-center justify-center shadow-2xl">
+                        <video id="webcam-video" autoplay playsinline webkit-playsinline muted class="hidden"></video>
+                        <canvas id="studio-canvas" class="w-full h-full object-cover"></canvas>
+
+                        <div id="camera-flash" class="absolute inset-0 bg-white opacity-0 pointer-events-none z-40"></div>
+
+                        <div id="countdown-overlay" class="absolute inset-0 bg-slate-950/85 backdrop-blur-sm flex flex-col items-center justify-center z-30 opacity-0 pointer-events-none transition-opacity duration-200">
+                            <span id="countdown-text" class="font-fredoka font-bold text-9xl text-y2k-yellow drop-shadow-[0_0_30px_rgba(250,204,21,0.8)]">3</span>
+                            <span class="font-mono text-xs text-white uppercase tracking-widest mt-2">POSE FOR SLOT <span id="countdown-frame-num">1</span>!</span>
+                        </div>
+
+                        <div class="absolute top-3 left-3 z-20 px-3 py-1 rounded-full bg-y2k-blue/90 border border-white/40 font-mono text-xs text-white flex items-center gap-2 shadow-md">
+                            <span>SLOT:</span>
+                            <span id="active-frame-badge" class="w-5 h-5 rounded-full bg-y2k-yellow text-slate-950 font-bold flex items-center justify-center">1</span>
+                        </div>
+                    </div>
+
+                    <div class="w-full flex items-center justify-between mt-3 px-1 font-mono text-xs text-slate-400">
+                        <button id="btn-toggle-demo" class="hover:text-y2k-yellow transition-colors flex items-center gap-1.5">
+                            <i class="fa-solid fa-repeat"></i>
+                            <span id="demo-toggle-text">SWITCH TO DEMO FEED</span>
+                        </button>
+                        <span>3-POSE VERTICAL STRIP</span>
+                    </div>
+                </div>
+
+                <!-- 3. FILTERS, FRAME SLOTS & SHOOT BUTTONS -->
+                <div class="glass-panel rounded-3xl p-5 flex flex-col gap-5">
+                    
+                    <!-- Color Filters -->
+                    <div>
+                        <label class="block font-mono text-xs text-slate-300 uppercase tracking-wider mb-2">
+                            2. CAMERA FILTER
+                        </label>
+                        <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
+                            <button data-filter="normal" class="filter-btn glass-btn py-2 px-2 rounded-xl font-mono text-xs text-white active text-center">✨ Natural</button>
+                            <button data-filter="y2k" class="filter-btn glass-btn py-2 px-2 rounded-xl font-mono text-xs text-white text-center">💿 Y2K Cool</button>
+                            <button data-filter="warm" class="filter-btn glass-btn py-2 px-2 rounded-xl font-mono text-xs text-white text-center">☀️ Sunny Film</button>
+                            <button data-filter="bw" class="filter-btn glass-btn py-2 px-2 rounded-xl font-mono text-xs text-white text-center">🖤 High B&W</button>
+                            <button data-filter="soft" class="filter-btn glass-btn py-2 px-2 rounded-xl font-mono text-xs text-white text-center">🌸 Soft Glow</button>
+                        </div>
+                    </div>
+
+                    <!-- 3 Photo Slots Manager -->
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <label class="block font-mono text-xs text-slate-300 uppercase tracking-wider">
+                                3. MANAGE 3 PHOTO SLOTS (RETAKE OR UPLOAD)
+                            </label>
+                            <input type="text" id="input-footer-brand" value="LATESTPISCES" maxlength="16" placeholder="Footer Tag" class="bg-slate-900 border border-white/20 rounded-lg px-2.5 py-1 font-mono text-[11px] text-y2k-yellow w-36 focus:outline-none focus:border-y2k-yellow">
+                        </div>
+                        <div class="grid grid-cols-3 gap-3" id="frames-picker-grid"></div>
+                        <input type="file" id="frame-file-input" accept="image/*" class="hidden">
+                    </div>
+
+                    <!-- Shoot Buttons -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                        <button id="btn-start-full-session" class="py-3.5 px-4 rounded-2xl bg-gradient-to-r from-y2k-blue to-y2k-hotpink border-2 border-white/80 text-white font-fredoka text-base tracking-wide font-bold shadow-xl hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-camera-retro"></i>
+                            <span>SNAP ALL 3 POSES AUTO</span>
+                        </button>
+                        <button id="btn-snap-single-frame" class="py-3.5 px-4 rounded-2xl bg-y2k-yellow text-slate-950 font-fredoka text-base tracking-wide font-bold shadow-xl hover:bg-yellow-300 active:scale-[0.98] transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-camera"></i>
+                            <span>SNAP SLOT <span id="btn-active-frame-num">1</span> ONLY</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- RIGHT COLUMN: LIVE PHOTOSTRIP PREVIEW & EXPORT (5 cols) -->
+            <div class="lg:col-span-5 flex flex-col items-center glass-panel rounded-3xl p-5 border-2 border-white/15 min-h-[640px]">
+                <div class="w-full flex items-center justify-between border-b border-white/10 pb-3 mb-4">
+                    <span class="font-fredoka font-bold text-xl text-white">PHOTOSTRIP PREVIEW</span>
+                    <span id="style-badge" class="font-mono text-xs text-slate-950 bg-y2k-yellow font-bold px-3 py-1 rounded-full">#1 BLUE DOODLE</span>
+                </div>
+
+                <canvas id="strip-export-canvas" class="hidden"></canvas>
+
+                <div class="relative w-full max-w-[300px] flex justify-center my-auto py-1">
+                    <img id="strip-preview-img" src="" alt="Y2K Photostrip Preview" class="rounded-md shadow-[0_15px_35px_rgba(0,0,0,0.6)] max-h-[630px] w-auto object-contain transition-all duration-300">
+                </div>
+
+                <div class="w-full flex flex-col gap-2.5 mt-4 pt-4 border-t border-white/10">
+                    <button id="btn-download-png" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-fredoka font-bold text-base tracking-wide hover:brightness-110 transition-all shadow-lg flex items-center justify-center gap-2 border border-white/40">
+                        <i class="fa-solid fa-download"></i>
+                        <span>DOWNLOAD PHOTOSTRIP (PNG)</span>
+                    </button>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <button id="btn-copy-image" class="glass-btn py-2.5 rounded-xl text-white font-mono text-xs flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-copy text-y2k-yellow"></i>
+                            <span>Copy Image</span>
+                        </button>
+                        <button id="btn-reset-all" class="glass-btn py-2.5 rounded-xl text-white font-mono text-xs flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-rotate-right text-y2k-pink"></i>
+                            <span>Reset Slots</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // DOM Elements
+            const videoEl = document.getElementById('webcam-video');
+            const studioCanvas = document.getElementById('studio-canvas');
+            const studioCtx = studioCanvas.getContext('2d');
+            const exportCanvas = document.getElementById('strip-export-canvas');
+            const exportCtx = exportCanvas.getContext('2d');
+            const previewImg = document.getElementById('strip-preview-img');
+
+            const cameraSelect = document.getElementById('camera-select');
+            const cameraErrorBanner = document.getElementById('camera-error-banner');
+            const cameraErrorMsg = document.getElementById('camera-error-msg');
+            const btnRetryCamera = document.getElementById('btn-retry-camera');
+            const btnUseDemo = document.getElementById('btn-use-demo');
+            const btnToggleDemo = document.getElementById('btn-toggle-demo');
+            const btnMirrorToggle = document.getElementById('btn-mirror-toggle');
+            const btnToggleSound = document.getElementById('btn-toggle-sound');
+            const soundIcon = document.getElementById('sound-icon');
+            const soundLabel = document.getElementById('sound-label');
+            const statusIndicator = document.getElementById('status-indicator');
+            const statusText = document.getElementById('status-text');
+
+            const countdownOverlay = document.getElementById('countdown-overlay');
+            const countdownText = document.getElementById('countdown-text');
+            const countdownFrameNum = document.getElementById('countdown-frame-num');
+            const cameraFlash = document.getElementById('camera-flash');
+
+            const activeFrameBadge = document.getElementById('active-frame-badge');
+            const btnActiveFrameNum = document.getElementById('btn-active-frame-num');
+            const framesPickerGrid = document.getElementById('frames-picker-grid');
+            const frameFileInput = document.getElementById('frame-file-input');
+            const inputFooterBrand = document.getElementById('input-footer-brand');
+            const styleBadge = document.getElementById('style-badge');
+
+            const btnStartFullSession = document.getElementById('btn-start-full-session');
+            const btnSnapSingleFrame = document.getElementById('btn-snap-single-frame');
+            const btnDownloadPng = document.getElementById('btn-download-png');
+            const btnCopyImage = document.getElementById('btn-copy-image');
+            const btnResetAll = document.getElementById('btn-reset-all');
+
+            // App State
+            let currentStyle = 1; // 1 to 6
+            let currentFilter = 'normal';
+            let isMuted = false;
+            let isMirrored = true;
+            let useDemoMode = false;
+            let isCapturing = false;
+            let activeFrame = 1; // 1 to 3
+            let currentStream = null;
+            let studioAnimId = null;
+
+            const styleNames = {
+                1: '#1 BLUE DOODLE',
+                2: '#2 PEACE & COOL!',
+                3: '#3 PIXEL HELLO',
+                4: '#4 AWESOME & SO COOL',
+                5: '#5 SHOOK & WORK HARD',
+                6: '#6 24/7 DAISIES'
+            };
+
+            const framesData = [null, null, null];
+
+            // Web Audio API Sound Effects
+            let audioCtx = null;
+            function initAudio() {
+                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            function playBeep(freq = 600, dur = 0.15) {
+                if (isMuted) return;
+                try {
+                    initAudio();
+                    const now = audioCtx.currentTime;
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(freq, now);
+                    gain.gain.setValueAtTime(0.18, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + dur);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now);
+                    osc.stop(now + dur);
+                } catch(e){}
+            }
+            function playShutter() {
+                if (isMuted) return;
+                try {
+                    initAudio();
+                    const now = audioCtx.currentTime;
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(260, now);
+                    osc.frequency.exponentialRampToValueAtTime(45, now + 0.18);
+                    gain.gain.setValueAtTime(0.35, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.18);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.18);
+                } catch(e){}
+            }
+
+            function showToast(msg) {
+                const container = document.getElementById('toast-container');
+                const toast = document.createElement('div');
+                toast.className = 'px-4 py-2.5 rounded-xl bg-slate-900/95 border border-y2k-yellow text-white font-mono text-xs shadow-xl transition-opacity duration-300';
+                toast.textContent = `✨ ${msg}`;
+                container.appendChild(toast);
+                setTimeout(() => {
+                    toast.classList.add('opacity-0');
+                    setTimeout(() => toast.remove(), 300);
+                }, 2600);
+            }
+
+            // Camera Setup
+            function stopCurrentStream() {
+                if (currentStream) {
+                    currentStream.getTracks().forEach(t => t.stop());
+                    currentStream = null;
+                }
+                if (videoEl.srcObject) videoEl.srcObject = null;
+            }
+
+            async function populateCameraDevices() {
+                if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) return;
+                try {
+                    const devices = await navigator.mediaDevices.enumerateDevices();
+                    const videoDevices = devices.filter(d => d.kind === 'videoinput');
+                    cameraSelect.innerHTML = '';
+                    if (videoDevices.length > 0) {
+                        videoDevices.forEach((dev, idx) => {
+                            const opt = document.createElement('option');
+                            opt.value = dev.deviceId;
+                            opt.textContent = dev.label || `Camera ${idx + 1}`;
+                            cameraSelect.appendChild(opt);
+                        });
+                        cameraSelect.classList.remove('hidden');
+                    }
+                } catch(e){}
+            }
+
+            async function initCamera(deviceId = null) {
+                stopCurrentStream();
+                cameraErrorBanner.classList.add('hidden');
+                useDemoMode = false;
+                statusIndicator.className = 'w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping';
+                statusText.textContent = 'STARTING CAMERA...';
+
+                if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                    activateDemoFallback('WebRTC not supported in this browser.');
+                    return;
+                }
+
+                let stream = null;
+                try {
+                    const constraints = {
+                        video: deviceId ? { deviceId: { exact: deviceId } } : { facingMode: 'user', width: { ideal: 640 }, height: { ideal: 480 } },
+                        audio: false
+                    };
+                    stream = await navigator.mediaDevices.getUserMedia(constraints);
+                } catch (e1) {
+                    try {
+                        stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+                    } catch (e2) {
+                        activateDemoFallback('Camera blocked or unavailable. Demo mode enabled.');
+                        return;
+                    }
+                }
+
+                try {
+                    currentStream = stream;
+                    videoEl.srcObject = stream;
+                    videoEl.setAttribute('playsinline', '');
+                    videoEl.setAttribute('webkit-playsinline', '');
+                    videoEl.muted = true;
+                    await videoEl.play().catch(() => {});
+
+                    statusIndicator.className = 'w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse';
+                    statusText.textContent = 'LIVE CAMERA READY';
+                    document.getElementById('demo-toggle-text').textContent = 'SWITCH TO DEMO FEED';
+                    await populateCameraDevices();
+                    if (deviceId) cameraSelect.value = deviceId;
+                    startStudioLoop();
+                } catch (e) {
+                    activateDemoFallback('Stream error. Demo mode enabled.');
+                }
+            }
+
+            function activateDemoFallback(msg) {
+                useDemoMode = true;
+                statusIndicator.className = 'w-2.5 h-2.5 rounded-full bg-y2k-pink animate-bounce';
+                statusText.textContent = 'DEMO FEED ACTIVE';
+                cameraErrorMsg.textContent = `⚠️ ${msg}`;
+                cameraErrorBanner.classList.remove('hidden');
+                document.getElementById('demo-toggle-text').textContent = 'SWITCH TO WEBCAM';
+                startStudioLoop();
+            }
+
+            // Live Viewfinder Loop
+            function startStudioLoop() {
+                if (studioAnimId) cancelAnimationFrame(studioAnimId);
+                studioCanvas.width = 640;
+                studioCanvas.height = 480;
+
+                let t = 0;
+                function loop() {
+                    t += 0.04;
+                    const ready = !useDemoMode && videoEl.readyState >= 2 && videoEl.videoWidth > 0;
+
+                    if (useDemoMode || !ready) {
+                        // Fun Y2K Demo Background & Friends Posing
+                        const grad = studioCtx.createLinearGradient(0, 0, 640, 480);
+                        grad.addColorStop(0, '#1e3a8a');
+                        grad.addColorStop(1, '#3b82f6');
+                        studioCtx.fillStyle = grad;
+                        studioCtx.fillRect(0, 0, 640, 480);
+
+                        // Subtle Grid
+                        studioCtx.strokeStyle = 'rgba(255,255,255,0.12)';
+                        studioCtx.lineWidth = 1;
+                        for (let x = 0; x < 640; x += 40) {
+                            studioCtx.beginPath(); studioCtx.moveTo(x, 0); studioCtx.lineTo(x, 480); studioCtx.stroke();
+                        }
+                        for (let y = 0; y < 480; y += 40) {
+                            studioCtx.beginPath(); studioCtx.moveTo(0, y); studioCtx.lineTo(640, y); studioCtx.stroke();
+                        }
+
+                        // Posing Besties Illustration
+                        studioCtx.save();
+                        studioCtx.translate(320, 260 + Math.sin(t * 2) * 5);
+
+                        // Friend 1
+                        studioCtx.fillStyle = '#fed7aa';
+                        studioCtx.beginPath(); studioCtx.arc(-60, -35, 48, 0, Math.PI * 2); studioCtx.fill();
+                        studioCtx.fillStyle = '#1e293b';
+                        studioCtx.beginPath(); studioCtx.arc(-60, -45, 52, Math.PI, 0); studioCtx.fill();
+                        studioCtx.beginPath(); studioCtx.roundRect(-118, 12, 115, 170, 24); studioCtx.fill();
+
+                        // Friend 2
+                        studioCtx.fillStyle = '#fde68a';
+                        studioCtx.beginPath(); studioCtx.arc(60, -25, 46, 0, Math.PI * 2); studioCtx.fill();
+                        studioCtx.fillStyle = '#334155';
+                        studioCtx.beginPath(); studioCtx.arc(60, -35, 50, Math.PI, 0); studioCtx.fill();
+                        studioCtx.fillStyle = '#ec4899';
+                        studioCtx.beginPath(); studioCtx.roundRect(5, 20, 115, 170, 24); studioCtx.fill();
+
+                        // Eyes & Smiles
+                        studioCtx.fillStyle = '#0f172a';
+                        studioCtx.beginPath();
+                        studioCtx.arc(-74, -35, 5, 0, Math.PI * 2); studioCtx.arc(-46, -35, 5, 0, Math.PI * 2);
+                        studioCtx.arc(46, -25, 5, 0, Math.PI * 2); studioCtx.arc(74, -25, 5, 0, Math.PI * 2);
+                        studioCtx.fill();
+
+                        studioCtx.strokeStyle = '#0f172a';
+                        studioCtx.lineWidth = 3;
+                        studioCtx.beginPath();
+                        studioCtx.arc(-60, -22, 12, 0.1, Math.PI - 0.1);
+                        studioCtx.arc(60, -12, 12, 0.1, Math.PI - 0.1);
+                        studioCtx.stroke();
+
+                        studioCtx.restore();
+                    } else {
+                        studioCtx.save();
+                        if (isMirrored) {
+                            studioCtx.translate(640, 0);
+                            studioCtx.scale(-1, 1);
+                        }
+                        studioCtx.drawImage(videoEl, 0, 0, 640, 480);
+                        studioCtx.restore();
+                    }
+
+                    if (currentFilter !== 'normal') {
+                        applyFilter(studioCtx, 640, 480, currentFilter);
+                    }
+
+                    studioAnimId = requestAnimationFrame(loop);
+                }
+                loop();
+            }
+
+            function applyFilter(ctx, w, h, type) {
+                const img = ctx.getImageData(0, 0, w, h);
+                const d = img.data;
+                for (let i = 0; i < d.length; i += 4) {
+                    if (type === 'y2k') {
+                        d[i] = Math.min(255, d[i] * 0.95);
+                        d[i+1] = Math.min(255, d[i+1] * 1.03);
+                        d[i+2] = Math.min(255, d[i+2] * 1.18 + 12);
+                    } else if (type === 'warm') {
+                        d[i] = Math.min(255, d[i] * 1.14 + 10);
+                        d[i+1] = Math.min(255, d[i+1] * 1.06 + 5);
+                        d[i+2] = Math.min(255, d[i+2] * 0.88);
+                    } else if (type === 'bw') {
+                        const g = d[i] * 0.299 + d[i+1] * 0.587 + d[i+2] * 0.114;
+                        const c = Math.max(0, Math.min(255, (g - 128) * 1.3 + 128));
+                        d[i] = d[i+1] = d[i+2] = c;
+                    } else if (type === 'soft') {
+                        d[i] = Math.min(255, d[i] * 1.08 + 14);
+                        d[i+1] = Math.min(255, d[i+1] * 1.05 + 12);
+                        d[i+2] = Math.min(255, d[i+2] * 1.08 + 14);
+                    }
+                }
+                ctx.putImageData(img, 0, 0);
+            }
+
+            // 3 Slot Thumbnails UI
+            function renderFramesPickerUI() {
+                framesPickerGrid.innerHTML = '';
+                for (let i = 1; i <= 3; i++) {
+                    const div = document.createElement('div');
+                    const isSel = activeFrame === i;
+                    const photo = framesData[i - 1];
+
+                    div.className = `relative aspect-[4/3] rounded-xl border-2 flex flex-col items-center justify-center cursor-pointer overflow-hidden transition-all ${
+                        isSel ? 'border-y2k-yellow ring-4 ring-y2k-yellow/25 bg-slate-900' : 'border-white/20 bg-slate-800/70 hover:border-white/50'
+                    }`;
+
+                    if (photo) {
+                        div.innerHTML = `
+                            <img src="${photo.toDataURL()}" class="w-full h-full object-cover">
+                            <span class="absolute top-1 left-1 w-5 h-5 rounded-full bg-y2k-blue text-white font-bold text-[10px] flex items-center justify-center border border-white">${i}</span>
+                            <div class="absolute inset-0 bg-black/50 opacity-0 hover:opacity-100 flex items-center justify-center gap-2 transition-opacity">
+                                <button class="w-7 h-7 rounded-full bg-y2k-yellow text-slate-950 text-xs flex items-center justify-center font-bold" title="Select Slot"><i class="fa-solid fa-camera"></i></button>
+                                <button class="w-7 h-7 rounded-full bg-white text-slate-950 text-xs flex items-center justify-center font-bold btn-upload-slot" title="Upload Photo"><i class="fa-solid fa-upload"></i></button>
+                            </div>
+                        `;
+                    } else {
+                        div.innerHTML = `
+                            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-300 font-bold text-xs flex items-center justify-center mb-1 border border-blue-400/40">${i}</span>
+                            <span class="font-mono text-[10px] text-slate-300">Slot ${i}</span>
+                            <button class="mt-1 px-2 py-0.5 rounded bg-white/10 hover:bg-white/20 font-mono text-[9px] text-slate-200 btn-upload-slot">Upload</button>
+                        `;
+                    }
+
+                    div.addEventListener('click', (e) => {
+                        if (e.target.closest('.btn-upload-slot')) {
+                            frameFileInput.setAttribute('data-slot', i);
+                            frameFileInput.click();
+                            return;
+                        }
+                        activeFrame = i;
+                        renderFramesPickerUI();
+                        playBeep(680, 0.12);
+                    });
+
+                    framesPickerGrid.appendChild(div);
+                }
+                activeFrameBadge.textContent = activeFrame;
+                btnActiveFrameNum.textContent = activeFrame;
+            }
+
+            frameFileInput.addEventListener('change', (e) => {
+                const slot = parseInt(frameFileInput.getAttribute('data-slot') || activeFrame);
+                const file = e.target.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = (ev) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        const c = document.createElement('canvas');
+                        c.width = 640; c.height = 480;
+                        const ctx = c.getContext('2d');
+                        // Center crop cover
+                        const scale = Math.max(640 / img.width, 480 / img.height);
+                        const sw = img.width * scale;
+                        const sh = img.height * scale;
+                        ctx.drawImage(img, (640 - sw) / 2, (480 - sh) / 2, sw, sh);
+                        framesData[slot - 1] = c;
+                        renderFramesPickerUI();
+                        renderPhotostrip();
+                        showToast(`Uploaded to Slot ${slot}!`);
+                    };
+                    img.src = ev.target.result;
+                };
+                reader.readAsDataURL(file);
+                frameFileInput.value = '';
+            });
+
+            function snapViewfinder() {
+                const c = document.createElement('canvas');
+                c.width = 640; c.height = 480;
+                c.getContext('2d').drawImage(studioCanvas, 0, 0, 640, 480);
+                return c;
+            }
+
+            function runCountdown(sec, slotNum) {
+                return new Promise((resolve) => {
+                    countdownFrameNum.textContent = slotNum;
+                    countdownOverlay.classList.remove('opacity-0', 'pointer-events-none');
+                    let count = sec;
+                    countdownText.textContent = count;
+                    playBeep(550, 0.14);
+
+                    const timer = setInterval(() => {
+                        count--;
+                        if (count > 0) {
+                            countdownText.textContent = count;
+                            playBeep(550 + (3 - count) * 110, 0.14);
+                        } else {
+                            clearInterval(timer);
+                            countdownOverlay.classList.add('opacity-0', 'pointer-events-none');
+                            resolve();
+                        }
+                    }, 900);
+                });
+            }
+
+            function triggerFlash() {
+                playShutter();
+                cameraFlash.classList.add('flash-active');
+                setTimeout(() => cameraFlash.classList.remove('flash-active'), 450);
+            }
+
+            btnSnapSingleFrame.addEventListener('click', async () => {
+                if (isCapturing) return;
+                isCapturing = true;
+                await runCountdown(3, activeFrame);
+                triggerFlash();
+                framesData[activeFrame - 1] = snapViewfinder();
+                renderFramesPickerUI();
+                renderPhotostrip();
+                if (activeFrame < 3) activeFrame++;
+                renderFramesPickerUI();
+                isCapturing = false;
+                showToast('Pose captured!');
+            });
+
+            btnStartFullSession.addEventListener('click', async () => {
+                if (isCapturing) return;
+                isCapturing = true;
+                btnStartFullSession.disabled = true;
+                btnStartFullSession.classList.add('opacity-50');
+
+                for (let s = 1; s <= 3; s++) {
+                    activeFrame = s;
+                    renderFramesPickerUI();
+                    await runCountdown(3, s);
+                    triggerFlash();
+                    framesData[s - 1] = snapViewfinder();
+                    renderFramesPickerUI();
+                    renderPhotostrip();
+                    if (s < 3) await new Promise(r => setTimeout(r, 750));
+                }
+
+                isCapturing = false;
+                btnStartFullSession.disabled = false;
+                btnStartFullSession.classList.remove('opacity-50');
+                showToast('All 3 Y2K poses complete!');
+            });
+
+            // Style Switcher
+            document.querySelectorAll('.style-card').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    document.querySelectorAll('.style-card').forEach(b => b.classList.remove('active'));
+                    e.currentTarget.classList.add('active');
+                    currentStyle = parseInt(e.currentTarget.getAttribute('data-style'));
+                    styleBadge.textContent = styleNames[currentStyle];
+                    playBeep(760, 0.12);
+                    renderPhotostrip();
+                });
+            });
+
+            // Filter Switcher
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    e.currentTarget.classList.add('active');
+                    currentFilter = e.currentTarget.getAttribute('data-filter');
+                    playBeep(640, 0.1);
+                });
+            });
+
+            inputFooterBrand.addEventListener('input', () => renderPhotostrip());
+            btnMirrorToggle.addEventListener('click', () => { isMirrored = !isMirrored; showToast(`Mirror: ${isMirrored ? 'ON' : 'OFF'}`); });
+            btnToggleSound.addEventListener('click', () => {
+                isMuted = !isMuted;
+                soundIcon.className = isMuted ? 'fa-solid fa-volume-xmark' : 'fa-solid fa-volume-high';
+                soundLabel.textContent = isMuted ? 'MUTED' : 'SFX ON';
+            });
+            btnToggleDemo.addEventListener('click', () => {
+                if (useDemoMode) initCamera(cameraSelect.value || null);
+                else activateDemoFallback('Demo feed toggled manually.');
+            });
+            cameraSelect.addEventListener('change', (e) => { if (e.target.value) initCamera(e.target.value); });
+            btnRetryCamera.addEventListener('click', () => initCamera(cameraSelect.value || null));
+            btnUseDemo.addEventListener('click', () => { cameraErrorBanner.classList.add('hidden'); useDemoMode = true; });
+
+
+            // ==================== 6 PHOTOSTRIP STYLES RENDERER ====================
+            function renderPhotostrip() {
+                const W = 500;
+                const H = 1500;
+                exportCanvas.width = W;
+                exportCanvas.height = H;
+                const ctx = exportCtx;
+                const footerText = (inputFooterBrand.value || 'LATESTPISCES').toUpperCase();
+
+                ctx.clearRect(0, 0, W, H);
+
+                if (currentStyle === 1) renderStyle1BlueDoodle(ctx, W, H);
+                else if (currentStyle === 2) renderStyle2PeaceCool(ctx, W, H);
+                else if (currentStyle === 3) renderStyle3PixelHello(ctx, W, H);
+                else if (currentStyle === 4) renderStyle4AwesomeSoCool(ctx, W, H);
+                else if (currentStyle === 5) renderStyle5ShookWorkHard(ctx, W, H, footerText);
+                else if (currentStyle === 6) renderStyle6Daisies247(ctx, W, H, footerText);
+
+                previewImg.src = exportCanvas.toDataURL('image/png');
+            }
+
+            // Helper: Draw Photo into Rect or Circle with Placeholder
+            function drawPhotoSlot(ctx, index, x, y, w, h, options = {}) {
+                const { angle = 0, isCircle = false, borderColor = null, borderWidth = 0 } = options;
+                const photo = framesData[index];
+
+                ctx.save();
+                if (angle !== 0) {
+                    ctx.translate(x + w / 2, y + h / 2);
+                    ctx.rotate(angle);
+                    ctx.translate(-(x + w / 2), -(y + h / 2));
+                }
+
+                ctx.beginPath();
+                if (isCircle) {
+                    const r = Math.min(w, h) / 2;
+                    ctx.arc(x + w / 2, y + h / 2, r, 0, Math.PI * 2);
+                } else {
+                    ctx.rect(x, y, w, h);
+                }
+                ctx.clip();
+
+                if (photo) {
+                    // Aspect fill crop
+                    const scale = Math.max(w / photo.width, h / photo.height);
+                    const dw = photo.width * scale;
+                    const dh = photo.height * scale;
+                    ctx.drawImage(photo, x + (w - dw) / 2, y + (h - dh) / 2, dw, dh);
+                } else {
+                    ctx.fillStyle = '#1e293b';
+                    ctx.fillRect(x, y, w, h);
+                    ctx.fillStyle = '#94a3b8';
+                    ctx.font = '700 24px "Fredoka", sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(`POSE ${index + 1}`, x + w / 2, y + h / 2);
+                }
+                ctx.restore();
+
+                if (borderColor && borderWidth > 0) {
+                    ctx.save();
+                    if (angle !== 0) {
+                        ctx.translate(x + w / 2, y + h / 2);
+                        ctx.rotate(angle);
+                        ctx.translate(-(x + w / 2), -(y + h / 2));
+                    }
+                    ctx.strokeStyle = borderColor;
+                    ctx.lineWidth = borderWidth;
+                    if (isCircle) {
+                        ctx.beginPath();
+                        ctx.arc(x + w / 2, y + h / 2, Math.min(w, h) / 2, 0, Math.PI * 2);
+                        ctx.stroke();
+                    } else {
+                        ctx.strokeRect(x, y, w, h);
+                    }
+                    ctx.restore();
+                }
+            }
+
+            // Helper: Warped Checkerboard Background (for Styles #2 and #4)
+            function drawWarpedCheckerboard(ctx, W, H, phaseOffset = 0) {
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, W, H);
+                ctx.fillStyle = '#111111';
+
+                const cols = 6;
+                const rows = 20;
+                const cellW = W / cols;
+                const cellH = H / rows;
+
+                for (let r = 0; r < rows; r++) {
+                    for (let c = 0; c < cols; c++) {
+                        if ((r + c) % 2 === 0) {
+                            const waveX1 = Math.sin(r * 0.45 + phaseOffset) * 22;
+                            const waveX2 = Math.sin((r + 1) * 0.45 + phaseOffset) * 22;
+                            const x1 = c * cellW + waveX1;
+                            const y1 = r * cellH;
+                            const x2 = (c + 1) * cellW + waveX1;
+                            const x3 = (c + 1) * cellW + waveX2;
+                            const y3 = (r + 1) * cellH;
+                            const x4 = c * cellW + waveX2;
+
+                            ctx.beginPath();
+                            ctx.moveTo(x1 - 25, y1);
+                            ctx.lineTo(x2 + 25, y1);
+                            ctx.lineTo(x3 + 25, y3);
+                            ctx.lineTo(x4 - 25, y3);
+                            ctx.closePath();
+                            ctx.fill();
+                        }
+                    }
+                }
+            }
+
+            // Helper: 4-Point Sparkle Star
+            function drawSparkle(ctx, cx, cy, r, color) {
+                ctx.save();
+                ctx.fillStyle = color;
+                ctx.beginPath();
+                ctx.moveTo(cx, cy - r);
+                ctx.quadraticCurveTo(cx, cy, cx + r, cy);
+                ctx.quadraticCurveTo(cx, cy, cx, cy + r);
+                ctx.quadraticCurveTo(cx, cy, cx - r, cy);
+                ctx.quadraticCurveTo(cx, cy, cx, cy - r);
+                ctx.fill();
+                ctx.restore();
+            }
+
+            // Helper: Daisy Flower
+            function drawDaisy(ctx, cx, cy, radius, fillColor, strokeColor = null, hasFace = false) {
+                ctx.save();
+                ctx.translate(cx, cy);
+                const petals = 8;
+                for (let i = 0; i < petals; i++) {
+                    ctx.save();
+                    ctx.rotate((i * Math.PI * 2) / petals);
+                    ctx.beginPath();
+                    ctx.ellipse(0, -radius * 0.62, radius * 0.28, radius * 0.48, 0, 0, Math.PI * 2);
+                    ctx.fillStyle = fillColor;
+                    ctx.fill();
+                    if (strokeColor) {
+                        ctx.strokeStyle = strokeColor;
+                        ctx.lineWidth = 3;
+                        ctx.stroke();
+                    }
+                    ctx.restore();
+                }
+                // Center
+                ctx.beginPath();
+                ctx.arc(0, 0, radius * 0.34, 0, Math.PI * 2);
+                ctx.fillStyle = '#ffffff';
+                ctx.fill();
+                if (strokeColor) {
+                    ctx.strokeStyle = strokeColor;
+                    ctx.lineWidth = 3;
+                    ctx.stroke();
+                }
+                if (hasFace) {
+                    ctx.fillStyle = strokeColor || '#1d4ed8';
+                    ctx.beginPath();
+                    ctx.arc(-6, -3, 2.5, 0, Math.PI * 2);
+                    ctx.arc(6, -3, 2.5, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.strokeStyle = strokeColor || '#1d4ed8';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.arc(0, 2, 7, 0.2, Math.PI - 0.2);
+                    ctx.stroke();
+                }
+                ctx.restore();
+            }
+
+            // Helper: Pixel Heart
+            function drawPixelHeart(ctx, cx, cy, size, outerColor, innerColor) {
+                const grid = [
+                    '011000110',
+                    '122101221',
+                    '122212221',
+                    '122222221',
+                    '012222210',
+                    '001222100',
+                    '000121000',
+                    '000010000'
+                ];
+                const px = size / 9;
+                ctx.save();
+                ctx.translate(cx - (9 * px) / 2, cy - (8 * px) / 2);
+                for (let r = 0; r < grid.length; r++) {
+                    for (let c = 0; c < grid[r].length; c++) {
+                        const val = grid[r][c];
+                        if (val === '0') continue;
+                        ctx.fillStyle = val === '1' ? outerColor : innerColor;
+                        ctx.fillRect(c * px, r * px, px + 0.5, px + 0.5);
+                    }
+                }
+                ctx.restore();
+            }
+
+            // ---------------------------------------------------------
+            // STYLE #1: BLUE Y2K DOODLE (Bunny, Lollipop, Checkered Planet)
+            // ---------------------------------------------------------
+            function renderStyle1BlueDoodle(ctx, W, H) {
+                const blue = '#1e40af';
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, W, H);
+
+                // Photo 1 (Slightly tilted left)
+                drawPhotoSlot(ctx, 0, 52, 165, 395, 310, { angle: -0.05, borderColor: blue, borderWidth: 3 });
+                // Photo 2 (Tilted right)
+                drawPhotoSlot(ctx, 1, 55, 575, 395, 310, { angle: 0.04, borderColor: blue, borderWidth: 3 });
+                // Photo 3 (Tilted left)
+                drawPhotoSlot(ctx, 2, 52, 995, 395, 310, { angle: -0.05, borderColor: blue, borderWidth: 3 });
+
+                // Top-left Globe Dome Doodle
+                ctx.save();
+                ctx.strokeStyle = blue;
+                ctx.lineWidth = 3;
+                ctx.beginPath(); ctx.arc(40, 45, 70, 0, Math.PI * 0.65); ctx.stroke();
+                ctx.beginPath(); ctx.ellipse(40, 45, 70, 28, -0.3, 0, Math.PI); ctx.stroke();
+                ctx.beginPath(); ctx.ellipse(40, 45, 32, 70, -0.3, 0, Math.PI); ctx.stroke();
+                ctx.restore();
+
+                // Top-right Lollipop / Bubble Wand Doodle
+                ctx.save();
+                ctx.translate(380, 75);
+                ctx.rotate(-0.55);
+                ctx.fillStyle = '#ffffff';
+                ctx.strokeStyle = blue;
+                ctx.lineWidth = 3.5;
+                ctx.beginPath(); ctx.arc(0, 0, 38, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+                ctx.fillRect(-7, 38, 14, 95);
+                ctx.strokeRect(-7, 38, 14, 95);
+                ctx.restore();
+
+                // Cute White & Blue Bunny Sticker (Right of Photo 1)
+                ctx.save();
+                ctx.translate(415, 425);
+                ctx.fillStyle = '#ffffff';
+                ctx.strokeStyle = blue;
+                ctx.lineWidth = 3;
+                // Ears
+                ctx.beginPath(); ctx.ellipse(-18, -58, 11, 32, -0.2, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+                ctx.beginPath(); ctx.ellipse(14, -60, 11, 32, 0.2, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+                // Body & Head
+                ctx.beginPath(); ctx.ellipse(0, 26, 36, 42, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+                ctx.beginPath(); ctx.arc(0, -22, 32, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+                // Face
+                ctx.fillStyle = blue;
+                ctx.beginPath(); ctx.arc(-11, -24, 3, 0, Math.PI * 2); ctx.arc(11, -24, 3, 0, Math.PI * 2); ctx.fill();
+                ctx.beginPath(); ctx.arc(0, -16, 4, 0, Math.PI * 2); ctx.fill();
+                // Arms & Feet
+                ctx.fillStyle = '#ffffff';
+                ctx.beginPath(); ctx.ellipse(-34, 15, 14, 10, -0.4, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+                ctx.beginPath(); ctx.ellipse(-18, 65, 16, 11, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+                ctx.beginPath(); ctx.ellipse(18, 65, 16, 11, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+                ctx.restore();
+
+                // Swooshing Blue Crescent between Photo 1 & 2
+                ctx.save();
+                ctx.fillStyle = blue;
+                ctx.beginPath();
+                ctx.moveTo(60, 515);
+                ctx.quadraticCurveTo(210, 555, 295, 460);
+                ctx.quadraticCurveTo(240, 575, 60, 515);
+                ctx.fill();
+                ctx.restore();
+
+                // Checkered Saturn Planet Sticker (Bottom-right of Photo 2)
+                ctx.save();
+                ctx.translate(390, 865);
+                ctx.rotate(-0.35);
+                ctx.fillStyle = '#ffffff';
+                ctx.strokeStyle = blue;
+                ctx.lineWidth = 3;
+                ctx.beginPath(); ctx.arc(0, 0, 44, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+                // Checkers inside planet
+                ctx.save();
+                ctx.beginPath(); ctx.arc(0, 0, 44, 0, Math.PI * 2); ctx.clip();
+                ctx.fillStyle = blue;
+                for (let r = -3; r <= 3; r++) {
+                    for (let c = -3; c <= 3; c++) {
+                        if ((r + c) % 2 === 0) ctx.fillRect(c * 16, r * 16, 16, 16);
+                    }
+                }
+                ctx.restore();
+                // Orbit ring
+                ctx.strokeStyle = blue;
+                ctx.lineWidth = 3;
+                ctx.beginPath(); ctx.ellipse(0, 0, 78, 22, 0, 0, Math.PI * 2); ctx.stroke();
+                ctx.restore();
+
+                // Big Sharp Blue Sparkles (Left of Photo 3 & Bottom Right)
+                drawSparkle(ctx, 82, 955, 78, blue);
+                drawSparkle(ctx, 185, 935, 36, blue);
+                drawSparkle(ctx, 415, 1390, 62, blue);
+                drawSparkle(ctx, 315, 1435, 28, blue);
+
+                // Bottom-left Blue Abstract Blob
+                ctx.fillStyle = blue;
+                ctx.beginPath();
+                ctx.moveTo(0, 1330);
+                ctx.quadraticCurveTo(130, 1350, 150, 1500);
+                ctx.lineTo(0, 1500);
+                ctx.fill();
+            }
+
+            // ---------------------------------------------------------
+            // STYLE #2: PEACE & COOL! (Warped Checkerboard & Circular Photos)
+            // ---------------------------------------------------------
+            function renderStyle2PeaceCool(ctx, W, H) {
+                drawWarpedCheckerboard(ctx, W, H, 0.2);
+
+                // 3 Circular Photo Slots
+                drawPhotoSlot(ctx, 0, 75, 135, 350, 350, { isCircle: true, borderColor: '#ffffff', borderWidth: 6 });
+                drawPhotoSlot(ctx, 1, 75, 575, 350, 350, { isCircle: true, borderColor: '#ffffff', borderWidth: 6 });
+                drawPhotoSlot(ctx, 2, 75, 1025, 350, 350, { isCircle: true, borderColor: '#ffffff', borderWidth: 6 });
+
+                // Top-left Blue & Yellow "Peace" Oval Sticker
+                ctx.save();
+                ctx.translate(155, 95);
+                ctx.rotate(-0.18);
+                ctx.fillStyle = '#facc15';
+                ctx.beginPath(); ctx.ellipse(0, 0, 128, 52, 0, 0, Math.PI * 2); ctx.fill();
+                ctx.fillStyle = '#2563eb';
+                ctx.beginPath(); ctx.ellipse(0, 0, 114, 42, 0, 0, Math.PI * 2); ctx.fill();
+                ctx.font = 'italic 800 44px "Fredoka", sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.lineWidth = 6;
+                ctx.strokeStyle = '#0f172a';
+                ctx.strokeText('Peace', 0, 2);
+                ctx.fillStyle = '#facc15';
+                ctx.fillText('Peace', 0, 2);
+                ctx.restore();
+
+                // Top-right Pink Lightning Bolt Sticker
+                ctx.save();
+                ctx.translate(425, 165);
+                ctx.rotate(0.15);
+                ctx.fillStyle = '#f9a8d4';
+                ctx.strokeStyle = '#111111';
+                ctx.lineWidth = 4;
+                ctx.beginPath();
+                ctx.moveTo(-10, -55); ctx.lineTo(30, -55); ctx.lineTo(5, -5);
+                ctx.lineTo(35, -5); ctx.lineTo(-20, 65); ctx.lineTo(-5, 10);
+                ctx.lineTo(-30, 10); ctx.closePath();
+                ctx.fill(); ctx.stroke();
+                ctx.restore();
+
+                // Cartoon Shaka Hand Sticker (Left between Photo 1 & 2)
+                ctx.save();
+                ctx.translate(115, 515);
+                ctx.rotate(-0.2);
+                ctx.fillStyle = '#ffffff';
+                ctx.strokeStyle = '#111111';
+                ctx.lineWidth = 4;
+                ctx.beginPath();
+                ctx.roundRect(-38, -28, 76, 62, 22);
+                ctx.fill(); ctx.stroke();
+                // Thumb & Pinky
+                ctx.beginPath(); ctx.ellipse(-45, -22, 24, 12, -0.5, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+                ctx.beginPath(); ctx.ellipse(46, -18, 22, 11, 0.4, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+                // Folded fingers
+                ctx.beginPath(); ctx.arc(-12, -10, 12, 0, Math.PI * 2); ctx.stroke();
+                ctx.beginPath(); ctx.arc(8, -10, 12, 0, Math.PI * 2); ctx.stroke();
+                ctx.beginPath(); ctx.arc(26, -8, 11, 0, Math.PI * 2); ctx.stroke();
+                ctx.restore();
+
+                // Classic Yellow Smiley Sticker (Right between Photo 1 & 2)
+                ctx.save();
+                ctx.translate(385, 540);
+                ctx.fillStyle = '#facc15';
+                ctx.strokeStyle = '#111111';
+                ctx.lineWidth = 4;
+                ctx.beginPath(); ctx.arc(0, 0, 56, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+                ctx.fillStyle = '#111111';
+                ctx.beginPath(); ctx.ellipse(-18, -14, 5, 11, 0, 0, Math.PI * 2); ctx.fill();
+                ctx.beginPath(); ctx.ellipse(18, -14, 5, 11, 0, 0, Math.PI * 2); ctx.fill();
+                ctx.lineWidth = 4.5;
+                ctx.beginPath(); ctx.arc(0, 4, 32, 0.2, Math.PI - 0.2); ctx.stroke();
+                ctx.restore();
+
+                // Pink "Cool!" Sticker between Photo 2 & 3
+                ctx.save();
+                ctx.translate(220, 965);
+                ctx.rotate(-0.12);
+                ctx.font = 'italic 900 72px "Fredoka", sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.lineWidth = 14;
+                ctx.strokeStyle = '#ffffff';
+                ctx.strokeText('Cool!', 0, 0);
+                ctx.lineWidth = 7;
+                ctx.strokeStyle = '#111111';
+                ctx.strokeText('Cool!', 0, 0);
+                ctx.fillStyle = '#f472b6';
+                ctx.fillText('Cool!', 0, 0);
+                ctx.restore();
+
+                // Bottom-left Blue Starburst Sticker
+                ctx.save();
+                ctx.translate(105, 1410);
+                ctx.fillStyle = '#3b82f6';
+                ctx.strokeStyle = '#ffffff';
+                ctx.lineWidth = 4;
+                ctx.beginPath();
+                for (let i = 0; i < 16; i++) {
+                    const r = i % 2 === 0 ? 55 : 26;
+                    const a = (i * Math.PI) / 8;
+                    if (i === 0) ctx.moveTo(Math.cos(a) * r, Math.sin(a) * r);
+                    else ctx.lineTo(Math.cos(a) * r, Math.sin(a) * r);
+                }
+                ctx.closePath();
+                ctx.fill(); ctx.stroke();
+                ctx.restore();
+            }
+
+            // ---------------------------------------------------------
+            // STYLE #3: PIXEL HELLO & FOR YOU
+            // ---------------------------------------------------------
+            function renderStyle3PixelHello(ctx, W, H) {
+                const blue = '#1d4ed8';
+                const pink = '#f43f5e';
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, W, H);
+
+                // Top-left Mini MP3 Player Icon
+                ctx.save();
+                ctx.translate(75, 80);
+                ctx.rotate(-0.12);
+                ctx.fillStyle = pink;
+                ctx.strokeStyle = blue;
+                ctx.lineWidth = 3;
+                ctx.beginPath(); ctx.roundRect(-32, -45, 64, 92, 10); ctx.fill(); ctx.stroke();
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(-22, -34, 44, 32);
+                ctx.strokeRect(-22, -34, 44, 32);
+                // Heart on MP3 screen
+                ctx.fillStyle = blue;
+                ctx.font = '18px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('♡', 0, -12);
+                // Click wheel
+                ctx.beginPath(); ctx.arc(0, 20, 16, 0, Math.PI * 2); ctx.fillStyle = '#ffffff'; ctx.fill(); ctx.stroke();
+                ctx.restore();
+
+                // Top-right Pixel "HELLO" Header
+                ctx.save();
+                ctx.font = '700 44px "Press Start 2P", monospace';
+                ctx.textAlign = 'right';
+                ctx.lineWidth = 10;
+                ctx.strokeStyle = blue;
+                ctx.strokeText('HELLO', 465, 112);
+                ctx.fillStyle = '#fda4af';
+                ctx.fillText('HELLO', 465, 112);
+                ctx.restore();
+
+                // 3 Rectangular Photos
+                drawPhotoSlot(ctx, 0, 52, 150, 396, 330);
+                drawPhotoSlot(ctx, 1, 52, 565, 396, 330);
+                drawPhotoSlot(ctx, 2, 52, 1015, 396, 330);
+
+                // Perspective Grid Box behind FOR YOU (between Photo 2 & 3)
+                ctx.save();
+                ctx.strokeStyle = blue;
+                ctx.lineWidth = 2;
+                ctx.strokeRect(52, 895, 396, 120);
+                for (let x = 52; x <= 448; x += 44) {
+                    ctx.beginPath(); ctx.moveTo(x, 895); ctx.lineTo(x - 25, 1015); ctx.stroke();
+                }
+                for (let y = 925; y < 1015; y += 30) {
+                    ctx.beginPath(); ctx.moveTo(52, y); ctx.lineTo(448, y); ctx.stroke();
+                }
+                ctx.restore();
+
+                // Peeking Cartoon Eyes Pill (Left between Photo 1 & 2)
+                ctx.save();
+                ctx.translate(145, 515);
+                ctx.rotate(-0.1);
+                ctx.fillStyle = pink;
+                ctx.strokeStyle = blue;
+                ctx.lineWidth = 3.5;
+                ctx.beginPath(); ctx.ellipse(0, 0, 88, 38, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+                // Two tall white cartoon eyes
+                ctx.fillStyle = '#ffffff';
+                ctx.beginPath(); ctx.ellipse(-16, -2, 15, 25, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+                ctx.beginPath(); ctx.ellipse(16, -2, 15, 25, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+                ctx.fillStyle = blue;
+                ctx.beginPath(); ctx.ellipse(-12, 2, 6, 12, 0, 0, Math.PI * 2); ctx.fill();
+                ctx.beginPath(); ctx.ellipse(20, 2, 6, 12, 0, 0, Math.PI * 2); ctx.fill();
+                ctx.restore();
+
+                // Red Heart in Blue Star Circle (Right between Photo 1 & 2)
+                ctx.save();
+                ctx.translate(390, 515);
+                ctx.fillStyle = '#ffffff';
+                ctx.strokeStyle = blue;
+                ctx.lineWidth = 3.5;
+                ctx.beginPath(); ctx.arc(0, 0, 52, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+                // Pink Heart inside
+                ctx.fillStyle = pink;
+                ctx.beginPath();
+                ctx.moveTo(0, 32);
+                ctx.bezierCurveTo(-45, 0, -45, -35, 0, -15);
+                ctx.bezierCurveTo(45, -35, 45, 0, 0, 32);
+                ctx.fill();
+                ctx.restore();
+
+                // Pink "FOR YOU" Heart Sticker (Left between Photo 2 & 3)
+                ctx.save();
+                ctx.translate(135, 955);
+                ctx.fillStyle = '#fb7185';
+                ctx.beginPath();
+                ctx.moveTo(0, 55);
+                ctx.bezierCurveTo(-78, 8, -78, -52, 0, -20);
+                ctx.bezierCurveTo(78, -52, 78, 8, 0, 55);
+                ctx.fill();
+                ctx.fillStyle = blue;
+                ctx.font = '900 22px "Fredoka", sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('FOR', 0, -2);
+                ctx.fillText('YOU', 0, 22);
+                ctx.restore();
+
+                // Big Blue Flower on Right Edge
+                drawDaisy(ctx, 455, 975, 85, blue, null, false);
+
+                // Pink Sparkles
+                drawSparkle(ctx, 445, 175, 32, pink);
+                drawSparkle(ctx, 68, 665, 30, pink);
+                drawSparkle(ctx, 68, 1095, 32, pink);
+                drawSparkle(ctx, 440, 1415, 34, pink);
+            }
+
+            // ---------------------------------------------------------
+            // STYLE #4: AWESOME! & SO COOL (Checkerboard + Ribbon + Lightning)
+            // ---------------------------------------------------------
+            function renderStyle4AwesomeSoCool(ctx, W, H) {
+                drawWarpedCheckerboard(ctx, W, H, 1.4);
+
+                // 3 Circular Photo Slots
+                drawPhotoSlot(ctx, 0, 75, 155, 350, 350, { isCircle: true, borderColor: '#ffffff', borderWidth: 6 });
+                drawPhotoSlot(ctx, 1, 75, 600, 350, 350, { isCircle: true, borderColor: '#ffffff', borderWidth: 6 });
+                drawPhotoSlot(ctx, 2, 75, 1050, 350, 350, { isCircle: true, borderColor: '#ffffff', borderWidth: 6 });
+
+                // Top-left Blue "AWESOME!" Oval Sticker
+                ctx.save();
+                ctx.translate(155, 110);
+                ctx.rotate(-0.2);
+                ctx.fillStyle = '#2563eb';
+                ctx.strokeStyle = '#ffffff';
+                ctx.lineWidth = 5;
+                ctx.beginPath(); ctx.ellipse(0, 0, 130, 48, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '900 32px "Fredoka", sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('AWESOME!', 0, 2);
+                ctx.restore();
+
+                // Top-right Orange Hand Gesture Square Badge
+                ctx.save();
+                ctx.translate(395, 110);
+                ctx.rotate(0.15);
+                ctx.fillStyle = '#f97316';
+                ctx.strokeStyle = '#ffffff';
+                ctx.lineWidth = 4;
+                ctx.beginPath(); ctx.roundRect(-45, -45, 90, 90, 20); ctx.fill(); ctx.stroke();
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '44px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('🤌', 0, 4);
+                ctx.restore();
+
+                // Blue & Orange Smiley Award Ribbon (Right between Photo 1 & 2)
+                ctx.save();
+                ctx.translate(385, 510);
+                ctx.rotate(-0.18);
+                // Ribbons
+                ctx.fillStyle = '#f97316';
+                ctx.strokeStyle = '#111111';
+                ctx.lineWidth = 3.5;
+                ctx.beginPath(); ctx.moveTo(-22, 35); ctx.lineTo(-42, 105); ctx.lineTo(-15, 90); ctx.lineTo(0, 105); ctx.lineTo(0, 40); ctx.fill(); ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(22, 35); ctx.lineTo(42, 105); ctx.lineTo(15, 90); ctx.lineTo(0, 105); ctx.lineTo(0, 40); ctx.fill(); ctx.stroke();
+                // Scalloped Blue Rosette
+                ctx.fillStyle = '#2563eb';
+                ctx.beginPath();
+                for (let i = 0; i < 24; i++) {
+                    const r = i % 2 === 0 ? 56 : 48;
+                    const a = (i * Math.PI) / 12;
+                    if (i === 0) ctx.moveTo(Math.cos(a) * r, Math.sin(a) * r);
+                    else ctx.lineTo(Math.cos(a) * r, Math.sin(a) * r);
+                }
+                ctx.closePath(); ctx.fill(); ctx.stroke();
+                // White Face
+                ctx.fillStyle = '#ffffff';
+                ctx.beginPath(); ctx.arc(0, 0, 36, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+                ctx.fillStyle = '#111111';
+                ctx.beginPath(); ctx.ellipse(-10, -8, 3.5, 7, 0, 0, Math.PI * 2); ctx.fill();
+                ctx.beginPath(); ctx.ellipse(10, -8, 3.5, 7, 0, 0, Math.PI * 2); ctx.fill();
+                ctx.beginPath(); ctx.arc(0, 4, 18, 0.2, Math.PI - 0.2); ctx.stroke();
+                ctx.restore();
+
+                // Yellow Lightning Bolt Sticker (Left between Photo 2 & 3)
+                ctx.save();
+                ctx.translate(105, 625);
+                ctx.rotate(-0.12);
+                ctx.fillStyle = '#facc15';
+                ctx.strokeStyle = '#111111';
+                ctx.lineWidth = 4;
+                ctx.beginPath();
+                ctx.moveTo(-12, -55); ctx.lineTo(28, -55); ctx.lineTo(4, -5);
+                ctx.lineTo(34, -5); ctx.lineTo(-18, 62); ctx.lineTo(-4, 10);
+                ctx.lineTo(-28, 10); ctx.closePath();
+                ctx.fill(); ctx.stroke();
+                ctx.restore();
+
+                // "SO COOL" Stacked Bold Sticker (Left between Photo 2 & 3)
+                ctx.save();
+                ctx.translate(160, 995);
+                ctx.rotate(-0.08);
+                ctx.font = '900 54px "Fredoka", sans-serif';
+                ctx.textAlign = 'center';
+                ctx.lineWidth = 12;
+                ctx.strokeStyle = '#111111';
+                ctx.strokeText('SO', 0, -25);
+                ctx.strokeText('COOL', 0, 28);
+                ctx.fillStyle = '#ffffff';
+                ctx.fillText('SO', 0, -25);
+                ctx.fillText('COOL', 0, 28);
+                ctx.restore();
+
+                // Blue Geometric Polygon at Bottom Right
+                ctx.fillStyle = '#2563eb';
+                ctx.beginPath();
+                ctx.moveTo(350, 1500);
+                ctx.lineTo(395, 1380);
+                ctx.lineTo(500, 1410);
+                ctx.lineTo(500, 1500);
+                ctx.fill();
+            }
+
+            // ---------------------------------------------------------
+            // STYLE #5: SHOOK & WORK HARD
+            // ---------------------------------------------------------
+            function renderStyle5ShookWorkHard(ctx, W, H, footerText) {
+                const blue = '#1d4ed8';
+                const red = '#ef4444';
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, W, H);
+
+                // 3 Rectangular Photos
+                drawPhotoSlot(ctx, 0, 65, 115, 370, 345);
+                drawPhotoSlot(ctx, 1, 65, 525, 370, 345);
+                drawPhotoSlot(ctx, 2, 65, 935, 370, 345);
+
+                // Top-left Blue Flower
+                drawDaisy(ctx, 68, 95, 85, blue, null, false);
+
+                // Top-right Vanity Heart Mirror Sticker
+                ctx.save();
+                ctx.translate(415, 95);
+                // Base
+                ctx.fillStyle = red;
+                ctx.beginPath(); ctx.ellipse(0, 62, 34, 12, 0, 0, Math.PI * 2); ctx.fill();
+                ctx.fillRect(-6, 32, 12, 30);
+                // Heart Mirror Frame
+                ctx.beginPath();
+                ctx.moveTo(0, 38);
+                ctx.bezierCurveTo(-55, 0, -55, -45, 0, -18);
+                ctx.bezierCurveTo(55, -45, 55, 0, 0, 38);
+                ctx.fill();
+                // Blue Glass
+                ctx.fillStyle = blue;
+                ctx.beginPath();
+                ctx.moveTo(0, 26);
+                ctx.bezierCurveTo(-40, -2, -40, -34, 0, -12);
+                ctx.bezierCurveTo(40, -34, 40, -2, 0, 26);
+                ctx.fill();
+                ctx.restore();
+
+                // "SHOOK" Banner between Photo 1 & 2
+                ctx.save();
+                ctx.font = '900 54px "Fredoka", sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.lineWidth = 10;
+                ctx.strokeStyle = red;
+                ctx.strokeText('SHOOK', 215, 492);
+                ctx.fillStyle = '#ffffff';
+                ctx.fillText('SHOOK', 215, 492);
+                ctx.restore();
+
+                // Left-middle Blue Flower
+                drawDaisy(ctx, 55, 895, 85, blue, null, false);
+
+                // Pixelated Red/Blue Heart (Right between Photo 2 & 3)
+                drawPixelHeart(ctx, 385, 895, 118, red, '#93c5fd');
+
+                // Perspective Grid on Bottom-left below Photo 3
+                ctx.save();
+                ctx.strokeStyle = blue;
+                ctx.lineWidth = 2;
+                ctx.strokeRect(65, 1280, 120, 65);
+                for (let x = 65; x <= 185; x += 24) {
+                    ctx.beginPath(); ctx.moveTo(x, 1280); ctx.lineTo(x - 15, 1345); ctx.stroke();
+                }
+                ctx.beginPath(); ctx.moveTo(65, 1312); ctx.lineTo(185, 1312); ctx.stroke();
+                ctx.restore();
+
+                // Blue/Red "WORK HARD" Box with Cartoon Eyes
+                ctx.save();
+                ctx.translate(250, 1385);
+                ctx.fillStyle = blue;
+                ctx.strokeStyle = red;
+                ctx.lineWidth = 6;
+                ctx.fillRect(-185, -45, 370, 90);
+                ctx.strokeRect(-185, -45, 370, 90);
+
+                // Two White Eyes
+                ctx.fillStyle = '#ffffff';
+                ctx.beginPath(); ctx.ellipse(-135, 0, 18, 28, 0, 0, Math.PI * 2); ctx.fill();
+                ctx.beginPath(); ctx.ellipse(-95, 0, 18, 28, 0, 0, Math.PI * 2); ctx.fill();
+                ctx.fillStyle = '#111111';
+                ctx.beginPath(); ctx.ellipse(-128, 0, 7, 13, 0, 0, Math.PI * 2); ctx.fill();
+                ctx.beginPath(); ctx.ellipse(-88, 0, 7, 13, 0, 0, Math.PI * 2); ctx.fill();
+
+                // WORK HARD Text
+                ctx.fillStyle = red;
+                ctx.font = '900 32px "Fredoka", sans-serif';
+                ctx.textAlign = 'left';
+                ctx.fillText('WORK', -55, -6);
+                ctx.fillText('HARD', -55, 28);
+                ctx.restore();
+
+                // Footer Brand Text
+                ctx.fillStyle = blue;
+                ctx.font = '900 18px "Fredoka", sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(footerText, W / 2, 1472);
+            }
+
+            // ---------------------------------------------------------
+            // STYLE #6: 24/7 BLUE SMILEY & DAISIES
+            // ---------------------------------------------------------
+            function renderStyle6Daisies247(ctx, W, H, footerText) {
+                const blue = '#1d4ed8';
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, W, H);
+
+                // Top-left Blue 8-Point Starburst
+                ctx.save();
+                ctx.translate(155, 75);
+                ctx.fillStyle = blue;
+                ctx.beginPath();
+                for (let i = 0; i < 16; i++) {
+                    const r = i % 2 === 0 ? 75 : 18;
+                    const a = (i * Math.PI) / 8;
+                    if (i === 0) ctx.moveTo(Math.cos(a) * r, Math.sin(a) * r);
+                    else ctx.lineTo(Math.cos(a) * r, Math.sin(a) * r);
+                }
+                ctx.closePath();
+                ctx.fill();
+                ctx.restore();
+
+                // 3 Rectangular Photos
+                drawPhotoSlot(ctx, 0, 52, 145, 396, 330);
+                drawPhotoSlot(ctx, 1, 52, 550, 396, 330);
+                drawPhotoSlot(ctx, 2, 52, 955, 396, 330);
+
+                // Top-right Waving Rubber-Hose Cartoon Hand
+                ctx.save();
+                ctx.translate(415, 135);
+                ctx.rotate(0.15);
+                ctx.fillStyle = '#ffffff';
+                ctx.strokeStyle = blue;
+                ctx.lineWidth = 3.5;
+                // Palm
+                ctx.beginPath(); ctx.ellipse(0, 12, 34, 38, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+                // 4 Fingers
+                const fingerAngles = [-0.45, -0.15, 0.15, 0.45];
+                fingerAngles.forEach((ang, idx) => {
+                    ctx.save();
+                    ctx.rotate(ang);
+                    ctx.beginPath(); ctx.roundRect(-7, -58 + Math.abs(idx - 1.5) * 4, 14, 42, 7);
+                    ctx.fill(); ctx.stroke();
+                    ctx.restore();
+                });
+                // Thumb
+                ctx.beginPath(); ctx.ellipse(-38, 12, 18, 9, -0.4, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+                // Smiley on palm
+                ctx.fillStyle = blue;
+                ctx.beginPath(); ctx.arc(-10, 6, 3, 0, Math.PI * 2); ctx.arc(10, 6, 3, 0, Math.PI * 2); ctx.fill();
+                ctx.beginPath(); ctx.arc(0, 14, 14, 0.15, Math.PI - 0.15); ctx.stroke();
+                ctx.restore();
+
+                // Rubber-Hose Smiling Mascot (Left between Photo 1 & 2)
+                ctx.save();
+                ctx.translate(105, 510);
+                ctx.fillStyle = '#ffffff';
+                ctx.strokeStyle = blue;
+                ctx.lineWidth = 3.5;
+                // Arms
+                ctx.beginPath(); ctx.moveTo(-25, 15); ctx.quadraticCurveTo(-55, 25, -45, 50); ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(25, 15); ctx.quadraticCurveTo(55, 0, 50, -25); ctx.stroke();
+                // Head
+                ctx.beginPath(); ctx.arc(0, 0, 38, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+                // Eyes & Wide Smile
+                ctx.fillStyle = blue;
+                ctx.beginPath(); ctx.ellipse(-11, -8, 4, 8, 0, 0, Math.PI * 2); ctx.fill();
+                ctx.beginPath(); ctx.ellipse(11, -8, 4, 8, 0, 0, Math.PI * 2); ctx.fill();
+                ctx.beginPath(); ctx.arc(0, 4, 20, 0.1, Math.PI - 0.1); ctx.stroke();
+                ctx.restore();
+
+                // Two Outlined Daisies (Right between Photo 1 & 2)
+                drawDaisy(ctx, 275, 515, 42, '#ffffff', blue, false);
+                drawDaisy(ctx, 405, 515, 48, '#ffffff', blue, false);
+
+                // Smiling Daisy (Center between Photo 2 & 3)
+                drawDaisy(ctx, 245, 915, 54, '#ffffff', blue, true);
+
+                // Blue Polka Dots Cluster (Right of Photo 3)
+                ctx.fillStyle = blue;
+                for (let r = 0; r < 5; r++) {
+                    for (let c = 0; c < 3; c++) {
+                        if ((r + c) % 2 === 0) {
+                            ctx.beginPath();
+                            ctx.arc(435 + c * 18, 930 + r * 20, 7, 0, Math.PI * 2);
+                            ctx.fill();
+                        }
+                    }
+                }
+
+                // Bottom-left Blue "24/7" Pill Badge
+                ctx.save();
+                ctx.translate(185, 1385);
+                ctx.rotate(-0.08);
+                ctx.fillStyle = blue;
+                ctx.beginPath(); ctx.roundRect(-135, -48, 270, 96, 48); ctx.fill();
+                ctx.font = 'italic 900 64px "Fredoka", sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.lineWidth = 6;
+                ctx.strokeStyle = '#ffffff';
+                ctx.strokeText('24/7', 0, 4);
+                ctx.fillStyle = blue;
+                ctx.fillText('24/7', 0, 4);
+                ctx.restore();
+
+                // Bottom-right Smiling Heart Sign on Stick
+                ctx.save();
+                ctx.translate(375, 1335);
+                ctx.strokeStyle = blue;
+                ctx.lineWidth = 4;
+                // Stick
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(-7, 40, 14, 130);
+                ctx.strokeRect(-7, 40, 14, 130);
+                // Heart Sign
+                ctx.beginPath();
+                ctx.moveTo(0, 62);
+                ctx.bezierCurveTo(-82, 10, -82, -58, 0, -22);
+                ctx.bezierCurveTo(82, -58, 82, 10, 0, 62);
+                ctx.fill(); ctx.stroke();
+                // Cute Eyes & Smile on Heart
+                ctx.fillStyle = blue;
+                ctx.beginPath(); ctx.arc(-16, -6, 4, 0, Math.PI * 2); ctx.arc(16, -6, 4, 0, Math.PI * 2); ctx.fill();
+                ctx.beginPath(); ctx.arc(0, 4, 18, 0.15, Math.PI - 0.15); ctx.stroke();
+                ctx.restore();
+
+                // Footer Brand Text
+                ctx.fillStyle = blue;
+                ctx.font = '900 18px "Fredoka", sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(footerText, 195, 1472);
+            }
+
+            // Export & Reset Actions
+            btnDownloadPng.addEventListener('click', () => {
+                renderPhotostrip();
+                playBeep(880, 0.2);
+                const link = document.createElement('a');
+                link.download = `Y2K_Photostrip_Style${currentStyle}_${Date.now()}.png`;
+                link.href = exportCanvas.toDataURL('image/png');
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                showToast('Photostrip PNG downloaded!');
+            });
+
+            btnCopyImage.addEventListener('click', () => {
+                renderPhotostrip();
+                try {
+                    exportCanvas.toBlob(async (blob) => {
+                        await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+                        showToast('Copied strip to clipboard!');
+                    });
+                } catch(e) {
+                    showToast('Use Download button to save PNG!');
+                }
+            });
+
+            btnResetAll.addEventListener('click', () => {
+                for (let i = 0; i < 3; i++) framesData[i] = null;
+                activeFrame = 1;
+                renderFramesPickerUI();
+                renderPhotostrip();
+                showToast('All 3 slots reset!');
+            });
+
+            // Initialize App
+            renderFramesPickerUI();
+            renderPhotostrip();
+            initCamera();
+        });
+    </script>
+</body>
+</html>
