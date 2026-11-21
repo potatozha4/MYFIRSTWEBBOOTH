@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>wave to earth — seasons & ocean photobooth</title>
+    
+    <!-- Google Fonts: Cormorant Garamond, Plus Jakarta Sans, Space Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ocean: {
+                            deep: '#0a192f',
+                            navy: '#0f2b48',
+                            cobalt: '#1d4ed8',
+                            sea: '#2563eb',
+                            foam: '#38bdf8',
+                            sky: '#bae6fd',
+                            pale: '#f0f9ff',
+                            sand: '#f8fafc'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        mono: ['"Space Mono"', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Wave to Earth Aesthetic Custom Styles */
+        body {
+            background-color: #0a192f;
+            color: #f8fafc;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(29, 78, 216, 0.25) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(56, 189, 248, 0.15) 0%, transparent 40%);
+        }
+
+        /* Glassmorphism Panel Utilities */
+        .glass-panel {
+            background: rgba(15, 43, 72, 0.55);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(186, 230, 253, 0.18);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .glass-button {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(186, 230, 253, 0.25);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-button:hover {
+            background: rgba(186, 230, 253, 0.2);
+            border-color: rgba(186, 230, 253, 0.5);
+            transform: translateY(-2px);
+        }
+        .glass-button.active {
+            background: rgba(56, 189, 248, 0.25);
+            border-color: #38bdf8;
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
+        }
+
+        /* Ambient Wave Animations */
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(2deg); }
+        }
+
+        @keyframes waveMotion {
+            0% { transform: translateX(0) scaleY(1); }
+            50% { transform: translateX(-25%) scaleY(1.05); }
+            100% { transform: translateX(-50%) scaleY(1); }
+        }
+
+        .animate-float {
+            animation: floatSlow 7s ease-in-out infinite;
+        }
+        .animate-float-delayed {
+            animation: floatSlow 9s ease-in-out 3s infinite;
+        }
+
+        /* Camera Flash Layer */
+        @keyframes flashEffect {
+            0% { opacity: 0.95; }
+            100% { opacity: 0; }
+        }
+        .flash-active {
+            animation: flashEffect 0.5s ease-out forwards;
+        }
+
+        /* Grain Overlay */
+        .film-grain {
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+        }
+
+        /* Custom Scrollbars */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a192f;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1d4ed8;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col relative film-grain selection:bg-ocean-sky selection:text-ocean-deep">
+
+    <!-- FLOATING SVG OCEAN DECORATIONS (Whales, Swimming Fish, Starfish, Seashells) -->
+    <!-- Background Whale 1 -->
+    <div class="fixed top-24 left-8 pointer-events-none opacity-20 z-0 animate-float">
+        <svg width="220" height="120" viewBox="0 0 200 100" fill="none" stroke="#bae6fd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10,50 Q40,10 100,20 Q160,30 185,50 Q195,60 180,70 Q140,90 90,80 Q40,70 10,50 Z" />
+            <path d="M185,50 Q195,35 198,25 Q185,35 180,45 Q195,55 198,65 Z" />
+            <path d="M60,45 Q75,30 90,45" />
+            <circle cx="40" cy="40" r="2" fill="#bae6fd" />
+            <path d="M40,25 Q35,15 30,10 M40,25 Q45,15 50,10" />
+        </svg>
+    </div>
+
+    <!-- Background Fish Pair -->
+    <div class="fixed top-1/3 right-12 pointer-events-none opacity-25 z-0 animate-float-delayed">
+        <svg width="140" height="100" viewBox="0 0 120 80" fill="none" stroke="#38bdf8" stroke-width="1.2">
+            <!-- Fish 1 -->
+            <path d="M10,25 Q35,5 65,25 Q35,45 10,25 Z" />
+            <path d="M65,25 L80,15 L75,25 L80,35 Z" />
+            <circle cx="25" cy="22" r="1.5" fill="#38bdf8" />
+            <!-- Fish 2 -->
+            <path d="M40,55 Q60,40 85,55 Q60,70 40,55 Z" />
+            <path d="M85,55 L98,47 L94,55 L98,63 Z" />
+        </svg>
+    </div>
+
+    <!-- Background Starfish & Seashells -->
+    <div class="fixed bottom-16 left-12 pointer-events-none opacity-20 z-0 animate-float">
+        <svg width="90" height="90" viewBox="0 0 80 80" fill="none" stroke="#bae6fd" stroke-width="1.5">
+            <!-- Starfish -->
+            <path d="M40,10 L47,28 L66,28 L51,39 L57,57 L40,46 L23,57 L29,39 L14,28 L33,28 Z" />
+        </svg>
+    </div>
+    <div class="fixed bottom-24 right-16 pointer-events-none opacity-20 z-0 animate-float-delayed">
+        <svg width="80" height="80" viewBox="0 0 70 70" fill="none" stroke="#38bdf8" stroke-width="1.5">
+            <!-- Seashell -->
+            <path d="M35,10 Q55,20 60,40 Q55,60 35,62 Q15,60 10,40 Q15,20 35,10 Z" />
+            <path d="M35,10 L35,62 M35,10 L22,58 M35,10 L48,58 M35,10 L14,48 M35,10 L56,48" />
+        </svg>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed top-6 right-6 z-[1000] flex flex-col gap-3 pointer-events-none"></div>
+
+    <!-- TOP NAVIGATION / HEADER -->
+    <header class="sticky top-0 z-50 bg-ocean-deep/80 backdrop-blur-md border-b border-ocean-sky/10 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-full bg-ocean-sky/10 border border-ocean-sky/30 flex items-center justify-center text-ocean-sky group-hover:scale-105 transition-transform">
+                    <i class="fa-solid fa-water text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="font-serif text-xl sm:text-2xl tracking-wide italic text-ocean-pale">wave to earth</h1>
+                    <p class="font-mono text-[9px] text-ocean-sky/70 tracking-widest uppercase">ocean & indie soundscapes • photobooth</p>
+                </div>
+            </a>
+
+            <!-- Header Controls: Audio Toggle & Status -->
+            <div class="flex items-center gap-4">
+                <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full border border-ocean-sky/20 bg-ocean-navy/40 font-mono text-xs text-ocean-sky">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span>FLAWS & ALL • 0.1</span>
+                </div>
+
+                <button id="btn-toggle-sound" class="glass-button px-4 py-2 rounded-full font-sans text-xs text-ocean-pale flex items-center gap-2">
+                    <i class="fa-solid fa-volume-high" id="sound-icon"></i>
+                    <span class="hidden sm:inline" id="sound-label">SOUND ON</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow relative z-10">
+
+        <!-- HERO SECTION -->
+        <section class="pt-10 pb-6 text-center px-4">
+            <div class="max-w-3xl mx-auto">
+                <span class="inline-block px-4 py-1 rounded-full border border-ocean-sky/30 bg-ocean-sky/5 font-mono text-xs text-ocean-sky tracking-widest uppercase mb-3">
+                    🌊 SEASONS & OCEAN MEMORIES
+                </span>
+                <h2 class="font-serif text-3xl sm:text-5xl lg:text-6xl text-ocean-pale italic font-normal tracking-wide leading-tight mb-3">
+                    capture your moments, <br>
+                    <span class="text-ocean-sky not-italic">like waves upon the shore.</span>
+                </h2>
+                <p class="font-sans text-sm sm:text-base text-ocean-sky/80 max-w-lg mx-auto font-light leading-relaxed">
+                    Designed with cool indie film palettes, hand-drawn ocean line-art, and interactive sunglasses inspired by wave to earth's aesthetic.
+                </p>
+            </div>
+        </section>
+
+        <!-- PHOTOBOOTH STUDIO INTERFACE -->
+        <section id="studio-section" class="py-6 px-4 sm:px-6">
+            <div class="max-w-7xl mx-auto glass-panel rounded-3xl p-4 sm:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+                
+                <!-- LEFT COLUMN: VIEWFINDER CANVAS & CONTROLS (7 cols) -->
+                <div class="lg:col-span-7 flex flex-col gap-6">
+                    
+                    <!-- Viewfinder Screen Outer Box -->
+                    <div class="glass-panel rounded-2xl p-3 sm:p-4 border border-ocean-sky/20 flex flex-col relative">
+                        
+                        <!-- Telemetry / Status Bar -->
+                        <div class="w-full flex items-center justify-between px-3 py-2 bg-ocean-deep/60 rounded-xl border border-ocean-sky/10 mb-3 font-mono text-[10px] text-ocean-sky/90">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2.5 h-2.5 rounded-full bg-ocean-foam animate-ping" id="status-indicator"></span>
+                                <span id="status-text" class="tracking-wider">STUDIO READY</span>
+                            </div>
+
+                            <div class="flex items-center gap-3">
+                                <!-- Camera Select Dropdown -->
+                                <select id="camera-select" class="bg-ocean-deep text-ocean-sky border border-ocean-sky/30 rounded px-2 py-0.5 text-[10px] focus:outline-none hidden max-w-[140px] truncate">
+                                    <option value="">Default Camera</option>
+                                </select>
+                                <button id="btn-mirror-toggle" class="hover:text-white transition-colors" title="Toggle Selfie Mirror Mode">
+                                    <i class="fa-solid fa-arrows-rotate mr-1"></i> MIRROR
+                                </button>
+                                <span class="hidden sm:inline">60 FPS</span>
+                            </div>
+                        </div>
+
+                        <!-- Diagnostic Error Banner (Hidden unless camera fails) -->
+                        <div id="camera-error-banner" class="w-full bg-red-950/80 border border-red-500/40 p-3 rounded-xl mb-3 font-mono text-xs text-red-200 hidden flex flex-col gap-2 text-center">
+                            <span id="camera-error-msg">⚠️ Unable to access camera feed.</span>
+                            <div class="flex flex-wrap justify-center gap-2 mt-1">
+                                <button id="btn-retry-camera" class="px-3 py-1 rounded bg-ocean-sky text-ocean-deep font-sans font-semibold text-xs hover:bg-white">
+                                    <i class="fa-solid fa-rotate-right mr-1"></i> RETRY CAMERA
+                                </button>
+                                <button id="btn-use-demo" class="px-3 py-1 rounded bg-ocean-navy text-ocean-sky border border-ocean-sky/30 text-xs hover:bg-ocean-deep">
+                                    🌊 USE OCEAN DEMO FEED
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Live Viewfinder Container -->
+                        <div class="relative w-full aspect-[4/3] bg-ocean-deep rounded-xl overflow-hidden border border-ocean-sky/20 flex items-center justify-center group">
+                            
+                            <!-- Hidden HTML Video Element -->
+                            <video id="webcam-video" autoplay playsinline webkit-playsinline muted class="hidden"></video>
+                            
+                            <!-- Main Viewfinder Interactive Canvas (Renders feed + filters + glasses) -->
+                            <canvas id="studio-canvas" class="w-full h-full object-cover cursor-grab active:cursor-grabbing"></canvas>
+
+                            <!-- Flash Overlay Effect -->
+                            <div id="camera-flash" class="absolute inset-0 bg-white opacity-0 pointer-events-none z-40"></div>
+
+                            <!-- Countdown Overlay -->
+                            <div id="countdown-overlay" class="absolute inset-0 bg-ocean-deep/75 backdrop-blur-sm flex flex-col items-center justify-center z-30 opacity-0 pointer-events-none transition-opacity duration-300">
+                                <span id="countdown-text" class="font-serif italic text-8xl text-ocean-sky drop-shadow-[0_0_20px_rgba(56,189,248,0.5)]">3</span>
+                                <span class="font-mono text-xs text-ocean-pale tracking-widest uppercase mt-4">get ready for capture</span>
+                            </div>
+
+                            <!-- Vintage Corner Viewfinder Reticle Overlay -->
+                            <div class="absolute inset-0 pointer-events-none border border-ocean-sky/20 m-4 rounded-lg flex flex-col justify-between p-3 font-mono text-[10px] text-ocean-sky/60">
+                                <div class="flex justify-between">
+                                    <span>[ WAVE TO EARTH ]</span>
+                                    <span>REC ●</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>PROP: <span id="prop-status-label">NONE</span></span>
+                                    <span>WAVE-01</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bottom Canvas Utility Bar -->
+                        <div class="w-full flex items-center justify-between mt-3 px-1 font-mono text-[10px] text-ocean-sky/70">
+                            <button id="btn-toggle-demo" class="hover:text-ocean-pale transition-colors flex items-center gap-1.5">
+                                <i class="fa-solid fa-repeat"></i>
+                                <span id="demo-toggle-text">SWITCH TO OCEAN DEMO FEED</span>
+                            </button>
+                            <span>💡 TIP: DRAG GLASSES DIRECTLY ON CANVAS</span>
+                        </div>
+                    </div>
+
+                    <!-- STUDIO CONTROLS: FILTERS, EYEWEAR & SETTINGS -->
+                    <div class="glass-panel rounded-2xl p-5 border border-ocean-sky/20 flex flex-col gap-5">
+                        
+                        <!-- Filter Palette Selector -->
+                        <div>
+                            <label class="block font-mono text-xs text-ocean-sky/90 uppercase tracking-wider mb-2.5">
+                                1. SELECT COLOR & FILM PALETTE
+                            </label>
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                                <button data-filter="natural" class="filter-btn glass-button py-2.5 px-3 rounded-xl font-sans text-xs text-ocean-pale active flex items-center justify-center gap-2">
+                                    <span>🌊</span> Clean Natural
+                                </button>
+                                <button data-filter="breeze" class="filter-btn glass-button py-2.5 px-3 rounded-xl font-sans text-xs text-ocean-pale flex items-center justify-center gap-2">
+                                    <span>🧊</span> Ocean Breeze
+                                </button>
+                                <button data-filter="seasons" class="filter-btn glass-button py-2.5 px-3 rounded-xl font-sans text-xs text-ocean-pale flex items-center justify-center gap-2">
+                                    <span>🍂</span> Seasons 35mm
+                                </button>
+                                <button data-filter="abyss" class="filter-btn glass-button py-2.5 px-3 rounded-xl font-sans text-xs text-ocean-pale flex items-center justify-center gap-2">
+                                    <span>🐋</span> Deep Abyss B&W
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Eyewear Props Selector -->
+                        <div>
+                            <label class="block font-mono text-xs text-ocean-sky/90 uppercase tracking-wider mb-2.5">
+                                2. SELECT INTERACTIVE SUNGLASSES & GLASSES
+                            </label>
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                                <button data-glasses="none" class="glasses-btn glass-button py-2.5 px-3 rounded-xl font-sans text-xs text-ocean-pale active flex items-center justify-center gap-2">
+                                    <span>✨</span> None
+                                </button>
+                                <button data-glasses="black" class="glasses-btn glass-button py-2.5 px-3 rounded-xl font-sans text-xs text-ocean-pale flex items-center justify-center gap-2">
+                                    <span>🕶️</span> Black Indie
+                                </button>
+                                <button data-glasses="silver-mirror" class="glasses-btn glass-button py-2.5 px-3 rounded-xl font-sans text-xs text-ocean-pale flex items-center justify-center gap-2">
+                                    <span>🪞</span> Silver Mirror
+                                </button>
+                                <button data-glasses="silver-wire" class="glasses-btn glass-button py-2.5 px-3 rounded-xl font-sans text-xs text-ocean-pale flex items-center justify-center gap-2">
+                                    <span>👓</span> Silver Wire
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Glasses Adjuster Sliders (Appears when glasses are selected) -->
+                        <div id="glasses-controls-panel" class="p-3.5 rounded-xl bg-ocean-navy/60 border border-ocean-sky/20 flex flex-col gap-3">
+                            <div class="flex items-center justify-between">
+                                <span class="font-mono text-[11px] text-ocean-sky uppercase">GLASSES POSITION & SCALE</span>
+                                <button id="btn-reset-glasses" class="font-mono text-[10px] text-ocean-sky/70 hover:text-ocean-pale underline">
+                                    Reset Glasses
+                                </button>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                                <div>
+                                    <label class="block font-sans text-xs text-ocean-pale/80 mb-1">Scale / Size:</label>
+                                    <input type="range" id="glasses-scale" min="0.5" max="2.0" step="0.05" value="1.0" class="w-full accent-ocean-foam cursor-pointer">
+                                </div>
+                                <div>
+                                    <label class="block font-sans text-xs text-ocean-pale/80 mb-1">Vertical Offset Y:</label>
+                                    <input type="range" id="glasses-offset-y" min="-150" max="150" step="2" value="0" class="w-full accent-ocean-foam cursor-pointer">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Strip Format & Custom Caption -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block font-mono text-xs text-ocean-sky/90 uppercase tracking-wider mb-2">
+                                    3. STRIP FORMAT
+                                </label>
+                                <select id="select-strip-layout" class="w-full bg-ocean-deep/90 border border-ocean-sky/30 rounded-xl px-3.5 py-2.5 font-mono text-xs text-ocean-pale focus:outline-none focus:border-ocean-foam">
+                                    <option value="4-strip">4-Pose Classic Vertical Strip</option>
+                                    <option value="3-strip">3-Pose Minimal Vertical Strip</option>
+                                    <option value="single-postcard">1-Pose Wave Postcard</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block font-mono text-xs text-ocean-sky/90 uppercase tracking-wider mb-2">
+                                    4. FRAME THEME
+                                </label>
+                                <select id="select-frame-theme" class="w-full bg-ocean-deep/90 border border-ocean-sky/30 rounded-xl px-3.5 py-2.5 font-mono text-xs text-ocean-pale focus:outline-none focus:border-ocean-foam">
+                                    <option value="whales">Deep Sea Whales (Navy)</option>
+                                    <option value="seafoam">Seafoam & Shells (Sky Blue)</option>
+                                    <option value="minimalist">Minimalist Film (Cloud Cream)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Custom Caption Input -->
+                        <div>
+                            <label class="block font-mono text-xs text-ocean-sky/90 uppercase tracking-wider mb-2">
+                                5. CUSTOM CAPTION / TRACK TITLE
+                            </label>
+                            <input type="text" id="strip-caption-input" value="0.1 flaws and all. — wave to earth" maxlength="36" class="w-full bg-ocean-deep/90 border border-ocean-sky/30 rounded-xl px-3.5 py-2.5 font-serif italic text-base text-ocean-sky focus:outline-none focus:border-ocean-foam">
+                        </div>
+
+                        <!-- SNAP BUTTON -->
+                        <button id="btn-start-session" class="w-full py-4 rounded-2xl bg-gradient-to-r from-ocean-cobalt to-ocean-sea border border-ocean-foam/40 text-ocean-pale font-serif italic text-lg sm:text-xl tracking-wide shadow-xl hover:brightness-110 active:scale-[0.99] transition-all flex items-center justify-center gap-3">
+                            <i class="fa-solid fa-camera text-base not-italic"></i>
+                            <span>Take Photo Strip</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- RIGHT COLUMN: GENERATED PHOTO STRIP PREVIEW (5 cols) -->
+                <div class="lg:col-span-5 flex flex-col items-center justify-between glass-panel rounded-2xl p-5 border border-ocean-sky/20 min-h-[520px]">
+                    
+                    <div class="w-full flex items-center justify-between border-b border-ocean-sky/15 pb-3 mb-4">
+                        <span class="font-serif italic text-lg text-ocean-pale">your ocean keepsake</span>
+                        <span class="font-mono text-[10px] text-ocean-sky uppercase">1-UP PRINT READY</span>
+                    </div>
+
+                    <!-- Strip Render Output Canvas & Preview -->
+                    <div class="relative max-w-[290px] w-full my-auto flex justify-center items-center py-2">
+                        <!-- Hidden export canvas -->
+                        <canvas id="output-strip-canvas" class="hidden"></canvas>
+
+                        <!-- Generated Photo Strip Preview Image -->
+                        <img id="strip-preview-img" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='720' viewBox='0 0 240 720'%3E%3Crect width='240' height='720' fill='%230a192f'/%3E%3Crect x='10' y='10' width='220' height='700' fill='%230f2b48' rx='12' stroke='%2338bdf8' stroke-width='1.5'/%3E%3Crect x='22' y='30' width='196' height='130' fill='%230a192f' rx='6'/%3E%3Crect x='22' y='175' width='196' height='130' fill='%230a192f' rx='6'/%3E%3Crect x='22' y='320' width='196' height='130' fill='%230a192f' rx='6'/%3E%3Crect x='22' y='465' width='196' height='130' fill='%230a192f' rx='6'/%3E%3Ctext x='120' y='635' font-family='serif' font-style='italic' font-size='15' fill='%23bae6fd' text-anchor='middle'%3Ewave to earth%3E%3C/text%3E%3Ctext x='120' y='660' font-family='sans-serif' font-size='10' fill='%23f8fafc' text-anchor='middle'%3EPRESS SNAP TO START%3E%3C/text%3E%3C/svg%3E" alt="Wave to Earth Photo Strip" class="rounded-xl border border-ocean-sky/30 shadow-2xl max-h-[540px] object-contain transition-all duration-300">
+                    </div>
+
+                    <!-- Export Actions -->
+                    <div class="w-full flex flex-col gap-2.5 mt-4 pt-4 border-t border-ocean-sky/15">
+                        <button id="btn-download-strip" disabled class="w-full py-3 rounded-xl bg-ocean-sky text-ocean-deep font-sans font-semibold text-xs tracking-wider uppercase disabled:opacity-40 disabled:cursor-not-allowed hover:bg-white transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-download"></i>
+                            <span>DOWNLOAD HIGH-RES STRIP (PNG)</span>
+                        </button>
+
+                        <div class="grid grid-cols-2 gap-2">
+                            <button id="btn-copy-strip" disabled class="glass-button py-2.5 rounded-xl text-ocean-pale font-sans text-xs disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-1.5">
+                                <i class="fa-solid fa-copy text-ocean-sky"></i>
+                                <span>Copy Image</span>
+                            </button>
+                            <button id="btn-clear-strip" class="glass-button py-2.5 rounded-xl text-ocean-pale font-sans text-xs flex items-center justify-center gap-1.5">
+                                <i class="fa-solid fa-rotate-right text-ocean-sky"></i>
+                                <span>Clear Strip</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SAMPLE PHOTO STRIPS SHOWCASE GALLERY -->
+        <section class="py-12 px-4 border-t border-ocean-sky/10 mt-12 bg-ocean-navy/30">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-10">
+                    <span class="font-mono text-xs text-ocean-sky tracking-widest uppercase">OCEAN SOUVENIRS</span>
+                    <h3 class="font-serif italic text-3xl sm:text-4xl text-ocean-pale mt-1">Hall of Seasons</h3>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Gallery Card 1 -->
+                    <div class="glass-panel p-4 rounded-2xl border border-ocean-sky/20 flex flex-col gap-3 hover:-translate-y-1 transition-transform">
+                        <div class="bg-ocean-deep p-3 rounded-xl border border-ocean-sky/20 flex flex-col gap-2">
+                            <img src="https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=400&q=80" class="w-full aspect-[4/3] object-cover rounded-lg filter contrast-105 saturate-120">
+                            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=400&q=80" class="w-full aspect-[4/3] object-cover rounded-lg filter contrast-105 saturate-120">
+                        </div>
+                        <div class="font-serif italic text-sm text-center text-ocean-sky">ocean breeze & waves</div>
+                    </div>
+
+                    <!-- Gallery Card 2 -->
+                    <div class="glass-panel p-4 rounded-2xl border border-ocean-sky/20 flex flex-col gap-3 hover:-translate-y-1 transition-transform">
+                        <div class="bg-ocean-deep p-3 rounded-xl border border-ocean-sky/20 flex flex-col gap-2">
+                            <img src="https://images.unsplash.com/photo-1495954222046-2c427ecb546d?auto=format&fit=crop&w=400&q=80" class="w-full aspect-[4/3] object-cover rounded-lg filter sepia brightness-90">
+                            <img src="https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=400&q=80" class="w-full aspect-[4/3] object-cover rounded-lg filter sepia brightness-90">
+                        </div>
+                        <div class="font-serif italic text-sm text-center text-ocean-sky">seasons film • 35mm grain</div>
+                    </div>
+
+                    <!-- Gallery Card 3 -->
+                    <div class="glass-panel p-4 rounded-2xl border border-ocean-sky/20 flex flex-col gap-3 hover:-translate-y-1 transition-transform">
+                        <div class="bg-ocean-deep p-3 rounded-xl border border-ocean-sky/20 flex flex-col gap-2">
+                            <img src="https://images.unsplash.com/photo-1509233725247-49e657c54213?auto=format&fit=crop&w=400&q=80" class="w-full aspect-[4/3] object-cover rounded-lg filter grayscale contrast-125">
+                            <img src="https://images.unsplash.com/photo-1471922694854-ff1b63b20054?auto=format&fit=crop&w=400&q=80" class="w-full aspect-[4/3] object-cover rounded-lg filter grayscale contrast-125">
+                        </div>
+                        <div class="font-serif italic text-sm text-center text-ocean-sky">deep abyss • monochrome</div>
+                    </div>
+
+                    <!-- Gallery Card 4 -->
+                    <div class="glass-panel p-4 rounded-2xl border border-ocean-sky/20 flex flex-col gap-3 hover:-translate-y-1 transition-transform">
+                        <div class="bg-ocean-deep p-3 rounded-xl border border-ocean-sky/20 flex flex-col gap-2">
+                            <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=400&q=80" class="w-full aspect-[4/3] object-cover rounded-lg">
+                            <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=400&q=80" class="w-full aspect-[4/3] object-cover rounded-lg">
+                        </div>
+                        <div class="font-serif italic text-sm text-center text-ocean-sky">silver mirror sunglasses</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER WITH ANIMATED OCEAN WAVE SVG -->
+    <footer class="relative bg-ocean-navy border-t border-ocean-sky/20 pt-8 pb-12 px-6 text-center text-ocean-pale">
+        <div class="max-w-4xl mx-auto flex flex-col items-center gap-4">
+            <div class="font-serif italic text-2xl text-ocean-sky">wave to earth</div>
+            <p class="font-sans text-xs text-ocean-sky/70 max-w-md leading-relaxed">
+                An interactive indie ocean photobooth web application built with WebRTC, HTML5 Canvas, and Web Audio API. Ready for GitHub Pages deployment.
+            </p>
+            <div class="font-mono text-[10px] text-ocean-sky/40 tracking-widest uppercase">
+                &copy; <span id="year-copy">2026</span> • INSPIRED BY WAVE TO EARTH (0.1 FLAWS AND ALL)
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- ==================== INTERACTIVE PHOTOBOOTH SCRIPT ==================== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('year-copy').textContent = new Date().getFullYear();
+
+            // WebRTC & Viewfinder Elements
+            const videoEl = document.getElementById('webcam-video');
+            const studioCanvas = document.getElementById('studio-canvas');
+            const studioCtx = studioCanvas.getContext('2d');
+            const outputCanvas = document.getElementById('output-strip-canvas');
+            const outputCtx = outputCanvas.getContext('2d');
+            const previewImg = document.getElementById('strip-preview-img');
+
+            // UI Buttons & Selectors
+            const btnStartSession = document.getElementById('btn-start-session');
+            const btnDownloadStrip = document.getElementById('btn-download-strip');
+            const btnCopyStrip = document.getElementById('btn-copy-strip');
+            const btnClearStrip = document.getElementById('btn-clear-strip');
+            const btnToggleSound = document.getElementById('btn-toggle-sound');
+            const btnMirrorToggle = document.getElementById('btn-mirror-toggle');
+            const btnToggleDemo = document.getElementById('btn-toggle-demo');
+            const cameraSelect = document.getElementById('camera-select');
+            const btnRetryCamera = document.getElementById('btn-retry-camera');
+            const btnUseDemo = document.getElementById('btn-use-demo');
+            const cameraErrorBanner = document.getElementById('camera-error-banner');
+            const cameraErrorMsg = document.getElementById('camera-error-msg');
+            const statusIndicator = document.getElementById('status-indicator');
+            const statusText = document.getElementById('status-text');
+            const soundIcon = document.getElementById('sound-icon');
+            const soundLabel = document.getElementById('sound-label');
+            const propStatusLabel = document.getElementById('prop-status-label');
+
+            const countdownOverlay = document.getElementById('countdown-overlay');
+            const countdownText = document.getElementById('countdown-text');
+            const cameraFlash = document.getElementById('camera-flash');
+            const stripCaptionInput = document.getElementById('strip-caption-input');
+            const selectStripLayout = document.getElementById('select-strip-layout');
+            const selectFrameTheme = document.getElementById('select-frame-theme');
+
+            // Glasses Adjuster Controls
+            const glassesControlsPanel = document.getElementById('glasses-controls-panel');
+            const glassesScaleInput = document.getElementById('glasses-scale');
+            const glassesOffsetYInput = document.getElementById('glasses-offset-y');
+            const btnResetGlasses = document.getElementById('btn-reset-glasses');
+
+            // State
+            let currentFilter = 'natural';
+            let currentGlasses = 'none';
+            let isMuted = false;
+            let isMirrored = true;
+            let useDemoMode = false;
+            let isCapturing = false;
+            let capturedPhotos = [];
+            let studioAnimId = null;
+            let currentStream = null;
+
+            // Interactive Glasses Drag State
+            let propX = 0;
+            let propY = 0;
+            let propScale = 1.0;
+            let isDraggingProp = false;
+            let dragStartX = 0;
+            let dragStartY = 0;
+
+            // Web Audio API Ambient Synthesizer
+            let audioCtx = null;
+            function initAudio() {
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+            }
+
+            function playOceanChime(freq = 523.25, duration = 0.4) {
+                if (isMuted) return;
+                try {
+                    initAudio();
+                    const now = audioCtx.currentTime;
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, now);
+                    gain.gain.setValueAtTime(0.12, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now);
+                    osc.stop(now + duration);
+                } catch(e){}
+            }
+
+            function playShutterSound() {
+                if (isMuted) return;
+                try {
+                    initAudio();
+                    const now = audioCtx.currentTime;
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(150, now);
+                    osc.frequency.exponentialRampToValueAtTime(40, now + 0.12);
+                    gain.gain.setValueAtTime(0.3, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.12);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.12);
+                } catch(e){}
+            }
+
+            function showToast(msg, type = 'info') {
+                const container = document.getElementById('toast-container');
+                const toast = document.createElement('div');
+                toast.className = `px-4 py-3 rounded-xl border font-sans text-xs flex items-center gap-2 pointer-events-auto transition-all duration-300 ${
+                    type === 'success' 
+                        ? 'bg-ocean-navy/90 text-ocean-sky border-ocean-sky/40 backdrop-blur-md' 
+                        : 'bg-ocean-deep/90 text-ocean-pale border-ocean-sky/20 backdrop-blur-md'
+                }`;
+                toast.innerHTML = `<span>${type === 'success' ? '🌊' : '✨'}</span> <span>${msg}</span>`;
+                container.appendChild(toast);
+                setTimeout(() => {
+                    toast.classList.add('opacity-0');
+                    setTimeout(() => toast.remove(), 300);
+                }, 3000);
+            }
+
+            // Stop Camera Tracks Cleanly
+            function stopCurrentStream() {
+                if (currentStream) {
+                    currentStream.getTracks().forEach(track => track.stop());
+                    currentStream = null;
+                }
+                if (videoEl.srcObject) {
+                    videoEl.srcObject = null;
+                }
+            }
+
+            // Populate Camera Devices
+            async function populateCameraDevices() {
+                if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) return;
+                try {
+                    const devices = await navigator.mediaDevices.enumerateDevices();
+                    const videoDevices = devices.filter(d => d.kind === 'videoinput');
+                    
+                    cameraSelect.innerHTML = '';
+                    if (videoDevices.length > 0) {
+                        videoDevices.forEach((device, index) => {
+                            const option = document.createElement('option');
+                            option.value = device.deviceId;
+                            option.textContent = device.label || `Camera ${index + 1}`;
+                            cameraSelect.appendChild(option);
+                        });
+                        cameraSelect.classList.remove('hidden');
+                    }
+                } catch(e) {
+                    console.warn('Unable to enumerate cameras:', e);
+                }
+            }
+
+            // WebRTC Camera Initialization
+            async function initCamera(targetDeviceId = null) {
+                stopCurrentStream();
+                cameraErrorBanner.classList.add('hidden');
+                useDemoMode = false;
+                statusIndicator.className = 'w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping';
+                statusText.textContent = 'CONNECTING CAMERA...';
+
+                if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                    showCameraError('WebRTC camera API is not supported in this browser context.');
+                    return;
+                }
+
+                let stream = null;
+                try {
+                    const constraints = {
+                        video: targetDeviceId 
+                            ? { deviceId: { exact: targetDeviceId } }
+                            : { facingMode: 'user', width: { ideal: 640 }, height: { ideal: 480 } },
+                        audio: false
+                    };
+                    stream = await navigator.mediaDevices.getUserMedia(constraints);
+                } catch (err1) {
+                    try {
+                        stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+                    } catch (err2) {
+                        let errorDetail = 'Camera permission denied or camera unavailable.';
+                        if (err2.name === 'NotAllowedError') {
+                            errorDetail = 'Camera access was blocked by browser permission.';
+                        } else if (err2.name === 'NotFoundError') {
+                            errorDetail = 'No physical webcam hardware detected.';
+                        } else if (window.self !== window.top) {
+                            errorDetail = 'Camera blocked inside restricted preview. Click "Use Ocean Demo Feed".';
+                        }
+                        showCameraError(errorDetail);
+                        return;
+                    }
+                }
+
+                try {
+                    currentStream = stream;
+                    videoEl.srcObject = stream;
+                    videoEl.setAttribute('playsinline', '');
+                    videoEl.setAttribute('webkit-playsinline', '');
+                    videoEl.muted = true;
+
+                    await videoEl.play().catch(e => console.log('Auto-play handling:', e));
+
+                    statusIndicator.className = 'w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse';
+                    statusText.textContent = 'STUDIO ONLINE';
+                    document.getElementById('demo-toggle-text').textContent = 'SWITCH TO OCEAN DEMO FEED';
+                    cameraErrorBanner.classList.add('hidden');
+
+                    await populateCameraDevices();
+                    if (targetDeviceId && cameraSelect) {
+                        cameraSelect.value = targetDeviceId;
+                    }
+
+                    startStudioLoop();
+                } catch (err) {
+                    showCameraError('Camera stream attached but video playback failed.');
+                }
+            }
+
+            function showCameraError(msg) {
+                useDemoMode = true;
+                statusIndicator.className = 'w-2.5 h-2.5 rounded-full bg-ocean-sky animate-bounce';
+                statusText.textContent = 'DEMO MODE ACTIVE';
+                cameraErrorMsg.textContent = `⚠️ ${msg}`;
+                cameraErrorBanner.classList.remove('hidden');
+                document.getElementById('demo-toggle-text').textContent = 'SWITCH TO LIVE WEBCAM';
+                startStudioLoop();
+            }
+
+            // Real-time Canvas Rendering Engine (60 FPS)
+            function startStudioLoop() {
+                if (studioAnimId) cancelAnimationFrame(studioAnimId);
+
+                studioCanvas.width = 640;
+                studioCanvas.height = 480;
+
+                let t = 0;
+                function renderFrame() {
+                    t += 0.03;
+
+                    const isVideoReady = !useDemoMode && videoEl.readyState >= 2 && videoEl.videoWidth > 0;
+
+                    if (useDemoMode || !isVideoReady) {
+                        // Render Animated Ocean Waves Demo Scene
+                        studioCtx.fillStyle = '#0a192f';
+                        studioCtx.fillRect(0, 0, 640, 480);
+
+                        // Ocean Waves Graphic
+                        studioCtx.fillStyle = '#1d4ed8';
+                        studioCtx.beginPath();
+                        studioCtx.moveTo(0, 240);
+                        for (let x = 0; x <= 640; x += 20) {
+                            studioCtx.lineTo(x, 240 + Math.sin(t + x * 0.01) * 15);
+                        }
+                        studioCtx.lineTo(640, 480);
+                        studioCtx.lineTo(0, 480);
+                        studioCtx.fill();
+
+                        studioCtx.fillStyle = '#38bdf8';
+                        studioCtx.beginPath();
+                        studioCtx.moveTo(0, 280);
+                        for (let x = 0; x <= 640; x += 20) {
+                            studioCtx.lineTo(x, 280 + Math.cos(t * 1.2 + x * 0.015) * 12);
+                        }
+                        studioCtx.lineTo(640, 480);
+                        studioCtx.lineTo(0, 480);
+                        studioCtx.fill();
+
+                        // Demo Silhouette Face
+                        studioCtx.save();
+                        studioCtx.translate(320, 210 + Math.sin(t * 1.5) * 6);
+                        
+                        // Head shape
+                        studioCtx.fillStyle = '#bae6fd';
+                        studioCtx.beginPath();
+                        studioCtx.arc(0, 0, 65, 0, Math.PI * 2);
+                        studioCtx.fill();
+
+                        studioCtx.restore();
+
+                        if (!useDemoMode && !isVideoReady) {
+                            studioCtx.fillStyle = 'rgba(10, 25, 47, 0.7)';
+                            studioCtx.fillRect(0, 0, 640, 480);
+                            studioCtx.fillStyle = '#bae6fd';
+                            studioCtx.font = '14px "Space Mono"';
+                            studioCtx.textAlign = 'center';
+                            studioCtx.fillText('CONNECTING TO WEBCAM...', 320, 240);
+                        }
+                    } else {
+                        // Render Video Stream (Mirrored or Normal)
+                        studioCtx.save();
+                        if (isMirrored) {
+                            studioCtx.translate(640, 0);
+                            studioCtx.scale(-1, 1);
+                        }
+                        studioCtx.drawImage(videoEl, 0, 0, 640, 480);
+                        studioCtx.restore();
+                    }
+
+                    // Apply Color Filters
+                    if (currentFilter !== 'natural') {
+                        applyColorFilter(studioCtx, 640, 480, currentFilter);
+                    }
+
+                    // Draw Sunglasses Props
+                    if (currentGlasses !== 'none') {
+                        drawGlassesProp(studioCtx, 320 + propX, 210 + propY, propScale, currentGlasses);
+                    }
+
+                    studioAnimId = requestAnimationFrame(renderFrame);
+                }
+                renderFrame();
+            }
+
+            // Color Filter Shaders
+            function applyColorFilter(ctx, width, height, type) {
+                const imgData = ctx.getImageData(0, 0, width, height);
+                const d = imgData.data;
+
+                if (type === 'breeze') {
+                    // Cool Teal/Blue Ocean Tint
+                    for (let i = 0; i < d.length; i += 4) {
+                        d[i] = Math.min(255, d[i] * 0.85);       // Red
+                        d[i+1] = Math.min(255, d[i+1] * 1.05 + 10); // Green
+                        d[i+2] = Math.min(255, d[i+2] * 1.25 + 20); // Blue
+                    }
+                } else if (type === 'seasons') {
+                    // Warm Vintage 35mm Indie Grain Palette
+                    for (let i = 0; i < d.length; i += 4) {
+                        d[i] = Math.min(255, d[i] * 1.15 + 15);   // Red
+                        d[i+1] = Math.min(255, d[i+1] * 1.05 + 5);  // Green
+                        d[i+2] = Math.min(255, d[i+2] * 0.9);       // Blue
+                    }
+                } else if (type === 'abyss') {
+                    // Deep Abyss High Contrast B&W
+                    for (let i = 0; i < d.length; i += 4) {
+                        const gray = (d[i] * 0.3 + d[i+1] * 0.59 + d[i+2] * 0.11);
+                        const contrastGray = Math.max(0, Math.min(255, (gray - 128) * 1.35 + 128));
+                        d[i] = contrastGray;
+                        d[i+1] = contrastGray;
+                        d[i+2] = contrastGray;
+                    }
+                }
+                ctx.putImageData(imgData, 0, 0);
+            }
+
+            // Vector Canvas Glasses / Sunglasses Drawing Functions
+            function drawGlassesProp(ctx, cx, cy, scale, style) {
+                ctx.save();
+                ctx.translate(cx, cy);
+                ctx.scale(scale, scale);
+
+                if (style === 'black') {
+                    // 1. BLACK INDIE SUNGLASSES
+                    // Dark Lenses
+                    ctx.fillStyle = '#0f172a';
+                    ctx.strokeStyle = '#1e293b';
+                    ctx.lineWidth = 4;
+
+                    // Left Lens
+                    ctx.beginPath();
+                    ctx.roundRect(-75, -20, 65, 40, 10);
+                    ctx.fill();
+                    ctx.stroke();
+
+                    // Right Lens
+                    ctx.beginPath();
+                    ctx.roundRect(10, -20, 65, 40, 10);
+                    ctx.fill();
+                    ctx.stroke();
+
+                    // Center Bridge
+                    ctx.fillStyle = '#1e293b';
+                    ctx.fillRect(-10, -12, 20, 6);
+
+                    // Temple Hinge Pins
+                    ctx.fillStyle = '#cbd5e1';
+                    ctx.beginPath();
+                    ctx.arc(-72, -12, 2, 0, Math.PI * 2);
+                    ctx.arc(72, -12, 2, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // Lens Gloss Sheen Highlight
+                    ctx.strokeStyle = 'rgba(255, 255, 255, 0.35)';
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.moveTo(-65, -12);
+                    ctx.lineTo(-45, 12);
+                    ctx.moveTo(20, -12);
+                    ctx.lineTo(40, 12);
+                    ctx.stroke();
+
+                } else if (style === 'silver-mirror') {
+                    // 2. SILVER MIRROR SUNGLASSES (Gradient Reflective)
+                    // Chrome Frame Outer
+                    ctx.strokeStyle = '#e2e8f0';
+                    ctx.lineWidth = 5;
+
+                    // Lens Reflective Gradient
+                    const grad = ctx.createLinearGradient(-80, -25, 80, 25);
+                    grad.addColorStop(0, '#06b6d4');
+                    grad.addColorStop(0.3, '#38bdf8');
+                    grad.addColorStop(0.7, '#e0f2fe');
+                    grad.addColorStop(1, '#f472b6');
+
+                    ctx.fillStyle = grad;
+
+                    // Left Oval Lens
+                    ctx.beginPath();
+                    ctx.ellipse(-42, 0, 36, 22, 0, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.stroke();
+
+                    // Right Oval Lens
+                    ctx.beginPath();
+                    ctx.ellipse(42, 0, 36, 22, 0, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.stroke();
+
+                    // Metallic Double Bridge
+                    ctx.strokeStyle = '#cbd5e1';
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.moveTo(-10, -8);
+                    ctx.lineTo(10, -8);
+                    ctx.moveTo(-10, -2);
+                    ctx.lineTo(10, -2);
+                    ctx.stroke();
+
+                    // Bright Glare Line
+                    ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)';
+                    ctx.lineWidth = 4;
+                    ctx.beginPath();
+                    ctx.moveTo(-60, -10);
+                    ctx.lineTo(-30, 10);
+                    ctx.moveTo(24, -10);
+                    ctx.lineTo(54, 10);
+                    ctx.stroke();
+
+                } else if (style === 'silver-wire') {
+                    // 3. MINIMALIST SILVER WIRE GLASSES
+                    ctx.strokeStyle = '#cbd5e1';
+                    ctx.lineWidth = 3;
+                    ctx.fillStyle = 'rgba(224, 242, 254, 0.15)';
+
+                    // Round Wire Frame Left
+                    ctx.beginPath();
+                    ctx.arc(-40, 0, 28, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.stroke();
+
+                    // Round Wire Frame Right
+                    ctx.beginPath();
+                    ctx.arc(40, 0, 28, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.stroke();
+
+                    // Curved Bridge
+                    ctx.beginPath();
+                    ctx.arc(0, -6, 14, Math.PI, 0);
+                    ctx.stroke();
+
+                    // Gentle Lens Glare
+                    ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.moveTo(-52, -12);
+                    ctx.lineTo(-38, 12);
+                    ctx.moveTo(28, -12);
+                    ctx.lineTo(42, 12);
+                    ctx.stroke();
+                }
+
+                ctx.restore();
+            }
+
+            // Interactive Canvas Dragging Events for Glasses
+            studioCanvas.addEventListener('mousedown', (e) => {
+                if (currentGlasses === 'none') return;
+                const rect = studioCanvas.getBoundingClientRect();
+                const clickX = (e.clientX - rect.left) * (640 / rect.width);
+                const clickY = (e.clientY - rect.top) * (480 / rect.height);
+
+                isDraggingProp = true;
+                dragStartX = clickX - propX;
+                dragStartY = clickY - propY;
+            });
+
+            window.addEventListener('mousemove', (e) => {
+                if (!isDraggingProp) return;
+                const rect = studioCanvas.getBoundingClientRect();
+                const currentX = (e.clientX - rect.left) * (640 / rect.width);
+                const currentY = (e.clientY - rect.top) * (480 / rect.height);
+
+                propX = currentX - dragStartX;
+                propY = currentY - dragStartY;
+                glassesOffsetYInput.value = Math.round(propY);
+            });
+
+            window.addEventListener('mouseup', () => { isDraggingProp = false; });
+
+            // Glasses Slider Controls
+            glassesScaleInput.addEventListener('input', (e) => {
+                propScale = parseFloat(e.target.value);
+            });
+            glassesOffsetYInput.addEventListener('input', (e) => {
+                propY = parseFloat(e.target.value);
+            });
+            btnResetGlasses.addEventListener('click', () => {
+                propX = 0;
+                propY = 0;
+                propScale = 1.0;
+                glassesScaleInput.value = 1.0;
+                glassesOffsetYInput.value = 0;
+            });
+
+            // Filter Buttons Event Handler
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    playOceanChime(600, 0.2);
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    e.currentTarget.classList.add('active');
+                    currentFilter = e.currentTarget.getAttribute('data-filter');
+                });
+            });
+
+            // Glasses Buttons Event Handler
+            document.querySelectorAll('.glasses-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    playOceanChime(750, 0.25);
+                    document.querySelectorAll('.glasses-btn').forEach(b => b.classList.remove('active'));
+                    e.currentTarget.classList.add('active');
+                    currentGlasses = e.currentTarget.getAttribute('data-glasses');
+                    propStatusLabel.textContent = currentGlasses.toUpperCase();
+
+                    if (currentGlasses !== 'none') {
+                        glassesControlsPanel.classList.remove('hidden');
+                    } else {
+                        glassesControlsPanel.classList.add('hidden');
+                    }
+                });
+            });
+
+            // Mirror & Audio Toggles
+            btnMirrorToggle.addEventListener('click', () => {
+                isMirrored = !isMirrored;
+                showToast(`Mirror feed: ${isMirrored ? 'ON' : 'OFF'}`);
+            });
+
+            btnToggleSound.addEventListener('click', () => {
+                isMuted = !isMuted;
+                if (isMuted) {
+                    soundIcon.className = 'fa-solid fa-volume-xmark';
+                    soundLabel.textContent = 'MUTED';
+                } else {
+                    soundIcon.className = 'fa-solid fa-volume-high';
+                    soundLabel.textContent = 'SOUND ON';
+                    playOceanChime(880, 0.3);
+                }
+            });
+
+            // Demo Mode & Camera Retry Handlers
+            btnToggleDemo.addEventListener('click', () => {
+                playOceanChime();
+                if (useDemoMode) {
+                    initCamera(cameraSelect.value || null);
+                } else {
+                    useDemoMode = true;
+                    statusIndicator.className = 'w-2.5 h-2.5 rounded-full bg-ocean-sky animate-bounce';
+                    statusText.textContent = 'DEMO MODE ACTIVE';
+                    document.getElementById('demo-toggle-text').textContent = 'SWITCH TO LIVE WEBCAM';
+                }
+            });
+
+            cameraSelect.addEventListener('change', (e) => {
+                if (e.target.value) initCamera(e.target.value);
+            });
+
+            btnRetryCamera.addEventListener('click', () => initCamera(cameraSelect.value || null));
+            btnUseDemo.addEventListener('click', () => {
+                cameraErrorBanner.classList.add('hidden');
+                useDemoMode = true;
+                statusIndicator.className = 'w-2.5 h-2.5 rounded-full bg-ocean-sky animate-bounce';
+                statusText.textContent = 'DEMO MODE ACTIVE';
+                document.getElementById('demo-toggle-text').textContent = 'SWITCH TO LIVE WEBCAM';
+            });
+
+            // Grab Current Studio Viewfinder Frame onto temp canvas
+            function grabCurrentFrame() {
+                const tempCanvas = document.createElement('canvas');
+                tempCanvas.width = 640;
+                tempCanvas.height = 480;
+                const tempCtx = tempCanvas.getContext('2d');
+                tempCtx.drawImage(studioCanvas, 0, 0, 640, 480);
+                return tempCanvas;
+            }
+
+            // Photo Session Capture Sequence
+            btnStartSession.addEventListener('click', async () => {
+                if (isCapturing) return;
+                isCapturing = true;
+                capturedPhotos = [];
+                btnStartSession.disabled = true;
+                btnStartSession.classList.add('opacity-50');
+
+                const layout = selectStripLayout.value;
+                const totalShots = (layout === '4-strip') ? 4 : (layout === '3-strip' ? 3 : 1);
+
+                showToast(`Session Started! ${totalShots} shots coming up`, 'success');
+
+                for (let i = 1; i <= totalShots; i++) {
+                    await runCountdown(3);
+                    triggerFlashAndShutter();
+                    capturedPhotos.push(grabCurrentFrame());
+
+                    renderFinalOceanStrip();
+
+                    if (i < totalShots) {
+                        await new Promise(r => setTimeout(r, 1000));
+                    }
+                }
+
+                isCapturing = false;
+                btnStartSession.disabled = false;
+                btnStartSession.classList.remove('opacity-50');
+                btnDownloadStrip.disabled = false;
+                btnCopyStrip.disabled = false;
+                showToast('🌊 Photo Strip Complete!', 'success');
+            });
+
+            function runCountdown(seconds) {
+                return new Promise((resolve) => {
+                    countdownOverlay.classList.remove('opacity-0', 'pointer-events-none');
+                    let count = seconds;
+                    countdownText.textContent = count;
+                    playOceanChime(523.25, 0.15);
+
+                    const timer = setInterval(() => {
+                        count--;
+                        if (count > 0) {
+                            countdownText.textContent = count;
+                            playOceanChime(523.25 + (3 - count) * 100, 0.15);
+                        } else {
+                            clearInterval(timer);
+                            countdownOverlay.classList.add('opacity-0', 'pointer-events-none');
+                            resolve();
+                        }
+                    }, 1000);
+                });
+            }
+
+            function triggerFlashAndShutter() {
+                playShutterSound();
+                cameraFlash.classList.add('flash-active');
+                setTimeout(() => {
+                    cameraFlash.classList.remove('flash-active');
+                }, 500);
+            }
+
+            // Photo Strip Compositing & Rendering Engine
+            function renderFinalOceanStrip() {
+                if (capturedPhotos.length === 0) return;
+
+                const count = capturedPhotos.length;
+                const layout = selectStripLayout.value;
+                const frameTheme = selectFrameTheme.value;
+                const captionText = stripCaptionInput.value.trim() || "wave to earth — seasons";
+                const dateStr = new Date().toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' }).toUpperCase();
+
+                // Theme Palette Colors
+                let bgColor = '#0f2b48';
+                let borderColor = '#38bdf8';
+                let textColor = '#bae6fd';
+                let subTextColor = '#f8fafc';
+
+                if (frameTheme === 'seafoam') {
+                    bgColor = '#bae6fd';
+                    borderColor = '#0284c7';
+                    textColor = '#0f2b48';
+                    subTextColor = '#0369a1';
+                } else if (frameTheme === 'minimalist') {
+                    bgColor = '#f8fafc';
+                    borderColor = '#cbd5e1';
+                    textColor = '#0a192f';
+                    subTextColor = '#475569';
+                }
+
+                if (layout === '4-strip' || layout === '3-strip') {
+                    const photoW = 540;
+                    const photoH = 405;
+                    const padding = 35;
+                    const gap = 20;
+                    const headerH = 90;
+                    const footerH = 150;
+
+                    const totalW = photoW + (padding * 2);
+                    const totalH = headerH + (count * photoH) + ((count - 1) * gap) + footerH;
+
+                    outputCanvas.width = totalW;
+                    outputCanvas.height = totalH;
+
+                    // Fill Background
+                    outputCtx.fillStyle = bgColor;
+                    outputCtx.fillRect(0, 0, totalW, totalH);
+
+                    // Border Frame Accent
+                    outputCtx.strokeStyle = borderColor;
+                    outputCtx.lineWidth = 3;
+                    outputCtx.strokeRect(12, 12, totalW - 24, totalH - 24);
+
+                    // Header Branding
+                    outputCtx.fillStyle = textColor;
+                    outputCtx.font = 'italic 26px "Cormorant Garamond"';
+                    outputCtx.textAlign = 'center';
+                    outputCtx.fillText('wave to earth', totalW / 2, 55);
+
+                    // Draw Photo Frames
+                    let currentY = headerH;
+                    capturedPhotos.forEach((photoCanvas) => {
+                        outputCtx.fillStyle = borderColor;
+                        outputCtx.fillRect(padding - 3, currentY - 3, photoW + 6, photoH + 6);
+                        outputCtx.drawImage(photoCanvas, padding, currentY, photoW, photoH);
+                        currentY += photoH + gap;
+                    });
+
+                    // Footer Text & Line-Art Icons
+                    const footerY = currentY + 30;
+                    outputCtx.fillStyle = textColor;
+                    outputCtx.font = 'italic 20px "Cormorant Garamond"';
+                    outputCtx.textAlign = 'center';
+                    outputCtx.fillText(captionText, totalW / 2, footerY + 25);
+
+                    outputCtx.fillStyle = subTextColor;
+                    outputCtx.font = '11px "Space Mono"';
+                    outputCtx.fillText(`WAVE-01 • ${dateStr} • OCEAN SOUVENIR`, totalW / 2, footerY + 55);
+
+                    // Draw Whale & Seashell Line Illustration on Footer
+                    outputCtx.strokeStyle = borderColor;
+                    outputCtx.lineWidth = 1.5;
+                    outputCtx.beginPath();
+                    outputCtx.arc(totalW / 2 - 120, footerY + 20, 10, 0, Math.PI * 2);
+                    outputCtx.arc(totalW / 2 + 120, footerY + 20, 10, 0, Math.PI * 2);
+                    outputCtx.stroke();
+
+                } else {
+                    // Single Postcard Layout
+                    outputCanvas.width = 900;
+                    outputCanvas.height = 700;
+
+                    outputCtx.fillStyle = bgColor;
+                    outputCtx.fillRect(0, 0, 900, 700);
+
+                    outputCtx.strokeStyle = borderColor;
+                    outputCtx.lineWidth = 4;
+                    outputCtx.strokeRect(15, 15, 870, 670);
+
+                    const photoCanvas = capturedPhotos[0];
+                    outputCtx.drawImage(photoCanvas, 40, 40, 820, 520);
+
+                    outputCtx.fillStyle = textColor;
+                    outputCtx.font = 'italic 26px "Cormorant Garamond"';
+                    outputCtx.textAlign = 'center';
+                    outputCtx.fillText(captionText, 450, 610);
+
+                    outputCtx.fillStyle = subTextColor;
+                    outputCtx.font = '12px "Space Mono"';
+                    outputCtx.fillText(`POSTCARD • ${dateStr} • WAVE TO EARTH`, 450, 645);
+                }
+
+                previewImg.src = outputCanvas.toDataURL('image/png');
+            }
+
+            // Custom Caption Live Update
+            stripCaptionInput.addEventListener('input', () => {
+                if (capturedPhotos.length > 0) renderFinalOceanStrip();
+            });
+            selectFrameTheme.addEventListener('change', () => {
+                if (capturedPhotos.length > 0) renderFinalOceanStrip();
+            });
+
+            // Action Buttons (Download, Copy, Clear)
+            btnDownloadStrip.addEventListener('click', () => {
+                if (capturedPhotos.length === 0) return;
+                const link = document.createElement('a');
+                link.download = `wave_to_earth_photostrip_${Date.now()}.png`;
+                link.href = outputCanvas.toDataURL('image/png');
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                showToast('Photo strip downloaded! 🌊', 'success');
+            });
+
+            btnCopyStrip.addEventListener('click', async () => {
+                if (capturedPhotos.length === 0) return;
+                try {
+                    outputCanvas.toBlob(async (blob) => {
+                        const item = new ClipboardItem({ 'image/png': blob });
+                        await navigator.clipboard.write([item]);
+                        showToast('Copied photo strip to clipboard! 📋', 'success');
+                    });
+                } catch(e) {
+                    showToast('Direct copy restricted. Please use Download!');
+                }
+            });
+
+            btnClearStrip.addEventListener('click', () => {
+                playOceanChime();
+                capturedPhotos = [];
+                previewImg.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='720' viewBox='0 0 240 720'%3E%3Crect width='240' height='720' fill='%230a192f'/%3E%3Crect x='10' y='10' width='220' height='700' fill='%230f2b48' rx='12' stroke='%2338bdf8' stroke-width='1.5'/%3E%3Crect x='22' y='30' width='196' height='130' fill='%230a192f' rx='6'/%3E%3Crect x='22' y='175' width='196' height='130' fill='%230a192f' rx='6'/%3E%3Crect x='22' y='320' width='196' height='130' fill='%230a192f' rx='6'/%3E%3Crect x='22' y='465' width='196' height='130' fill='%230a192f' rx='6'/%3E%3Ctext x='120' y='635' font-family='serif' font-style='italic' font-size='15' fill='%23bae6fd' text-anchor='middle'%3Ewave to earth%3E%3C/text%3E%3Ctext x='120' y='660' font-family='sans-serif' font-size='10' fill='%23f8fafc' text-anchor='middle'%3EPRESS SNAP TO START%3E%3C/text%3E%3C/svg%3E";
+                btnDownloadStrip.disabled = true;
+                btnCopyStrip.disabled = true;
+                showToast('Strip cleared!');
+            });
+
+            // Initialize Camera Studio
+            initCamera();
+        });
+    </script>
+</body>
+</html>
