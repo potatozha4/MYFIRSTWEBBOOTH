@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Little Moments — Photobooth Studio</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+:root{--ink:#202033;--muted:#77778b;--paper:#fffdf9;--accent:#5366d9;--line:#e9e7ef}
+*{box-sizing:border-box}body{margin:0;background:#f5f4fa;color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+header{padding:25px 5vw 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);background:#fff}
+.brand{font-weight:900;letter-spacing:-1px;font-size:23px}.brand span{color:#6874db}.tag{font-size:12px;color:var(--muted);letter-spacing:2px;text-transform:uppercase}
+main{max-width:1200px;margin:35px auto;padding:0 22px}.intro{text-align:center;margin-bottom:30px}.intro h1{font-size:clamp(30px,5vw,48px);letter-spacing:-2px;margin:0 0 8px}.intro p{color:var(--muted);margin:0}
+.workspace{display:grid;grid-template-columns:minmax(270px,350px) 1fr;gap:28px;align-items:start}.panel,.preview-panel{background:#fff;border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:0 12px 35px #2420440a}.panel h2,.preview-panel h2{font-size:17px;margin:0 0 16px}.field{margin:17px 0}.field label{display:block;font-size:13px;font-weight:750;margin-bottom:8px}.field small{display:block;color:var(--muted);font-size:11px;margin-top:6px}
+input[type=file],input[type=text]{width:100%;border:1px solid var(--line);border-radius:11px;padding:11px;background:#fbfbfe;color:var(--ink)}
+.theme-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.theme-btn{border:1px solid var(--line);background:#fff;border-radius:12px;padding:10px;text-align:left;cursor:pointer;transition:.18s}.theme-btn:hover{transform:translateY(-2px);border-color:#9ca4f0}.theme-btn.active{border:2px solid var(--accent);background:#f5f6ff;padding:9px}.swatches{display:flex;gap:4px;margin-bottom:7px}.swatches i{width:18px;height:18px;border-radius:50%;display:block;border:1px solid #00000012}.theme-btn b{font-size:12px}.theme-btn span{display:block;color:var(--muted);font-size:10px;margin-top:2px}
+.actions{display:flex;gap:9px;margin-top:18px;flex-wrap:wrap}.btn{border:0;border-radius:12px;padding:12px 15px;font-weight:800;cursor:pointer}.primary{background:#5968d9;color:#fff;flex:1}.secondary{background:#f0eff7;color:#34334a}.preview-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}.preview-head h2{margin:0}.preview-head span{font-size:12px;color:var(--muted)}.preview-stage{min-height:600px;border-radius:16px;background:radial-gradient(#e3e2ed 1px,transparent 1px);background-size:17px 17px;display:flex;justify-content:center;align-items:flex-start;padding:25px;overflow:auto}
+/* Photo strip base */
+.strip{width:260px;min-height:650px;padding:14px;position:relative;display:flex;flex-direction:column;gap:11px;box-shadow:0 15px 35px #17152b25;flex-shrink:0;overflow:hidden}.photo{height:174px;width:100%;overflow:hidden;position:relative;z-index:1;background:#e8e8ee;border:3px solid #fff}.photo img{width:100%;height:100%;object-fit:cover;display:block}.photo.empty{display:grid;place-items:center;color:#89899b;font-size:12px;text-align:center;padding:10px}.strip-title{font-weight:1000;text-align:center;font-size:30px;line-height:1;letter-spacing:1px;z-index:2;text-transform:uppercase}.strip-caption{text-align:center;font-size:12px;font-weight:800;letter-spacing:2px;z-index:2}.sticker{position:absolute;z-index:3;font-size:38px;line-height:1;pointer-events:none}.footer{font-size:10px;letter-spacing:2px;text-align:center;font-weight:900;z-index:2;margin-top:auto}
+/* Six distinct looks */
+.strip.peace{background:#fff;color:#101018;border:8px solid #101018;background-image:linear-gradient(90deg,#111 50%,transparent 50%),linear-gradient(#111 50%,transparent 50%);background-size:82px 82px;background-blend-mode:screen}.peace .photo{border:5px solid #fff;border-radius:50%;height:160px}.peace .strip-title{color:#3153a6;background:#ffe45e;border:3px solid #111;border-radius:50px;padding:7px 12px;font-family:Georgia,serif;font-style:italic;transform:rotate(-5deg);font-size:25px}.peace .strip-caption{color:#e66b91;font-size:25px;text-shadow:2px 2px #111;letter-spacing:0}
+.strip.hello{background:#fff;color:#17234f;border:7px solid #fff;outline:3px solid #e84f76;background-image:linear-gradient(135deg,#fff 70%,#f7d9e1 70%)}.hello .photo{border:5px solid #fff;box-shadow:0 3px 0 #e84f76}.hello .strip-title{color:#fff;text-shadow:3px 3px #273e9c,-2px -2px #e74f78;font-size:33px}.hello .strip-caption{color:#e34f73;background:#fff;border-radius:20px;padding:5px}.hello .footer{color:#344b9b}
+.strip.awesome{background:#080910;color:#fff;border:8px solid #080910;background-image:repeating-conic-gradient(#fff 0% 25%,#080910 0% 50%);background-size:80px 80px;background-blend-mode:soft-light}.awesome .photo{border:4px solid #fff;filter:saturate(1.1)}.awesome .strip-title{color:#fff;text-shadow:3px 3px #3158bf,-2px -2px #3158bf;font-family:Georgia,serif;font-style:italic}.awesome .strip-caption{color:#ff8eae;font-size:23px;text-shadow:2px 2px #111}
+.strip.shook{background:#fff;color:#274a9e;border:7px solid #fff;background-image:radial-gradient(#dce7ff 2px,transparent 2px);background-size:18px 18px}.shook .photo{border:5px solid #fff;outline:2px solid #5475ce}.shook .strip-title{color:#e65c8c;text-shadow:2px 2px #fff,3px 3px #294da2;font-family:Georgia,serif}.shook .strip-caption{color:#3158ad}.shook .footer{background:#3158ad;color:#fff;padding:8px}
+.strip.cool{background:#fff;color:#101018;border:7px solid #111;background-image:linear-gradient(45deg,#f3f3f3 25%,transparent 25%,transparent 75%,#f3f3f3 75%),linear-gradient(45deg,#f3f3f3 25%,transparent 25%,transparent 75%,#f3f3f3 75%);background-position:0 0,12px 12px;background-size:24px 24px}.cool .photo{border:4px solid #fff;outline:2px solid #111}.cool .strip-title{color:#f06b9a;text-shadow:2px 2px #fff,3px 3px #111}.cool .strip-caption{color:#244ca7;font-size:22px}.cool .footer{background:#f5d94d;padding:7px}
+.strip.day{background:#dce9ff;color:#20449a;border:7px solid #fff;background-image:radial-gradient(#fff 2px,transparent 2px);background-size:20px 20px}.day .photo{border:5px solid #fff;border-radius:3px;box-shadow:0 3px 0 #5275c7}.day .strip-title{font-size:29px;color:#234ba8;text-shadow:2px 2px #fff}.day .strip-caption{background:#fff;color:#e35b83;border-radius:30px;padding:6px}.day .footer{color:#234ba8}
+.hint{color:var(--muted);font-size:12px;line-height:1.5;margin-top:14px}.status{font-size:12px;color:#4d5cc1;min-height:18px;margin-top:9px}
+@media(max-width:800px){.workspace{grid-template-columns:1fr}.preview-stage{min-height:500px}.strip{width:240px;min-height:620px}.photo{height:160px}header{padding:18px 5vw}}
+@media print{body{background:#fff}.panel,header,.intro,.preview-head,.hint{display:none!important}main{margin:0;padding:0}.workspace{display:block}.preview-panel{border:0;box-shadow:none;padding:0}.preview-stage{background:#fff;padding:0;min-height:0;overflow:visible}.strip{box-shadow:none;margin:0 auto;print-color-adjust:exact;-webkit-print-color-adjust:exact}}
+</style>
+</head>
+<body>
+<header><div class="brand">little<span>moments.</span></div><div class="tag">your pocket-sized memory studio</div></header>
+<main>
+  <section class="intro"><h1>Make a moment. Keep it forever.</h1><p>Choose a photostrip style, add your photos, and make it yours.</p></section>
+  <div class="workspace">
+    <aside class="panel">
+      <h2>Customize your photostrip</h2>
+      <div class="field"><label for="photos">1. Upload up to 3 photos</label><input id="photos" type="file" accept="image/*" multiple /><small>Choose three photos for the three frames. If you upload fewer, the last photo repeats.</small></div>
+      <div class="field"><label>2. Choose a design</label>
+        <div class="theme-grid" id="themes">
+          <button class="theme-btn active" data-theme="peace"><div class="swatches"><i style="background:#111"></i><i style="background:#fff"></i><i style="background:#ffe45e"></i></div><b>Peace</b><span>Checkerboard pop</span></button>
+          <button class="theme-btn" data-theme="hello"><div class="swatches"><i style="background:#e84f76"></i><i style="background:#fff"></i><i style="background:#344b9b"></i></div><b>Hello!</b><span>Pink & blue collage</span></button>
+          <button class="theme-btn" data-theme="awesome"><div class="swatches"><i style="background:#080910"></i><i style="background:#fff"></i><i style="background:#3158bf"></i></div><b>Awesome</b><span>Bold black & white</span></button>
+          <button class="theme-btn" data-theme="shook"><div class="swatches"><i style="background:#dce7ff"></i><i style="background:#e65c8c"></i><i style="background:#3158ad"></i></div><b>Shook</b><span>Blue floral mood</span></button>
+          <button class="theme-btn" data-theme="cool"><div class="swatches"><i style="background:#111"></i><i style="background:#f06b9a"></i><i style="background:#f5d94d"></i></div><b>So Cool</b><span>Retro doodle style</span></button>
+          <button class="theme-btn" data-theme="day"><div class="swatches"><i style="background:#dce9ff"></i><i style="background:#234ba8"></i><i style="background:#fff"></i></div><b>24/7</b><span>Soft blue memories</span></button>
+        </div>
+      </div>
+      <div class="field"><label for="titleText">3. Add your own title</label><input id="titleText" type="text" maxlength="18" value="PEACE" placeholder="e.g. BEST DAY" /></div>
+      <div class="field"><label for="captionText">Add a little caption</label><input id="captionText" type="text" maxlength="28" value="GOOD TIMES" placeholder="e.g. CLASS OF 2026" /></div>
+      <div class="actions"><button class="btn primary" id="downloadBtn">Download PNG</button><button class="btn secondary" id="printBtn">Print</button></div>
+      <div class="status" id="status" aria-live="polite"></div>
+      <p class="hint">Tip: For the best result, use portrait photos. Your uploaded photos stay in this browser page and are not sent to a server.</p>
+    </aside>
+    <section class="preview-panel">
+      <div class="preview-head"><h2>Your live preview</h2><span>Photostrip · 3 frames</span></div>
+      <div class="preview-stage"><div class="strip peace" id="strip">
+        <div class="strip-title" id="stripTitle">PEACE</div>
+        <div class="photo empty"><span>PHOTO 01</span></div><div class="photo empty"><span>PHOTO 02</span></div><div class="photo empty"><span>PHOTO 03</span></div>
+        <div class="strip-caption" id="stripCaption">GOOD TIMES</div><div class="footer">LITTLE MOMENTS • 2026</div>
+        <div class="sticker" style="top:19%;right:4%;transform:rotate(12deg)">✌️</div><div class="sticker" style="top:54%;left:2%;transform:rotate(-12deg)">★</div><div class="sticker" style="bottom:7%;right:5%">♡</div>
+      </div></div>
+      <p class="hint">The preview updates as you change your photos, title, caption, and style.</p>
+    </section>
+  </div>
+</main>
+<script>
+const photoInput=document.getElementById('photos');
+const strip=document.getElementById('strip');
+const titleInput=document.getElementById('titleText');
+const captionInput=document.getElementById('captionText');
+const statusEl=document.getElementById('status');
+let imageUrls=[];let currentTheme='peace';
+const themeDefaults={peace:['PEACE','GOOD TIMES','✌️','★','♡'],hello:['HELLO!','FOR YOU','♡','✦','♥'],awesome:['AWESOME!','SO COOL','⚡','✹','✌️'],shook:['SHOOK','WORK HARD','♡','✿','✦'],cool:['COOL!','SO COOL','✹','⚡','♡'],day:['24/7','BEST DAYS','✌️','✿','♡']};
+function renderPhotos(){const frames=[...strip.querySelectorAll('.photo')];frames.forEach((frame,i)=>{frame.innerHTML='';const url=imageUrls.length?imageUrls[Math.min(i,imageUrls.length-1)]:null;if(url){const img=document.createElement('img');img.src=url;img.alt='Uploaded photobooth image '+(i+1);frame.appendChild(img);frame.classList.remove('empty')}else{frame.classList.add('empty');const span=document.createElement('span');span.textContent='PHOTO 0'+(i+1);frame.appendChild(span)}})}
+function updateText(){document.getElementById('stripTitle').textContent=titleInput.value.trim()||themeDefaults[currentTheme][0];document.getElementById('stripCaption').textContent=captionInput.value.trim()||'A LITTLE MEMORY'}
+function setTheme(theme){currentTheme=theme;strip.className='strip '+theme;document.querySelectorAll('.theme-btn').forEach(b=>b.classList.toggle('active',b.dataset.theme===theme));const d=themeDefaults[theme];titleInput.value=d[0];captionInput.value=d[1];updateText();const stickers=strip.querySelectorAll('.sticker');stickers.forEach((s,i)=>s.textContent=d[i+2]);}
+document.querySelectorAll('.theme-btn').forEach(btn=>btn.addEventListener('click',()=>setTheme(btn.dataset.theme)));
+photoInput.addEventListener('change',e=>{imageUrls.forEach(u=>URL.revokeObjectURL(u));imageUrls=[...e.target.files].slice(0,3).map(f=>URL.createObjectURL(f));renderPhotos();statusEl.textContent=imageUrls.length+' photo(s) added.'});
+titleInput.addEventListener('input',updateText);captionInput.addEventListener('input',updateText);
+document.getElementById('downloadBtn').addEventListener('click',async()=>{if(!window.html2canvas){statusEl.textContent='PNG export needs an internet connection to load the export library. You can still print this page.';return}statusEl.textContent='Preparing your photostrip…';try{const canvas=await html2canvas(strip,{scale:3,backgroundColor:null,useCORS:true});const link=document.createElement('a');link.download='my-photostrip.png';link.href=canvas.toDataURL('image/png');link.click();statusEl.textContent='Your photostrip is ready!'}catch(err){statusEl.textContent='Could not export the image. Try Print or check your browser settings.'}});
+document.getElementById('printBtn').addEventListener('click',()=>window.print());
+renderPhotos();
+</script>
+</body>
+</html>
