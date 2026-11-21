@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FORMULA 1 PITLANE PHOTOBOOTH • 10 RACING STRIP STYLES</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Rajdhani:wght@600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        f1: {
+                            red: '#e10600',
+                            crimson: '#991b1b',
+                            carbon: '#0b0d12',
+                            panel: '#151922',
+                            silver: '#e2e8f0',
+                            papaya: '#ff8700',
+                            bull: '#1e3a8a',
+                            gold: '#fbbf24'
+                        }
+                    },
+                    fontFamily: {
+                        orbitron: ['"Orbitron"', 'sans-serif'],
+                        rajdhani: ['"Rajdhani"', 'sans-serif'],
+                        mono: ['"Space Mono"', 'monospace'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0b0d12;
+            color: #f8fafc;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+            background-image:
+                radial-gradient(circle at 12% 12%, rgba(225, 6, 0, 0.24) 0%, transparent 45%),
+                radial-gradient(circle at 88% 85%, rgba(30, 58, 138, 0.22) 0%, transparent 45%),
+                repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.015) 0px, rgba(255, 255, 255, 0.015) 1px, transparent 1px, transparent 48px);
+        }
+
+        .racing-panel {
+            background: rgba(21, 25, 34, 0.86);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 22px 45px rgba(0, 0, 0, 0.55);
+        }
+
+        .f1-style-btn {
+            background: rgba(11, 13, 18, 0.85);
+            border: 1.5px solid rgba(255, 255, 255, 0.14);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .f1-style-btn:hover {
+            border-color: #e10600;
+            transform: translateY(-2px);
+        }
+        .f1-style-btn.active {
+            background: linear-gradient(135deg, rgba(225, 6, 0, 0.35), rgba(15, 23, 42, 0.95));
+            border-color: #e10600;
+            box-shadow: 0 0 20px rgba(225, 6, 0, 0.4);
+        }
+
+        .glass-btn {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1.5px solid rgba(255, 255, 255, 0.16);
+            transition: all 0.2s ease;
+        }
+        .glass-btn:hover {
+            background: rgba(225, 6, 0, 0.25);
+            border-color: #e10600;
+        }
+        .glass-btn.active {
+            background: #e10600;
+            color: #ffffff;
+            border-color: #ffffff;
+            font-weight: 700;
+        }
+
+        @keyframes cameraFlash {
+            0% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        .flash-active {
+            animation: cameraFlash 0.45s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col relative selection:bg-f1-red selection:text-white">
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="fixed top-5 right-5 z-[1000] flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- TOP RACING HEADER -->
+    <header class="sticky top-0 z-50 bg-f1-carbon/90 backdrop-blur-md border-b-2 border-f1-red px-4 sm:px-8 py-3">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-f1-red via-red-700 to-black border border-white/30 flex items-center justify-center text-white shadow-lg">
+                    <i class="fa-solid fa-flag-checkered text-lg"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h1 class="font-orbitron font-black text-lg sm:text-2xl text-white tracking-wider leading-none">PITLANE BOOTH</h1>
+                        <span class="px-2 py-0.5 rounded bg-f1-red font-orbitron text-[10px] font-bold text-white tracking-widest">F1</span>
+                    </div>
+                    <p class="font-mono text-[10px] text-slate-300 tracking-widest uppercase mt-1">10 RACING PHOTOSTRIP STYLES • RED & TEAM EDITIONS</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <button id="btn-toggle-sound" class="glass-btn px-3.5 py-1.5 rounded-full font-mono text-xs text-white flex items-center gap-2">
+                    <i class="fa-solid fa-volume-high" id="sound-icon"></i>
+                    <span class="hidden sm:inline" id="sound-label">SFX ON</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN STUDIO -->
+    <main class="flex-grow py-6 px-4 sm:px-6 relative z-10">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+            <!-- LEFT COLUMN: STYLE SELECTOR, CAMERA & CONTROLS (7 cols) -->
+            <div class="lg:col-span-7 flex flex-col gap-6">
+
+                <!-- 1. SELECT ONE OF 10 F1 PHOTOSTRIP STYLES -->
+                <div class="racing-panel rounded-3xl p-5">
+                    <div class="flex items-center justify-between mb-3">
+                        <label class="font-mono text-xs text-f1-red uppercase tracking-wider font-bold">
+                            1. CHOOSE F1 PHOTOSTRIP STYLE (10 DESIGNS)
+                        </label>
+                        <span class="font-mono text-[11px] text-slate-400">3-POSE RACE STRIP</span>
+                    </div>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-5 gap-2" id="f1-styles-grid">
+                        <button data-style="1" class="f1-style-btn active rounded-2xl p-2.5 text-left flex flex-col gap-1">
+                            <span class="font-orbitron font-bold text-[11px] text-red-400">#01 RED ROCKET</span>
+                            <span class="text-sm">🏎️🔴</span>
+                            <span class="font-mono text-[9px] text-slate-300 leading-tight">Crimson race car & speed lines</span>
+                        </button>
+
+                        <button data-style="2" class="f1-style-btn rounded-2xl p-2.5 text-left flex flex-col gap-1">
+                            <span class="font-orbitron font-bold text-[11px] text-amber-400">#02 SCUDERIA</span>
+                            <span class="text-sm">🐎🟡</span>
+                            <span class="font-mono text-[9px] text-slate-300 leading-tight">Ferrari-inspired shield & prancing horse</span>
+                        </button>
+
+                        <button data-style="3" class="f1-style-btn rounded-2xl p-2.5 text-left flex flex-col gap-1">
+                            <span class="font-orbitron font-bold text-[11px] text-cyan-300">#03 SILVER STAR</span>
+                            <span class="text-sm">⭐🩶</span>
+                            <span class="font-mono text-[9px] text-slate-300 leading-tight">Mercedes-inspired silver star & teal</span>
+                        </button>
+
+                        <button data-style="4" class="f1-style-btn rounded-2xl p-2.5 text-left flex flex-col gap-1">
+                            <span class="font-orbitron font-bold text-[11px] text-yellow-300">#04 BULL CHARGE</span>
+                            <span class="text-sm">🐂☀️</span>
+                            <span class="font-mono text-[9px] text-slate-300 leading-tight">Red Bull-inspired navy, red & twin bulls</span>
+                        </button>
+
+                        <button data-style="5" class="f1-style-btn rounded-2xl p-2.5 text-left flex flex-col gap-1">
+                            <span class="font-orbitron font-bold text-[11px] text-orange-400">#05 PAPAYA GP</span>
+                            <span class="text-sm">🧡🏁</span>
+                            <span class="font-mono text-[9px] text-slate-300 leading-tight">McLaren-inspired papaya & cobalt stripes</span>
+                        </button>
+
+                        <button data-style="6" class="f1-style-btn rounded-2xl p-2.5 text-left flex flex-col gap-1">
+                            <span class="font-orbitron font-bold text-[11px] text-white">#06 CHECKERED</span>
+                            <span class="text-sm">🏁🏎️</span>
+                            <span class="font-mono text-[9px] text-slate-300 leading-tight">Finish flag & red F1 car frames</span>
+                        </button>
+
+                        <button data-style="7" class="f1-style-btn rounded-2xl p-2.5 text-left flex flex-col gap-1">
+                            <span class="font-orbitron font-bold text-[11px] text-rose-400">#07 TELEMETRY</span>
+                            <span class="text-sm">📊🛞</span>
+                            <span class="font-mono text-[9px] text-slate-300 leading-tight">Pit tire compounds & red RPM bar</span>
+                        </button>
+
+                        <button data-style="8" class="f1-style-btn rounded-2xl p-2.5 text-left flex flex-col gap-1">
+                            <span class="font-orbitron font-bold text-[11px] text-fuchsia-400">#08 NIGHT GP</span>
+                            <span class="text-sm">🌃🏎️</span>
+                            <span class="font-mono text-[9px] text-slate-300 leading-tight">Street circuit neon & red race car</span>
+                        </button>
+
+                        <button data-style="9" class="f1-style-btn rounded-2xl p-2.5 text-left flex flex-col gap-1">
+                            <span class="font-orbitron font-bold text-[11px] text-amber-200">#09 VINTAGE GP</span>
+                            <span class="text-sm">🏆🚗</span>
+                            <span class="font-mono text-[9px] text-slate-300 leading-tight">Retro Monza poster & red classic racer</span>
+                        </button>
+
+                        <button data-style="10" class="f1-style-btn rounded-2xl p-2.5 text-left flex flex-col gap-1">
+                            <span class="font-orbitron font-bold text-[11px] text-emerald-300">#10 PODIUM P1</span>
+                            <span class="text-sm">🥂🥇</span>
+                            <span class="font-mono text-[9px] text-slate-300 leading-tight">P1 victory gold, red car & spray</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 2. CAMERA VIEWFINDER -->
+                <div class="racing-panel rounded-3xl p-4 sm:p-5 flex flex-col">
+                    <div class="w-full flex items-center justify-between px-3 py-2 bg-black/80 rounded-xl border border-white/10 mb-3 font-mono text-xs text-slate-200">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" id="status-indicator"></span>
+                            <span id="status-text">LIVE CAMERA READY</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <select id="camera-select" class="bg-slate-900 text-white border border-white/20 rounded px-2 py-1 text-xs focus:outline-none hidden max-w-[140px] truncate">
+                                <option value="">Default Camera</option>
+                            </select>
+                            <button id="btn-mirror-toggle" class="hover:text-f1-red transition-colors">
+                                <i class="fa-solid fa-arrows-rotate mr-1"></i> MIRROR
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Camera Error Fallback Banner -->
+                    <div id="camera-error-banner" class="w-full bg-rose-950/90 border border-rose-500 p-3 rounded-2xl mb-3 font-mono text-xs text-rose-200 hidden flex flex-col gap-2 text-center">
+                        <span id="camera-error-msg">⚠️ Camera permission blocked or unavailable. Using Demo Mode.</span>
+                        <div class="flex justify-center gap-2">
+                            <button id="btn-retry-camera" class="px-3 py-1 rounded-lg bg-rose-600 text-white font-bold hover:bg-rose-500">RETRY CAMERA</button>
+                            <button id="btn-use-demo" class="px-3 py-1 rounded-lg bg-slate-800 text-white border border-white/20">USE DEMO</button>
+                        </div>
+                    </div>
+
+                    <!-- Live Viewfinder Canvas -->
+                    <div class="relative w-full aspect-[4/3] bg-black rounded-2xl overflow-hidden border-2 border-f1-red/50 flex items-center justify-center shadow-2xl">
+                        <video id="webcam-video" autoplay playsinline webkit-playsinline muted class="hidden"></video>
+                        <canvas id="studio-canvas" class="w-full h-full object-cover"></canvas>
+
+                        <div id="camera-flash" class="absolute inset-0 bg-white opacity-0 pointer-events-none z-40"></div>
+
+                        <div id="countdown-overlay" class="absolute inset-0 bg-black/85 backdrop-blur-sm flex flex-col items-center justify-center z-30 opacity-0 pointer-events-none transition-opacity duration-200">
+                            <span id="countdown-text" class="font-orbitron font-black text-8xl sm:text-9xl text-f1-red drop-shadow-[0_0_28px_rgba(225,6,0,0.85)]">3</span>
+                            <span class="font-mono text-xs text-white uppercase tracking-widest mt-2">POSE FOR LAP <span id="countdown-frame-num">1</span>!</span>
+                        </div>
+
+                        <div class="absolute top-3 left-3 z-20 px-3 py-1 rounded-full bg-f1-red/95 border border-white/40 font-mono text-xs text-white flex items-center gap-2 shadow-md">
+                            <span>SLOT:</span>
+                            <span id="active-frame-badge" class="w-5 h-5 rounded-full bg-white text-black font-bold flex items-center justify-center">1</span>
+                        </div>
+                    </div>
+
+                    <div class="w-full flex items-center justify-between mt-3 px-1 font-mono text-xs text-slate-400">
+                        <button id="btn-toggle-demo" class="hover:text-f1-red transition-colors flex items-center gap-1.5">
+                            <i class="fa-solid fa-repeat"></i>
+                            <span id="demo-toggle-text">SWITCH TO DEMO FEED</span>
+                        </button>
+                        <span>3-POSE PIT STRIP</span>
+                    </div>
+                </div>
+
+                <!-- 3. FILTERS, FRAME SLOTS & SHOOT BUTTONS -->
+                <div class="racing-panel rounded-3xl p-5 flex flex-col gap-5">
+
+                    <!-- Color Filters -->
+                    <div>
+                        <label class="block font-mono text-xs text-slate-300 uppercase tracking-wider mb-2">
+                            2. VISOR COLOR FILTER
+                        </label>
+                        <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
+                            <button data-filter="normal" class="filter-btn glass-btn py-2 px-2 rounded-xl font-mono text-xs text-white active text-center">🏁 Clear Visor</button>
+                            <button data-filter="crimson" class="filter-btn glass-btn py-2 px-2 rounded-xl font-mono text-xs text-white text-center">🔴 Crimson Tint</button>
+                            <button data-filter="silver" class="filter-btn glass-btn py-2 px-2 rounded-xl font-mono text-xs text-white text-center">🥈 Silver Arrow</button>
+                            <button data-filter="warm" class="filter-btn glass-btn py-2 px-2 rounded-xl font-mono text-xs text-white text-center">☀️ Sunset GP</button>
+                            <button data-filter="mono" class="filter-btn glass-btn py-2 px-2 rounded-xl font-mono text-xs text-white text-center">⚫ Carbon Mono</button>
+                        </div>
+                    </div>
+
+                    <!-- 3 Photo Slots Manager -->
+                    <div>
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                            <label class="block font-mono text-xs text-slate-300 uppercase tracking-wider">
+                                3. MANAGE 3 PHOTO SLOTS (RETAKE OR UPLOAD)
+                            </label>
+                            <input type="text" id="input-driver-tag" value="DRIVER #01" maxlength="16" placeholder="Driver / Circuit Tag" class="bg-black/80 border border-white/20 rounded-lg px-2.5 py-1 font-mono text-[11px] text-amber-300 w-36 focus:outline-none focus:border-f1-red">
+                        </div>
+                        <div class="grid grid-cols-3 gap-3" id="frames-picker-grid"></div>
+                        <input type="file" id="frame-file-input" accept="image/*" class="hidden">
+                    </div>
+
+                    <!-- Shoot Buttons -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                        <button id="btn-start-full-session" class="py-3.5 px-4 rounded-2xl bg-gradient-to-r from-f1-red via-red-700 to-rose-900 border-2 border-white/80 text-white font-orbitron text-xs sm:text-sm tracking-wider font-bold shadow-xl hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-flag-checkered"></i>
+                            <span>SNAP ALL 3 LAPS</span>
+                        </button>
+                        <button id="btn-snap-single-frame" class="py-3.5 px-4 rounded-2xl bg-white text-black font-orbitron text-xs sm:text-sm tracking-wider font-black shadow-xl hover:bg-amber-300 active:scale-[0.98] transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-camera"></i>
+                            <span>SNAP SLOT <span id="btn-active-frame-num">1</span> ONLY</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- RIGHT COLUMN: LIVE PHOTOSTRIP PREVIEW & EXPORT (5 cols) -->
+            <div class="lg:col-span-5 flex flex-col items-center racing-panel rounded-3xl p-5 border-2 border-white/15 min-h-[650px]">
+                <div class="w-full flex items-center justify-between border-b border-white/10 pb-3 mb-4">
+                    <span class="font-orbitron font-bold text-lg text-white tracking-wide">STRIP PREVIEW</span>
+                    <span id="style-badge" class="font-mono text-xs text-white bg-f1-red font-bold px-3 py-1 rounded-full">#01 RED ROCKET</span>
+                </div>
+
+                <canvas id="strip-export-canvas" class="hidden"></canvas>
+
+                <div class="relative w-full max-w-[300px] flex justify-center my-auto py-1">
+                    <img id="strip-preview-img" src="" alt="Formula 1 Photostrip Preview" class="rounded-md shadow-[0_18px_40px_rgba(0,0,0,0.75)] max-h-[630px] w-auto object-contain transition-all duration-300">
+                </div>
+
+                <div class="w-full flex flex-col gap-2.5 mt-4 pt-4 border-t border-white/10">
+                    <button id="btn-download-png" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-f1-red to-red-700 text-white font-orbitron font-bold text-xs sm:text-sm tracking-wider hover:brightness-110 transition-all shadow-lg flex items-center justify-center gap-2 border border-white/40">
+                        <i class="fa-solid fa-download"></i>
+                        <span>DOWNLOAD STRIP (PNG)</span>
+                    </button>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <button id="btn-copy-image" class="glass-btn py-2.5 rounded-xl text-white font-mono text-xs flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-copy text-amber-300"></i>
+                            <span>Copy Image</span>
+                        </button>
+                        <button id="btn-reset-all" class="glass-btn py-2.5 rounded-xl text-white font-mono text-xs flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-rotate-right text-f1-red"></i>
+                            <span>Reset Slots</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // DOM Elements
+            const videoEl = document.getElementById('webcam-video');
+            const studioCanvas = document.getElementById('studio-canvas');
+            const studioCtx = studioCanvas.getContext('2d');
+            const exportCanvas = document.getElementById('strip-export-canvas');
+            const exportCtx = exportCanvas.getContext('2d');
+            const previewImg = document.getElementById('strip-preview-img');
+
+            const cameraSelect = document.getElementById('camera-select');
+            const cameraErrorBanner = document.getElementById('camera-error-banner');
+            const cameraErrorMsg = document.getElementById('camera-error-msg');
+            const btnRetryCamera = document.getElementById('btn-retry-camera');
+            const btnUseDemo = document.getElementById('btn-use-demo');
+            const btnToggleDemo = document.getElementById('btn-toggle-demo');
+            const btnMirrorToggle = document.getElementById('btn-mirror-toggle');
+            const btnToggleSound = document.getElementById('btn-toggle-sound');
+            const soundIcon = document.getElementById('sound-icon');
+            const soundLabel = document.getElementById('sound-label');
+            const statusIndicator = document.getElementById('status-indicator');
+            const statusText = document.getElementById('status-text');
+
+            const countdownOverlay = document.getElementById('countdown-overlay');
+            const countdownText = document.getElementById('countdown-text');
+            const countdownFrameNum = document.getElementById('countdown-frame-num');
+            const cameraFlash = document.getElementById('camera-flash');
+
+            const activeFrameBadge = document.getElementById('active-frame-badge');
+            const btnActiveFrameNum = document.getElementById('btn-active-frame-num');
+            const framesPickerGrid = document.getElementById('frames-picker-grid');
+            const frameFileInput = document.getElementById('frame-file-input');
+            const inputDriverTag = document.getElementById('input-driver-tag');
+            const styleBadge = document.getElementById('style-badge');
+
+            const btnStartFullSession = document.getElementById('btn-start-full-session');
+            const btnSnapSingleFrame = document.getElementById('btn-snap-single-frame');
+            const btnDownloadPng = document.getElementById('btn-download-png');
+            const btnCopyImage = document.getElementById('btn-copy-image');
+            const btnResetAll = document.getElementById('btn-reset-all');
+
+            // App State
+            let currentStyle = 1; // 1 to 10
+            let currentFilter = 'normal';
+            let isMuted = false;
+            let isMirrored = true;
+            let useDemoMode = false;
+            let isCapturing = false;
+            let activeFrame = 1; // 1 to 3
+            let currentStream = null;
+            let studioAnimId = null;
+
+            const styleNames = {
+                1: '#01 RED ROCKET',
+                2: '#02 SCUDERIA',
+                3: '#03 SILVER STAR',
+                4: '#04 BULL CHARGE',
+                5: '#05 PAPAYA GP',
+                6: '#06 CHECKERED',
+                7: '#07 TELEMETRY',
+                8: '#08 NIGHT GP',
+                9: '#09 VINTAGE GP',
+                10: '#10 PODIUM P1'
+            };
+
+            const framesData = [null, null, null];
+
+            // Web Audio API Sound Effects
+            let audioCtx = null;
+            function initAudio() {
+                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            function playBeep(freq = 640, dur = 0.14) {
+                if (isMuted) return;
+                try {
+                    initAudio();
+                    const now = audioCtx.currentTime;
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(freq, now);
+                    gain.gain.setValueAtTime(0.18, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + dur);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now);
+                    osc.stop(now + dur);
+                } catch (e) {}
+            }
+            function playEngineShutter() {
+                if (isMuted) return;
+                try {
+                    initAudio();
+                    const now = audioCtx.currentTime;
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(320, now);
+                    osc.frequency.exponentialRampToValueAtTime(65, now + 0.18);
+                    gain.gain.setValueAtTime(0.32, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.18);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.18);
+                } catch (e) {}
+            }
+
+            function showToast(msg) {
+                const container = document.getElementById('toast-container');
+                const toast = document.createElement('div');
+                toast.className = 'px-4 py-2.5 rounded-xl bg-slate-950/95 border border-f1-red text-white font-mono text-xs shadow-xl transition-opacity duration-300';
+                toast.textContent = `🏎️ ${msg}`;
+                container.appendChild(toast);
+                setTimeout(() => {
+                    toast.classList.add('opacity-0');
+                    setTimeout(() => toast.remove(), 300);
+                }, 2600);
+            }
+
+            // Camera Setup
+            function stopCurrentStream() {
+                if (currentStream) {
+                    currentStream.getTracks().forEach(t => t.stop());
+                    currentStream = null;
+                }
+                if (videoEl.srcObject) videoEl.srcObject = null;
+            }
+
+            async function populateCameraDevices() {
+                if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) return;
+                try {
+                    const devices = await navigator.mediaDevices.enumerateDevices();
+                    const videoDevices = devices.filter(d => d.kind === 'videoinput');
+                    cameraSelect.innerHTML = '';
+                    if (videoDevices.length > 0) {
+                        videoDevices.forEach((dev, idx) => {
+                            const opt = document.createElement('option');
+                            opt.value = dev.deviceId;
+                            opt.textContent = dev.label || `Camera ${idx + 1}`;
+                            cameraSelect.appendChild(opt);
+                        });
+                        cameraSelect.classList.remove('hidden');
+                    }
+                } catch (e) {}
+            }
+
+            async function initCamera(deviceId = null) {
+                stopCurrentStream();
+                cameraErrorBanner.classList.add('hidden');
+                useDemoMode = false;
+                statusIndicator.className = 'w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping';
+                statusText.textContent = 'STARTING CAMERA...';
+
+                if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                    activateDemoFallback('WebRTC not supported in this browser.');
+                    return;
+                }
+
+                let stream = null;
+                try {
+                    const constraints = {
+                        video: deviceId ? { deviceId: { exact: deviceId } } : { facingMode: 'user', width: { ideal: 640 }, height: { ideal: 480 } },
+                        audio: false
+                    };
+                    stream = await navigator.mediaDevices.getUserMedia(constraints);
+                } catch (e1) {
+                    try {
+                        stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+                    } catch (e2) {
+                        activateDemoFallback('Camera blocked or unavailable. Demo mode enabled.');
+                        return;
+                    }
+                }
+
+                try {
+                    currentStream = stream;
+                    videoEl.srcObject = stream;
+                    videoEl.setAttribute('playsinline', '');
+                    videoEl.setAttribute('webkit-playsinline', '');
+                    videoEl.muted = true;
+                    await videoEl.play().catch(() => {});
+
+                    statusIndicator.className = 'w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse';
+                    statusText.textContent = 'LIVE CAMERA READY';
+                    document.getElementById('demo-toggle-text').textContent = 'SWITCH TO DEMO FEED';
+                    await populateCameraDevices();
+                    if (deviceId) cameraSelect.value = deviceId;
+                    startStudioLoop();
+                } catch (e) {
+                    activateDemoFallback('Stream error. Demo mode enabled.');
+                }
+            }
+
+            function activateDemoFallback(msg) {
+                useDemoMode = true;
+                statusIndicator.className = 'w-2.5 h-2.5 rounded-full bg-f1-red animate-bounce';
+                statusText.textContent = 'DEMO PIT FEED ACTIVE';
+                cameraErrorMsg.textContent = `⚠️ ${msg}`;
+                cameraErrorBanner.classList.remove('hidden');
+                document.getElementById('demo-toggle-text').textContent = 'SWITCH TO WEBCAM';
+                startStudioLoop();
+            }
+
+            // Live Viewfinder Loop
+            function startStudioLoop() {
+                if (studioAnimId) cancelAnimationFrame(studioAnimId);
+                studioCanvas.width = 640;
+                studioCanvas.height = 480;
+
+                let t = 0;
+                function loop() {
+                    t += 0.04;
+                    const ready = !useDemoMode && videoEl.readyState >= 2 && videoEl.videoWidth > 0;
+
+                    if (useDemoMode || !ready) {
+                        const grad = studioCtx.createLinearGradient(0, 0, 640, 480);
+                        grad.addColorStop(0, '#111827');
+                        grad.addColorStop(0.5, '#7f1d1d');
+                        grad.addColorStop(1, '#090d16');
+                        studioCtx.fillStyle = grad;
+                        studioCtx.fillRect(0, 0, 640, 480);
+
+                        // Race track curbs
+                        studioCtx.fillStyle = '#e10600';
+                        studioCtx.fillRect(0, 410, 640, 22);
+                        studioCtx.fillStyle = '#ffffff';
+                        for (let x = 0; x < 640; x += 64) {
+                            studioCtx.fillRect(x, 410, 32, 22);
+                        }
+
+                        // Demo F1 Car & Driver
+                        const carX = 320 + Math.sin(t * 1.5) * 35;
+                        drawF1CarVector(studioCtx, carX, 275, 2.2, '#e10600', '#ffffff');
+
+                        studioCtx.fillStyle = '#ffffff';
+                        studioCtx.font = '800 22px "Orbitron", sans-serif';
+                        studioCtx.textAlign = 'center';
+                        studioCtx.fillText('PITLANE DEMO FEED', 320, 75);
+                    } else {
+                        studioCtx.save();
+                        if (isMirrored) {
+                            studioCtx.translate(640, 0);
+                            studioCtx.scale(-1, 1);
+                        }
+                        studioCtx.drawImage(videoEl, 0, 0, 640, 480);
+                        studioCtx.restore();
+                    }
+
+                    if (currentFilter !== 'normal') {
+                        applyFilter(studioCtx, 640, 480, currentFilter);
+                    }
+
+                    studioAnimId = requestAnimationFrame(loop);
+                }
+                loop();
+            }
+
+            function applyFilter(ctx, w, h, type) {
+                const img = ctx.getImageData(0, 0, w, h);
+                const d = img.data;
+                for (let i = 0; i < d.length; i += 4) {
+                    if (type === 'crimson') {
+                        d[i] = Math.min(255, d[i] * 1.2 + 12);
+                        d[i + 1] = Math.min(255, d[i + 1] * 0.88);
+                        d[i + 2] = Math.min(255, d[i + 2] * 0.9);
+                    } else if (type === 'silver') {
+                        const g = d[i] * 0.299 + d[i + 1] * 0.587 + d[i + 2] * 0.114;
+                        d[i] = Math.min(255, g * 0.92 + 8);
+                        d[i + 1] = Math.min(255, g * 1.02 + 10);
+                        d[i + 2] = Math.min(255, g * 1.14 + 14);
+                    } else if (type === 'warm') {
+                        d[i] = Math.min(255, d[i] * 1.15 + 10);
+                        d[i + 1] = Math.min(255, d[i + 1] * 1.04);
+                        d[i + 2] = Math.min(255, d[i + 2] * 0.85);
+                    } else if (type === 'mono') {
+                        const g = d[i] * 0.299 + d[i + 1] * 0.587 + d[i + 2] * 0.114;
+                        const c = Math.max(0, Math.min(255, (g - 128) * 1.28 + 128));
+                        d[i] = d[i + 1] = d[i + 2] = c;
+                    }
+                }
+                ctx.putImageData(img, 0, 0);
+            }
+
+            // 3 Slot Thumbnails UI
+            function renderFramesPickerUI() {
+                framesPickerGrid.innerHTML = '';
+                for (let i = 1; i <= 3; i++) {
+                    const div = document.createElement('div');
+                    const isSel = activeFrame === i;
+                    const photo = framesData[i - 1];
+
+                    div.className = `relative aspect-[4/3] rounded-xl border-2 flex flex-col items-center justify-center cursor-pointer overflow-hidden transition-all ${
+                        isSel ? 'border-f1-red ring-4 ring-f1-red/25 bg-black' : 'border-white/20 bg-slate-900/70 hover:border-white/50'
+                    }`;
+
+                    if (photo) {
+                        div.innerHTML = `
+                            <img src="${photo.toDataURL()}" class="w-full h-full object-cover">
+                            <span class="absolute top-1 left-1 w-5 h-5 rounded-full bg-f1-red text-white font-bold text-[10px] flex items-center justify-center border border-white">${i}</span>
+                            <div class="absolute inset-0 bg-black/55 opacity-0 hover:opacity-100 flex items-center justify-center gap-2 transition-opacity">
+                                <button class="w-7 h-7 rounded-full bg-f1-red text-white text-xs flex items-center justify-center font-bold" title="Select Slot"><i class="fa-solid fa-camera"></i></button>
+                                <button class="w-7 h-7 rounded-full bg-white text-black text-xs flex items-center justify-center font-bold btn-upload-slot" title="Upload Photo"><i class="fa-solid fa-upload"></i></button>
+                            </div>
+                        `;
+                    } else {
+                        div.innerHTML = `
+                            <span class="w-6 h-6 rounded-full bg-red-500/20 text-red-400 font-bold text-xs flex items-center justify-center mb-1 border border-red-500/40">${i}</span>
+                            <span class="font-mono text-[10px] text-slate-300">Slot ${i}</span>
+                            <button class="mt-1 px-2 py-0.5 rounded bg-white/10 hover:bg-white/20 font-mono text-[9px] text-slate-200 btn-upload-slot">Upload</button>
+                        `;
+                    }
+
+                    div.addEventListener('click', (e) => {
+                        if (e.target.closest('.btn-upload-slot')) {
+                            frameFileInput.setAttribute('data-slot', i);
+                            frameFileInput.click();
+                            return;
+                        }
+                        activeFrame = i;
+                        renderFramesPickerUI();
+                        playBeep(680, 0.12);
+                    });
+
+                    framesPickerGrid.appendChild(div);
+                }
+                activeFrameBadge.textContent = activeFrame;
+                btnActiveFrameNum.textContent = activeFrame;
+            }
+
+            frameFileInput.addEventListener('change', (e) => {
+                const slot = parseInt(frameFileInput.getAttribute('data-slot') || activeFrame);
+                const file = e.target.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = (ev) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        const c = document.createElement('canvas');
+                        c.width = 640; c.height = 480;
+                        const ctx = c.getContext('2d');
+                        const scale = Math.max(640 / img.width, 480 / img.height);
+                        const sw = img.width * scale;
+                        const sh = img.height * scale;
+                        ctx.drawImage(img, (640 - sw) / 2, (480 - sh) / 2, sw, sh);
+                        framesData[slot - 1] = c;
+                        renderFramesPickerUI();
+                        renderPhotostrip();
+                        showToast(`Uploaded to Slot ${slot}!`);
+                    };
+                    img.src = ev.target.result;
+                };
+                reader.readAsDataURL(file);
+                frameFileInput.value = '';
+            });
+
+            function snapViewfinder() {
+                const c = document.createElement('canvas');
+                c.width = 640; c.height = 480;
+                c.getContext('2d').drawImage(studioCanvas, 0, 0, 640, 480);
+                return c;
+            }
+
+            function runCountdown(sec, slotNum) {
+                return new Promise((resolve) => {
+                    countdownFrameNum.textContent = slotNum;
+                    countdownOverlay.classList.remove('opacity-0', 'pointer-events-none');
+                    let count = sec;
+                    countdownText.textContent = count;
+                    playBeep(560, 0.14);
+
+                    const timer = setInterval(() => {
+                        count--;
+                        if (count > 0) {
+                            countdownText.textContent = count;
+                            playBeep(560 + (3 - count) * 120, 0.14);
+                        } else {
+                            clearInterval(timer);
+                            countdownOverlay.classList.add('opacity-0', 'pointer-events-none');
+                            resolve();
+                        }
+                    }, 900);
+                });
+            }
+
+            function triggerFlash() {
+                playEngineShutter();
+                cameraFlash.classList.add('flash-active');
+                setTimeout(() => cameraFlash.classList.remove('flash-active'), 450);
+            }
+
+            btnSnapSingleFrame.addEventListener('click', async () => {
+                if (isCapturing) return;
+                isCapturing = true;
+                await runCountdown(3, activeFrame);
+                triggerFlash();
+                framesData[activeFrame - 1] = snapViewfinder();
+                renderFramesPickerUI();
+                renderPhotostrip();
+                if (activeFrame < 3) activeFrame++;
+                renderFramesPickerUI();
+                isCapturing = false;
+                showToast('Lap photo captured!');
+            });
+
+            btnStartFullSession.addEventListener('click', async () => {
+                if (isCapturing) return;
+                isCapturing = true;
+                btnStartFullSession.disabled = true;
+                btnStartFullSession.classList.add('opacity-50');
+
+                for (let s = 1; s <= 3; s++) {
+                    activeFrame = s;
+                    renderFramesPickerUI();
+                    await runCountdown(3, s);
+                    triggerFlash();
+                    framesData[s - 1] = snapViewfinder();
+                    renderFramesPickerUI();
+                    renderPhotostrip();
+                    if (s < 3) await new Promise(r => setTimeout(r, 750));
+                }
+
+                isCapturing = false;
+                btnStartFullSession.disabled = false;
+                btnStartFullSession.classList.remove('opacity-50');
+                showToast('All 3 F1 poses captured!');
+            });
+
+            // Style Switcher
+            document.querySelectorAll('.f1-style-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    document.querySelectorAll('.f1-style-btn').forEach(b => b.classList.remove('active'));
+                    e.currentTarget.classList.add('active');
+                    currentStyle = parseInt(e.currentTarget.getAttribute('data-style'));
+                    styleBadge.textContent = styleNames[currentStyle];
+                    playBeep(780, 0.12);
+                    renderPhotostrip();
+                });
+            });
+
+            // Filter Switcher
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    e.currentTarget.classList.add('active');
+                    currentFilter = e.currentTarget.getAttribute('data-filter');
+                    playBeep(650, 0.1);
+                });
+            });
+
+            inputDriverTag.addEventListener('input', () => renderPhotostrip());
+            btnMirrorToggle.addEventListener('click', () => { isMirrored = !isMirrored; showToast(`Mirror: ${isMirrored ? 'ON' : 'OFF'}`); });
+            btnToggleSound.addEventListener('click', () => {
+                isMuted = !isMuted;
+                soundIcon.className = isMuted ? 'fa-solid fa-volume-xmark' : 'fa-solid fa-volume-high';
+                soundLabel.textContent = isMuted ? 'MUTED' : 'SFX ON';
+            });
+            btnToggleDemo.addEventListener('click', () => {
+                if (useDemoMode) initCamera(cameraSelect.value || null);
+                else activateDemoFallback('Demo feed toggled manually.');
+            });
+            cameraSelect.addEventListener('change', (e) => { if (e.target.value) initCamera(e.target.value); });
+            btnRetryCamera.addEventListener('click', () => initCamera(cameraSelect.value || null));
+            btnUseDemo.addEventListener('click', () => { cameraErrorBanner.classList.add('hidden'); useDemoMode = true; });
+
+
+            // ==================== SHARED F1 ARTWORK HELPERS ====================
+            function drawPhotoSlot(ctx, index, x, y, w, h, options = {}) {
+                const { borderColor = null, borderWidth = 0, radius = 0, skewX = 0 } = options;
+                const photo = framesData[index];
+
+                ctx.save();
+                if (skewX !== 0) {
+                    ctx.transform(1, 0, skewX, 1, -skewX * (y + h / 2), 0);
+                }
+
+                ctx.beginPath();
+                if (radius > 0) ctx.roundRect(x, y, w, h, radius);
+                else ctx.rect(x, y, w, h);
+                ctx.clip();
+
+                if (photo) {
+                    const scale = Math.max(w / photo.width, h / photo.height);
+                    const dw = photo.width * scale;
+                    const dh = photo.height * scale;
+                    ctx.drawImage(photo, x + (w - dw) / 2, y + (h - dh) / 2, dw, dh);
+                } else {
+                    ctx.fillStyle = '#181d28';
+                    ctx.fillRect(x, y, w, h);
+                    ctx.fillStyle = '#94a3b8';
+                    ctx.font = '800 22px "Orbitron", sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(`LAP 0${index + 1}`, x + w / 2, y + h / 2);
+                }
+                ctx.restore();
+
+                if (borderColor && borderWidth > 0) {
+                    ctx.save();
+                    if (skewX !== 0) {
+                        ctx.transform(1, 0, skewX, 1, -skewX * (y + h / 2), 0);
+                    }
+                    ctx.strokeStyle = borderColor;
+                    ctx.lineWidth = borderWidth;
+                    if (radius > 0) {
+                        ctx.beginPath();
+                        ctx.roundRect(x, y, w, h, radius);
+                        ctx.stroke();
+                    } else {
+                        ctx.strokeRect(x, y, w, h);
+                    }
+                    ctx.restore();
+                }
+            }
+
+            // Formula 1 Open-Wheel Race Car Vector
+            function drawF1CarVector(ctx, cx, cy, scale = 1, bodyColor = '#e10600', accentColor = '#ffffff') {
+                ctx.save();
+                ctx.translate(cx, cy);
+                ctx.scale(scale, scale);
+
+                // Rear tires
+                ctx.fillStyle = '#111111';
+                ctx.strokeStyle = '#334155';
+                ctx.lineWidth = 1.5;
+                ctx.beginPath(); ctx.roundRect(-52, -26, 28, 16, 4); ctx.fill(); ctx.stroke();
+                ctx.beginPath(); ctx.roundRect(-52, 10, 28, 16, 4); ctx.fill(); ctx.stroke();
+
+                // Front tires
+                ctx.beginPath(); ctx.roundRect(22, -23, 24, 13, 3); ctx.fill(); ctx.stroke();
+                ctx.beginPath(); ctx.roundRect(22, 10, 24, 13, 3); ctx.fill(); ctx.stroke();
+
+                // Rear wing
+                ctx.fillStyle = bodyColor;
+                ctx.beginPath(); ctx.roundRect(-62, -24, 14, 48, 2); ctx.fill();
+                ctx.fillStyle = accentColor;
+                ctx.fillRect(-62, -24, 14, 5);
+                ctx.fillRect(-62, 19, 14, 5);
+
+                // Main chassis & sidepods
+                ctx.fillStyle = bodyColor;
+                ctx.beginPath();
+                ctx.moveTo(-48, -14);
+                ctx.lineTo(15, -11);
+                ctx.lineTo(66, -4);
+                ctx.lineTo(66, 4);
+                ctx.lineTo(15, 11);
+                ctx.lineTo(-48, 14);
+                ctx.closePath();
+                ctx.fill();
+
+                // Sidepod accent stripe
+                ctx.fillStyle = accentColor;
+                ctx.beginPath();
+                ctx.moveTo(-25, -13); ctx.lineTo(12, -10); ctx.lineTo(12, -7); ctx.lineTo(-25, -9);
+                ctx.fill();
+                ctx.beginPath();
+                ctx.moveTo(-25, 13); ctx.lineTo(12, 10); ctx.lineTo(12, 7); ctx.lineTo(-25, 9);
+                ctx.fill();
+
+                // Halo & Cockpit
+                ctx.fillStyle = '#090d16';
+                ctx.beginPath(); ctx.ellipse(2, 0, 12, 6, 0, 0, Math.PI * 2); ctx.fill();
+                ctx.strokeStyle = '#334155';
+                ctx.lineWidth = 2.5;
+                ctx.beginPath(); ctx.arc(5, 0, 8, -Math.PI * 0.65, Math.PI * 0.65); ctx.stroke();
+
+                // Front wing
+                ctx.fillStyle = bodyColor;
+                ctx.beginPath(); ctx.roundRect(58, -28, 12, 56, 3); ctx.fill();
+                ctx.fillStyle = accentColor;
+                ctx.fillRect(67, -28, 3, 56);
+
+                ctx.restore();
+            }
+
+            // Ferrari-Inspired Shield & Prancing Horse Emblem
+            function drawFerrariInspiredBadge(ctx, cx, cy, scale = 1) {
+                ctx.save();
+                ctx.translate(cx, cy);
+                ctx.scale(scale, scale);
+
+                // Yellow shield outer
+                ctx.fillStyle = '#facc15';
+                ctx.strokeStyle = '#111111';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(-36, -42);
+                ctx.lineTo(36, -42);
+                ctx.lineTo(36, 6);
+                ctx.quadraticCurveTo(36, 38, 0, 48);
+                ctx.quadraticCurveTo(-36, 38, -36, 6);
+                ctx.closePath();
+                ctx.fill();
+                ctx.stroke();
+
+                // Top Italian tricolor band
+                ctx.fillStyle = '#16a34a'; ctx.fillRect(-34, -40, 22.6, 12);
+                ctx.fillStyle = '#ffffff'; ctx.fillRect(-11.4, -40, 22.8, 12);
+                ctx.fillStyle = '#dc2626'; ctx.fillRect(11.4, -40, 22.6, 12);
+
+                // Prancing horse silhouette
+                ctx.fillStyle = '#111111';
+                ctx.beginPath();
+                ctx.moveTo(-10, 26);
+                ctx.lineTo(-4, 10);
+                ctx.lineTo(-14, 2);
+                ctx.lineTo(-6, -12);
+                ctx.lineTo(4, -20);
+                ctx.lineTo(14, -14);
+                ctx.lineTo(6, -8);
+                ctx.lineTo(16, 4);
+                ctx.lineTo(8, 10);
+                ctx.lineTo(12, 26);
+                ctx.lineTo(5, 26);
+                ctx.lineTo(2, 14);
+                ctx.lineTo(-4, 26);
+                ctx.closePath();
+                ctx.fill();
+
+                ctx.restore();
+            }
+
+            // Mercedes-Inspired Three-Pointed Star in Laurel Ring
+            function drawMercedesInspiredBadge(ctx, cx, cy, scale = 1) {
+                ctx.save();
+                ctx.translate(cx, cy);
+                ctx.scale(scale, scale);
+
+                ctx.strokeStyle = '#e2e8f0';
+                ctx.lineWidth = 4;
+                ctx.beginPath(); ctx.arc(0, 0, 40, 0, Math.PI * 2); ctx.stroke();
+
+                ctx.fillStyle = 'rgba(20, 184, 166, 0.22)';
+                ctx.beginPath(); ctx.arc(0, 0, 36, 0, Math.PI * 2); ctx.fill();
+
+                // 3-pointed star
+                ctx.fillStyle = '#ffffff';
+                for (let i = 0; i < 3; i++) {
+                    ctx.save();
+                    ctx.rotate((i * Math.PI * 2) / 3 - Math.PI / 2);
+                    ctx.beginPath();
+                    ctx.moveTo(0, 0);
+                    ctx.lineTo(-7, 6);
+                    ctx.lineTo(0, -34);
+                    ctx.lineTo(7, 6);
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.restore();
+                }
+
+                ctx.restore();
+            }
+
+            // Red Bull-Inspired Sun & Twin Bulls Emblem
+            function drawRedBullInspiredBadge(ctx, cx, cy, scale = 1) {
+                ctx.save();
+                ctx.translate(cx, cy);
+                ctx.scale(scale, scale);
+
+                // Golden Sunburst
+                ctx.fillStyle = '#facc15';
+                ctx.beginPath(); ctx.arc(0, -6, 32, 0, Math.PI * 2); ctx.fill();
+
+                // Red Crimson Bar
+                ctx.fillStyle = '#dc2626';
+                ctx.beginPath(); ctx.roundRect(-48, -14, 96, 26, 6); ctx.fill();
+
+                // Twin Bulls Silhouettes
+                ctx.fillStyle = '#111111';
+                // Left Bull
+                ctx.beginPath(); ctx.ellipse(-22, -1, 13, 8, -0.15, 0, Math.PI * 2); ctx.fill();
+                ctx.beginPath(); ctx.moveTo(-10, -4); ctx.lineTo(2, -10); ctx.lineTo(-6, 3); ctx.fill();
+                // Right Bull
+                ctx.beginPath(); ctx.ellipse(22, -1, 13, 8, 0.15, 0, Math.PI * 2); ctx.fill();
+                ctx.beginPath(); ctx.moveTo(10, -4); ctx.lineTo(-2, -10); ctx.lineTo(6, 3); ctx.fill();
+
+                ctx.restore();
+            }
+
+            function drawCheckeredStrip(ctx, x, y, w, h, sqSize = 14) {
+                ctx.save();
+                ctx.beginPath(); ctx.rect(x, y, w, h); ctx.clip();
+                const cols = Math.ceil(w / sqSize) + 1;
+                const rows = Math.ceil(h / sqSize) + 1;
+                for (let r = 0; r < rows; r++) {
+                    for (let c = 0; c < cols; c++) {
+                        ctx.fillStyle = (r + c) % 2 === 0 ? '#ffffff' : '#0f172a';
+                        ctx.fillRect(x + c * sqSize, y + r * sqSize, sqSize, sqSize);
+                    }
+                }
+                ctx.restore();
+            }
+
+
+            // ==================== 10 FORMULA 1 PHOTOSTRIP STYLES ====================
+            function renderPhotostrip() {
+                const W = 500;
+                const H = 1500;
+                exportCanvas.width = W;
+                exportCanvas.height = H;
+                const ctx = exportCtx;
+                const tag = (inputDriverTag.value || 'DRIVER #01').toUpperCase();
+
+                ctx.clearRect(0, 0, W, H);
+
+                switch (currentStyle) {
+                    case 1: renderStyle1RedRocket(ctx, W, H, tag); break;
+                    case 2: renderStyle2Scuderia(ctx, W, H, tag); break;
+                    case 3: renderStyle3SilverStar(ctx, W, H, tag); break;
+                    case 4: renderStyle4BullCharge(ctx, W, H, tag); break;
+                    case 5: renderStyle5PapayaGP(ctx, W, H, tag); break;
+                    case 6: renderStyle6Checkered(ctx, W, H, tag); break;
+                    case 7: renderStyle7Telemetry(ctx, W, H, tag); break;
+                    case 8: renderStyle8NightGP(ctx, W, H, tag); break;
+                    case 9: renderStyle9VintageGP(ctx, W, H, tag); break;
+                    case 10: renderStyle10PodiumP1(ctx, W, H, tag); break;
+                }
+
+                previewImg.src = exportCanvas.toDataURL('image/png');
+            }
+
+            // #01: RED ROCKET (Vibrant Red Strip, Racing Car & Speed Stripes)
+            function renderStyle1RedRocket(ctx, W, H, tag) {
+                const grad = ctx.createLinearGradient(0, 0, 0, H);
+                grad.addColorStop(0, '#e10600');
+                grad.addColorStop(0.5, '#b91c1c');
+                grad.addColorStop(1, '#7f1d1d');
+                ctx.fillStyle = grad;
+                ctx.fillRect(0, 0, W, H);
+
+                // White & Black Speed Stripes
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(24, 0, 12, H);
+                ctx.fillStyle = '#090d16';
+                ctx.fillRect(42, 0, 6, H);
+
+                // Header
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '900 34px "Orbitron", sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('FORMULA 1', 265, 68);
+                ctx.fillStyle = '#fecaca';
+                ctx.font = '700 15px "Space Mono", monospace';
+                ctx.fillText('RED ROCKET • GRAND PRIX', 265, 98);
+
+                // 3 Photo Slots
+                drawPhotoSlot(ctx, 0, 72, 130, 385, 330, { borderColor: '#ffffff', borderWidth: 5, radius: 10 });
+                drawPhotoSlot(ctx, 1, 72, 545, 385, 330, { borderColor: '#ffffff', borderWidth: 5, radius: 10 });
+                drawPhotoSlot(ctx, 2, 72, 960, 385, 330, { borderColor: '#ffffff', borderWidth: 5, radius: 10 });
+
+                // Red F1 Race Car between slots
+                drawF1CarVector(ctx, 265, 502, 1.55, '#ffffff', '#e10600');
+                drawF1CarVector(ctx, 265, 918, 1.55, '#090d16', '#ffffff');
+
+                // Bottom Footer with Car & Tag
+                ctx.fillStyle = '#090d16';
+                ctx.fillRect(55, 1320, 415, 135);
+                drawF1CarVector(ctx, 145, 1372, 1.25, '#e10600', '#ffffff');
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '800 22px "Orbitron", sans-serif';
+                ctx.textAlign = 'left';
+                ctx.fillText(tag, 235, 1365);
+                ctx.fillStyle = '#f87171';
+                ctx.font = '700 13px "Space Mono", monospace';
+                ctx.fillText('LAP RECORD • P1', 235, 1395);
+            }
+
+            // #02: SCUDERIA (Ferrari-Inspired Crimson & Gold Shield + Race Car)
+            function renderStyle2Scuderia(ctx, W, H, tag) {
+                ctx.fillStyle = '#dc2626';
+                ctx.fillRect(0, 0, W, H);
+
+                // Gold top trim
+                ctx.fillStyle = '#facc15';
+                ctx.fillRect(0, 0, W, 16);
+
+                // Ferrari-inspired shield badge
+                drawFerrariInspiredBadge(ctx, 90, 82, 0.95);
+
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '900 32px "Orbitron", sans-serif';
+                ctx.textAlign = 'left';
+                ctx.fillText('SCUDERIA GP', 145, 76);
+                ctx.fillStyle = '#fef08a';
+                ctx.font = '700 14px "Space Mono", monospace';
+                ctx.fillText('ROSSA CORSA • PIT BOX 01', 145, 104);
+
+                drawPhotoSlot(ctx, 0, 58, 145, 384, 330, { borderColor: '#facc15', borderWidth: 6, radius: 8 });
+                drawPhotoSlot(ctx, 1, 58, 560, 384, 330, { borderColor: '#facc15', borderWidth: 6, radius: 8 });
+                drawPhotoSlot(ctx, 2, 58, 975, 384, 330, { borderColor: '#facc15', borderWidth: 6, radius: 8 });
+
+                drawF1CarVector(ctx, 250, 518, 1.6, '#b91c1c', '#facc15');
+                drawF1CarVector(ctx, 250, 940, 1.6, '#b91c1c', '#facc15');
+
+                // Footer
+                ctx.fillStyle = '#111111';
+                ctx.fillRect(40, 1335, 420, 125);
+                ctx.strokeStyle = '#facc15';
+                ctx.lineWidth = 3;
+                ctx.strokeRect(40, 1335, 420, 125);
+
+                drawFerrariInspiredBadge(ctx, 95, 1397, 0.8);
+                ctx.fillStyle = '#facc15';
+                ctx.font = '800 22px "Orbitron", sans-serif';
+                ctx.textAlign = 'left';
+                ctx.fillText(tag, 155, 1390);
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '700 13px "Space Mono", monospace';
+                ctx.fillText('FORZA • SPEEDWAY', 155, 1418);
+            }
+
+            // #03: SILVER STAR (Mercedes-Inspired Silver, Teal & Red Accent)
+            function renderStyle3SilverStar(ctx, W, H, tag) {
+                const grad = ctx.createLinearGradient(0, 0, 0, H);
+                grad.addColorStop(0, '#0f172a');
+                grad.addColorStop(0.5, '#1e293b');
+                grad.addColorStop(1, '#090d16');
+                ctx.fillStyle = grad;
+                ctx.fillRect(0, 0, W, H);
+
+                // Teal & Red Racing Stripe
+                ctx.fillStyle = '#14b8a6';
+                ctx.fillRect(0, 124, W, 8);
+                ctx.fillStyle = '#e10600';
+                ctx.fillRect(0, 132, W, 4);
+
+                drawMercedesInspiredBadge(ctx, 85, 68, 0.88);
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '900 30px "Orbitron", sans-serif';
+                ctx.textAlign = 'left';
+                ctx.fillText('SILVER ARROW', 142, 65);
+                ctx.fillStyle = '#5eead4';
+                ctx.font = '700 14px "Space Mono", monospace';
+                ctx.fillText('PETRONAS TEAL • F1', 142, 93);
+
+                drawPhotoSlot(ctx, 0, 58, 158, 384, 325, { borderColor: '#e2e8f0', borderWidth: 4, radius: 12 });
+                drawPhotoSlot(ctx, 1, 58, 565, 384, 325, { borderColor: '#14b8a6', borderWidth: 4, radius: 12 });
+                drawPhotoSlot(ctx, 2, 58, 972, 384, 325, { borderColor: '#e2e8f0', borderWidth: 4, radius: 12 });
+
+                drawF1CarVector(ctx, 250, 524, 1.55, '#cbd5e1', '#14b8a6');
+                drawF1CarVector(ctx, 250, 934, 1.55, '#e10600', '#ffffff');
+
+                // Footer
+                ctx.fillStyle = '#14b8a6';
+                ctx.fillRect(58, 1330, 384, 120);
+                ctx.fillStyle = '#090d16';
+                ctx.font = '900 24px "Orbitron", sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(tag, W / 2, 1380);
+                ctx.font = '700 14px "Space Mono", monospace';
+                ctx.fillText('SILVER STAR GRAND PRIX', W / 2, 1415);
+            }
+
+            // #04: BULL CHARGE (Red Bull-Inspired Deep Navy, Crimson & Twin Bulls)
+            function renderStyle4BullCharge(ctx, W, H, tag) {
+                ctx.fillStyle = '#0f172a';
+                ctx.fillRect(0, 0, W, H);
+
+                // Diagonal Red & Yellow Accent
+                ctx.fillStyle = '#dc2626';
+                ctx.beginPath();
+                ctx.moveTo(0, 0); ctx.lineTo(500, 0); ctx.lineTo(500, 125); ctx.lineTo(0, 90);
+                ctx.closePath();
+                ctx.fill();
+
+                drawRedBullInspiredBadge(ctx, 250, 62, 1.05);
+
+                drawPhotoSlot(ctx, 0, 56, 152, 388, 328, { borderColor: '#facc15', borderWidth: 5, radius: 8 });
+                drawPhotoSlot(ctx, 1, 56, 562, 388, 328, { borderColor: '#ef4444', borderWidth: 5, radius: 8 });
+                drawPhotoSlot(ctx, 2, 56, 972, 388, 328, { borderColor: '#facc15', borderWidth: 5, radius: 8 });
+
+                drawF1CarVector(ctx, 250, 521, 1.6, '#1d4ed8', '#facc15');
+                drawF1CarVector(ctx, 250, 936, 1.6, '#dc2626', '#facc15');
+
+                // Footer
+                ctx.fillStyle = '#dc2626';
+                ctx.fillRect(56, 1332, 388, 122);
+                ctx.fillStyle = '#facc15';
+                ctx.font = '900 24px "Orbitron", sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(tag, W / 2, 1382);
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '700 14px "Space Mono", monospace';
+                ctx.fillText('GIVES YOU WINGS • P1', W / 2, 1418);
+            }
+
+            // #05: PAPAYA GP (McLaren-Inspired Papaya Orange & Cobalt Blue)
+            function renderStyle5PapayaGP(ctx, W, H, tag) {
+                ctx.fillStyle = '#ff8700';
+                ctx.fillRect(0, 0, W, H);
+
+                // Cobalt Blue & Red Accent Bars
+                ctx.fillStyle = '#1d4ed8';
+                ctx.fillRect(0, 118, W, 14);
+                ctx.fillStyle = '#e10600';
+                ctx.fillRect(0, 132, W, 6);
+
+                ctx.fillStyle = '#090d16';
+                ctx.font = '900 34px "Orbitron", sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('PAPAYA RACING', W / 2, 64);
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '700 14px "Space Mono", monospace';
+                ctx.fillText('WOKING SPEED • FORMULA 1', W / 2, 95);
+
+                drawPhotoSlot(ctx, 0, 56, 158, 388, 325, { borderColor: '#090d16', borderWidth: 5, radius: 10 });
+                drawPhotoSlot(ctx, 1, 56, 566, 388, 325, { borderColor: '#090d16', borderWidth: 5, radius: 10 });
+                drawPhotoSlot(ctx, 2, 56, 974, 388, 325, { borderColor: '#090d16', borderWidth: 5, radius: 10 });
+
+                drawF1CarVector(ctx, 250, 524, 1.6, '#090d16', '#ff8700');
+                drawF1CarVector(ctx, 250, 936, 1.6, '#e10600', '#ffffff');
+
+                // Footer
+                ctx.fillStyle = '#090d16';
+                ctx.fillRect(56, 1330, 388, 122);
+                ctx.fillStyle = '#ff8700';
+                ctx.font = '900 24px "Orbitron", sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(tag, W / 2, 1380);
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '700 14px "Space Mono", monospace';
+                ctx.fillText('PAPAYA RULES • FASTEST LAP', W / 2, 1416);
+            }
+
+            // #06: CHECKERED FLAG & RED CAR
+            function renderStyle6Checkered(ctx, W, H, tag) {
+                ctx.fillStyle = '#e10600';
+                ctx.fillRect(0, 0, W, H);
+
+                drawCheckeredStrip(ctx, 0, 0, W, 42, 14);
+                drawCheckeredStrip(ctx, 0, H - 42, W, 42, 14);
+
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '900 32px "Orbitron", sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('FINISH LINE', W / 2, 86);
+                ctx.fillStyle = '#fecaca';
+                ctx.font = '700 14px "Space Mono", monospace';
+                ctx.fillText('CHEQUERED FLAG • GRAND PRIX', W / 2, 114);
+
+                drawPhotoSlot(ctx, 0, 58, 142, 384, 325, { borderColor: '#ffffff', borderWidth: 6 });
+                drawPhotoSlot(ctx, 1, 58, 552, 384, 325, { borderColor: '#ffffff', borderWidth: 6 });
+                drawPhotoSlot(ctx, 2, 58, 962, 384, 325, { borderColor: '#ffffff', borderWidth: 6 });
+
+                drawF1CarVector(ctx, 250, 509, 1.6, '#090d16', '#ffffff');
+                drawF1CarVector(ctx, 250, 924, 1.6, '#ffffff', '#e10600');
+
+                // Footer
+                ctx.fillStyle = '#090d16';
+                ctx.fillRect(58, 1318, 384, 110);
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '900 22px "Orbitron", sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(tag, W / 2, 1365);
+                ctx.fillStyle = '#f87171';
+                ctx.font = '700 13px "Space Mono", monospace';
+                ctx.fillText('LAP 58 / 58 • VICTORY', W / 2, 1398);
+            }
+
+            // #07: TELEMETRY & PIT STRATEGY (Red RPM Bars & Tire Badges)
+            function renderStyle7Telemetry(ctx, W, H, tag) {
+                ctx.fillStyle = '#0b0d12';
+                ctx.fillRect(0, 0, W, H);
+
+                // Red Telemetry Header Bar
+                ctx.fillStyle = '#e10600';
+                ctx.fillRect(0, 0, W, 116);
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '900 28px "Orbitron", sans-serif';
+                ctx.textAlign = 'left';
+                ctx.fillText('LIVE TELEMETRY', 32, 56);
+                ctx.font = '700 14px "Space Mono", monospace';
+                ctx.fillText('338 KM/H • DRS ENABLED', 32, 88);
+
+                // Tire Compound Badges (Soft Red, Medium Yellow, Hard White)
+                const tires = [
+                    { y: 145, color: '#ef4444', code: 'S' },
+                    { y: 555, color: '#facc15', code: 'M' },
+                    { y: 965, color: '#ffffff', code: 'H' }
+                ];
+
+                tires.forEach((t, idx) => {
+                    drawPhotoSlot(ctx, idx, 88, t.y, 356, 320, { borderColor: t.color, borderWidth: 4, radius: 8 });
+                    // Tire circle on left
+                    ctx.fillStyle = '#111111';
+                    ctx.strokeStyle = t.color;
+                    ctx.lineWidth = 5;
+                    ctx.beginPath(); ctx.arc(46, t.y + 75, 24, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+                    ctx.fillStyle = t.color;
+                    ctx.font = '900 20px "Orbitron", sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(t.code, 46, t.y + 82);
+                });
+
+                drawF1CarVector(ctx, 266, 514, 1.5, '#e10600', '#ffffff');
+                drawF1CarVector(ctx, 266, 924, 1.5, '#e10600', '#facc15');
+
+                // RPM Bar Footer
+                ctx.fillStyle = '#151922';
+                ctx.fillRect(32, 1320, 436, 135);
+                ctx.fillStyle = '#e10600';
+                ctx.fillRect(48, 1338, 360, 14);
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '800 22px "Orbitron", sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(tag, W / 2, 1392);
+                ctx.fillStyle = '#94a3b8';
+                ctx.font = '700 13px "Space Mono", monospace';
+                ctx.fillText('SECTOR 1 • SECTOR 2 • SECTOR 3', W / 2, 1425);
+            }
+
+            // #08: NIGHT GP (Street Circuit Neon & Red Race Car)
+            function renderStyle8NightGP(ctx, W, H, tag) {
+                const grad = ctx.createLinearGradient(0, 0, 0, H);
+                grad.addColorStop(0, '#090514');
+                grad.addColorStop(0.5, '#1e0b2b');
+                grad.addColorStop(1, '#090514');
+                ctx.fillStyle = grad;
+                ctx.fillRect(0, 0, W, H);
+
+                // Neon Red & Cyan Track Lines
+                ctx.strokeStyle = '#ff1e42';
+                ctx.lineWidth = 4;
+                ctx.strokeRect(24, 24, W - 48, H - 48);
+
+                ctx.fillStyle = '#ff1e42';
+                ctx.font = '900 32px "Orbitron", sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('NIGHT GRAND PRIX', W / 2, 82);
+                ctx.fillStyle = '#38bdf8';
+                ctx.font = '700 14px "Space Mono", monospace';
+                ctx.fillText('MARINA • SINGAPORE • VEGAS', W / 2, 112);
+
+                drawPhotoSlot(ctx, 0, 62, 145, 376, 322, { borderColor: '#ff1e42', borderWidth: 5, radius: 12 });
+                drawPhotoSlot(ctx, 1, 62, 555, 376, 322, { borderColor: '#38bdf8', borderWidth: 5, radius: 12 });
+                drawPhotoSlot(ctx, 2, 62, 965, 376, 322, { borderColor: '#ff1e42', borderWidth: 5, radius: 12 });
+
+                drawF1CarVector(ctx, 250, 511, 1.55, '#ff1e42', '#38bdf8');
+                drawF1CarVector(ctx, 250, 926, 1.55, '#ff1e42', '#ffffff');
+
+                ctx.fillStyle = '#ff1e42';
+                ctx.font = '900 24px "Orbitron", sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(tag, W / 2, 1355);
+                ctx.fillStyle = '#e2e8f0';
+                ctx.font = '700 13px "Space Mono", monospace';
+                ctx.fillText('UNDER THE LIGHTS • F1', W / 2, 1390);
+            }
+
+            // #09: VINTAGE GP (Retro Cream & Red Poster Style)
+            function renderStyle9VintageGP(ctx, W, H, tag) {
+                ctx.fillStyle = '#f5ebd6';
+                ctx.fillRect(0, 0, W, H);
+
+                // Vintage Red Frame
+                ctx.strokeStyle = '#b91c1c';
+                ctx.lineWidth = 14;
+                ctx.strokeRect(20, 20, W - 40, H - 40);
+
+                ctx.fillStyle = '#b91c1c';
+                ctx.font = '900 32px "Orbitron", sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('GRAN PREMIO', W / 2, 82);
+                ctx.fillStyle = '#1c1917';
+                ctx.font = '700 14px "Space Mono", monospace';
+                ctx.fillText('CLASSIC AUTODROMO EDITION', W / 2, 112);
+
+                drawPhotoSlot(ctx, 0, 62, 145, 376, 322, { borderColor: '#b91c1c', borderWidth: 5 });
+                drawPhotoSlot(ctx, 1, 62, 555, 376, 322, { borderColor: '#b91c1c', borderWidth: 5 });
+                drawPhotoSlot(ctx, 2, 62, 965, 376, 322, { borderColor: '#b91c1c', borderWidth: 5 });
+
+                drawF1CarVector(ctx, 250, 511, 1.55, '#b91c1c', '#f5ebd6');
+                drawF1CarVector(ctx, 250, 926, 1.55, '#1c1917', '#b91c1c');
+
+                ctx.fillStyle = '#b91c1c';
+                ctx.font = '900 24px "Orbitron", sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(tag, W / 2, 1355);
+                ctx.fillStyle = '#1c1917';
+                ctx.font = '700 13px "Space Mono", monospace';
+                ctx.fillText('ROARING V10 • HERITAGE GP', W / 2, 1390);
+            }
+
+            // #10: PODIUM P1 (Championship Gold, Red Car & P1 Crown)
+            function renderStyle10PodiumP1(ctx, W, H, tag) {
+                const grad = ctx.createLinearGradient(0, 0, 0, H);
+                grad.addColorStop(0, '#991b1b');
+                grad.addColorStop(0.5, '#111827');
+                grad.addColorStop(1, '#78350f');
+                ctx.fillStyle = grad;
+                ctx.fillRect(0, 0, W, H);
+
+                // Gold P1 Badge
+                ctx.fillStyle = '#fbbf24';
+                ctx.beginPath(); ctx.arc(82, 74, 38, 0, Math.PI * 2); ctx.fill();
+                ctx.fillStyle = '#111111';
+                ctx.font = '900 28px "Orbitron", sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('P1', 82, 84);
+
+                ctx.fillStyle = '#fbbf24';
+                ctx.font = '900 32px "Orbitron", sans-serif';
+                ctx.textAlign = 'left';
+                ctx.fillText('PODIUM WINNER', 135, 70);
+                ctx.fillStyle = '#fde68a';
+                ctx.font = '700 14px "Space Mono", monospace';
+                ctx.fillText('CHAMPIONSHIP TROPHY • F1', 135, 98);
+
+                drawPhotoSlot(ctx, 0, 58, 145, 384, 322, { borderColor: '#fbbf24', borderWidth: 5, radius: 10 });
+                drawPhotoSlot(ctx, 1, 58, 555, 384, 322, { borderColor: '#ef4444', borderWidth: 5, radius: 10 });
+                drawPhotoSlot(ctx, 2, 58, 965, 384, 322, { borderColor: '#fbbf24', borderWidth: 5, radius: 10 });
+
+                drawF1CarVector(ctx, 250, 511, 1.55, '#e10600', '#fbbf24');
+                drawF1CarVector(ctx, 250, 926, 1.55, '#fbbf24', '#111111');
+
+                ctx.fillStyle = '#fbbf24';
+                ctx.font = '900 24px "Orbitron", sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(tag, W / 2, 1355);
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '700 13px "Space Mono", monospace';
+                ctx.fillText('WORLD CHAMPION • GRAND PRIX', W / 2, 1390);
+            }
+
+            // Export & Reset Actions
+            btnDownloadPng.addEventListener('click', () => {
+                renderPhotostrip();
+                playBeep(880, 0.2);
+                const link = document.createElement('a');
+                link.download = `F1_Photostrip_Style${currentStyle}_${Date.now()}.png`;
+                link.href = exportCanvas.toDataURL('image/png');
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                showToast('F1 Photostrip PNG downloaded!');
+            });
+
+            btnCopyImage.addEventListener('click', () => {
+                renderPhotostrip();
+                try {
+                    exportCanvas.toBlob(async (blob) => {
+                        await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+                        showToast('Copied strip to clipboard!');
+                    });
+                } catch (e) {
+                    showToast('Use Download button to save PNG!');
+                }
+            });
+
+            btnResetAll.addEventListener('click', () => {
+                for (let i = 0; i < 3; i++) framesData[i] = null;
+                activeFrame = 1;
+                renderFramesPickerUI();
+                renderPhotostrip();
+                showToast('All 3 slots reset!');
+            });
+
+            // Initialize App
+            renderFramesPickerUI();
+            renderPhotostrip();
+            initCamera();
+        });
+    </script>
+</body>
+</html>
