@@ -1,0 +1,1850 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Y2K STREET & BILLIARDS PHOTOBOOTH • 20 STRIPS & 10 SUNGLASSES</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Space+Mono:wght@400;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        crimson: {
+                            800: '#8b0d0d',
+                            900: '#6b0707'
+                        }
+                    },
+                    fontFamily: {
+                        display: ['"Syne"', 'sans-serif'],
+                        pixel: ['"Press Start 2P"', 'monospace'],
+                        mono: ['"Space Mono"', 'monospace'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #f6f5f2;
+            color: #111827;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+            background-image:
+                radial-gradient(circle at 15% 10%, rgba(139, 13, 13, 0.08) 0%, transparent 42%),
+                radial-gradient(circle at 85% 90%, rgba(17, 24, 39, 0.06) 0%, transparent 42%),
+                linear-gradient(rgba(17, 24, 39, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(17, 24, 39, 0.03) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 28px 28px, 28px 28px;
+        }
+
+        .studio-card {
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1.5px solid #d1d5db;
+            box-shadow: 0 12px 32px -10px rgba(17, 24, 39, 0.1);
+        }
+
+        .strip-btn {
+            background: #f9fafb;
+            border: 1.5px solid #e5e7eb;
+            color: #111827;
+            transition: all 0.16s ease;
+        }
+        .strip-btn:hover {
+            border-color: #8b0d0d;
+            background: #fef2f2;
+            transform: translateY(-2px);
+        }
+        .strip-btn.active {
+            background: linear-gradient(135deg, #fef2f2, #ffffff);
+            border-color: #8b0d0d;
+            box-shadow: 0 6px 16px rgba(139, 13, 13, 0.18);
+        }
+
+        .ctrl-btn {
+            background: #f9fafb;
+            color: #1f2937;
+            border: 1.5px solid #d1d5db;
+            transition: all 0.16s ease;
+        }
+        .ctrl-btn:hover {
+            background: #f3f4f6;
+            border-color: #9ca3af;
+        }
+        .ctrl-btn.active {
+            background: #8b0d0d;
+            color: #ffffff;
+            border-color: #5c0606;
+            font-weight: 700;
+        }
+
+        .checker-bar {
+            background-image: linear-gradient(45deg, #111827 25%, transparent 25%),
+                              linear-gradient(-45deg, #111827 25%, transparent 25%),
+                              linear-gradient(45deg, transparent 75%, #111827 75%),
+                              linear-gradient(-45deg, transparent 75%, #111827 75%);
+            background-size: 16px 16px;
+            background-position: 0 0, 0 8px, 8px -8px, -8px 0;
+            background-color: #8b0d0d;
+        }
+
+        @keyframes cameraFlash {
+            0% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        .flash-active {
+            animation: cameraFlash 0.45s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col relative selection:bg-crimson-800 selection:text-white">
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="fixed top-5 right-5 z-[1000] flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- TOP STUDIO HEADER -->
+    <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b-2 border-gray-200 px-4 sm:px-8 py-3 shadow-sm">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center gap-3.5">
+                <div class="w-11 h-11 rounded-2xl bg-crimson-800 flex items-center justify-center text-white shadow-md font-display font-extrabold text-xl">
+                    8
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h1 class="font-display text-base sm:text-xl font-extrabold text-gray-900 tracking-tight leading-none">8-BALL &amp; PIXEL PHOTOBOOTH</h1>
+                        <span class="px-2 py-0.5 rounded-md bg-red-100 border border-red-300 font-mono text-[10px] text-red-900 font-bold">20 STRIPS • 10 SHADES</span>
+                    </div>
+                    <p class="font-mono text-[10px] text-gray-500 tracking-wider uppercase mt-1">4-CUT Y2K STREET STUDIO • BILLIARDS • HALFTONE CATS • REALISTIC SUNGLASSES</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-2 sm:gap-3">
+                <div class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-gray-100 border border-gray-200 font-mono text-xs text-gray-700">
+                    <span class="text-gray-400">CUTS:</span>
+                    <span id="dash-captured-count" class="font-bold text-crimson-800">0 / 4</span>
+                </div>
+                <div class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-gray-100 border border-gray-200 font-mono text-xs text-gray-700">
+                    <span class="text-gray-400">STRIP:</span>
+                    <span id="dash-active-style" class="font-bold text-gray-900">#01 CRIMSON 8-BALL</span>
+                </div>
+                <button id="btn-toggle-sound" class="ctrl-btn px-3.5 py-1.5 rounded-xl font-mono text-xs flex items-center gap-2">
+                    <i class="fa-solid fa-volume-high" id="sound-icon"></i>
+                    <span class="hidden sm:inline" id="sound-label">SFX ON</span>
+                </button>
+            </div>
+        </div>
+        <div class="checker-bar h-2 w-full mt-3 rounded-full opacity-90"></div>
+    </header>
+
+    <!-- MAIN STUDIO WORKSPACE -->
+    <main class="flex-grow py-6 px-4 sm:px-6 relative z-10">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+            <!-- LEFT COLUMN: 20 STRIPS, LIVE VIEWFINDER, 10 SUNGLASSES & 4 SLOTS (7 cols) -->
+            <div class="lg:col-span-7 flex flex-col gap-6">
+
+                <!-- 1. 20 DIFFERENT Y2K STREET & BILLIARDS PHOTOSTRIP TEMPLATES -->
+                <div class="studio-card rounded-3xl p-5">
+                    <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+                        <label class="font-mono text-xs text-crimson-800 uppercase tracking-wider font-bold">
+                            1. CHOOSE 4-CUT PHOTOSTRIP DESIGN (20 STYLES)
+                        </label>
+                        <span class="font-mono text-[11px] text-gray-500">#01 MATCHES YOUR EXACT REFERENCE</span>
+                    </div>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 max-h-[260px] overflow-y-auto pr-1" id="strips-grid"></div>
+                </div>
+
+                <!-- 2. LIVE CAMERA VIEWFINDER WITH DRAGGABLE REALISTIC SUNGLASSES -->
+                <div class="studio-card rounded-3xl p-4 sm:p-5 flex flex-col">
+                    <div class="w-full flex items-center justify-between px-3 py-2 bg-gray-100 rounded-xl border border-gray-200 mb-3 font-mono text-xs text-gray-700">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping" id="status-indicator"></span>
+                            <span id="status-text" class="font-semibold">WEBCAM FEED LIVE</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <select id="camera-select" class="bg-white text-gray-800 border border-gray-300 rounded px-2 py-1 text-xs focus:outline-none hidden max-w-[140px] truncate">
+                                <option value="">Default Camera</option>
+                            </select>
+                            <button id="btn-mirror-toggle" class="hover:text-crimson-800 transition-colors font-semibold">
+                                <i class="fa-solid fa-arrows-rotate mr-1"></i> MIRROR
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Camera Error Fallback Banner -->
+                    <div id="camera-error-banner" class="w-full bg-rose-50 border border-rose-300 p-3 rounded-2xl mb-3 font-mono text-xs text-rose-800 hidden flex flex-col gap-2 text-center">
+                        <span id="camera-error-msg">⚠️ Camera permission blocked or unavailable. Using Track Demo Feed.</span>
+                        <div class="flex justify-center gap-2">
+                            <button id="btn-retry-camera" class="px-3 py-1 rounded-lg bg-crimson-800 text-white font-bold hover:bg-red-700">RETRY CAMERA</button>
+                            <button id="btn-use-demo" class="px-3 py-1 rounded-lg bg-white text-gray-800 border border-gray-300">USE DEMO</button>
+                        </div>
+                    </div>
+
+                    <!-- Live Canvas -->
+                    <div class="relative w-full aspect-[4/3] bg-gray-950 rounded-2xl overflow-hidden border-2 border-gray-300 flex items-center justify-center shadow-md">
+                        <video id="webcam-video" autoplay playsinline webkit-playsinline muted class="hidden"></video>
+                        <canvas id="studio-canvas" class="w-full h-full object-cover cursor-grab active:cursor-grabbing"></canvas>
+
+                        <div id="camera-flash" class="absolute inset-0 bg-white opacity-0 pointer-events-none z-40"></div>
+
+                        <!-- Countdown Overlay -->
+                        <div id="countdown-overlay" class="absolute inset-0 bg-gray-950/85 backdrop-blur-sm flex flex-col items-center justify-center z-30 opacity-0 pointer-events-none transition-opacity duration-200">
+                            <span id="countdown-text" class="font-display font-extrabold text-8xl text-white drop-shadow-[0_0_24px_rgba(220,38,38,0.85)]">3</span>
+                            <span class="font-mono text-xs text-red-300 uppercase tracking-widest mt-3">POSE FOR CUT <span id="countdown-frame-num">1</span> / 4</span>
+                        </div>
+
+                        <div class="absolute top-3 left-3 z-20 px-3 py-1 rounded-full bg-white/95 border border-gray-300 font-mono text-xs text-gray-900 flex items-center gap-2 shadow">
+                            <span>CUT SLOT:</span>
+                            <span id="active-frame-badge" class="w-5 h-5 rounded-full bg-crimson-800 text-white font-bold flex items-center justify-center">1</span>
+                        </div>
+
+                        <div class="absolute bottom-3 right-3 z-20 px-2.5 py-1 rounded-lg bg-white/90 border border-gray-300 font-mono text-[10px] text-gray-700 pointer-events-none shadow-sm">
+                            Drag sunglasses to fit eyes • Tilt &amp; Scale below
+                        </div>
+                    </div>
+
+                    <!-- Demo Toggle & Sunglasses Scale / Tilt Sliders -->
+                    <div class="w-full flex flex-wrap items-center justify-between gap-3 mt-3 px-1 font-mono text-xs text-gray-600">
+                        <button id="btn-toggle-demo" class="hover:text-crimson-800 font-semibold transition-colors flex items-center gap-1.5">
+                            <i class="fa-solid fa-repeat"></i>
+                            <span id="demo-toggle-text">SWITCH TO DEMO FEED</span>
+                        </button>
+                        <div class="flex flex-wrap items-center gap-3">
+                            <div class="flex items-center gap-1.5">
+                                <span class="text-[10px] text-gray-500 font-bold">SIZE:</span>
+                                <input id="prop-scale-slider" type="range" min="0.5" max="1.9" step="0.05" value="1" class="w-20 accent-red-800 cursor-pointer">
+                            </div>
+                            <div class="flex items-center gap-1.5">
+                                <span class="text-[10px] text-gray-500 font-bold">TILT:</span>
+                                <input id="prop-tilt-slider" type="range" min="-35" max="35" step="1" value="0" class="w-20 accent-red-800 cursor-pointer">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. 10 REALISTIC & PIXEL SUNGLASSES + CAMERA COLOR FILTERS + 4 SLOTS -->
+                <div class="studio-card rounded-3xl p-5 flex flex-col gap-5">
+
+                    <!-- 10 Realistic & Pixel Sunglasses Picker -->
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <label class="font-mono text-xs text-gray-800 uppercase tracking-wider font-bold">
+                                2. SUNGLASSES FILTER (10 REALISTIC &amp; PIXEL STYLES)
+                            </label>
+                            <button id="btn-reset-shades" class="font-mono text-[10px] text-crimson-800 hover:underline font-bold">Center Shades</button>
+                        </div>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2" id="sunglasses-grid">
+                            <button data-shades="none" class="shades-btn ctrl-btn py-2 px-2 rounded-xl font-mono text-[11px] active text-center">🚫 None</button>
+                            <button data-shades="pixel-thug" class="shades-btn ctrl-btn py-2 px-2 rounded-xl font-mono text-[11px] text-center">👾 1. Pixel Thug</button>
+                            <button data-shades="wayfarer-black" class="shades-btn ctrl-btn py-2 px-2 rounded-xl font-mono text-[11px] text-center">🕶️ 2. Classic Noir</button>
+                            <button data-shades="gold-aviator" class="shades-btn ctrl-btn py-2 px-2 rounded-xl font-mono text-[11px] text-center">🟡 3. Gold Aviator</button>
+                            <button data-shades="chrome-silver" class="shades-btn ctrl-btn py-2 px-2 rounded-xl font-mono text-[11px] text-center">🪞 4. Chrome Mirror</button>
+                            <button data-shades="y2k-shield" class="shades-btn ctrl-btn py-2 px-2 rounded-xl font-mono text-[11px] text-center">🥽 5. Y2K Sport Wrap</button>
+                            <button data-shades="cyber-visor" class="shades-btn ctrl-btn py-2 px-2 rounded-xl font-mono text-[11px] text-center">🔴 6. Crimson Visor</button>
+                            <button data-shades="heart-crimson" class="shades-btn ctrl-btn py-2 px-2 rounded-xl font-mono text-[11px] text-center">❤️ 7. Heart Lolita</button>
+                            <button data-shades="tortoise-round" class="shades-btn ctrl-btn py-2 px-2 rounded-xl font-mono text-[11px] text-center">🟤 8. Tortoise Retro</button>
+                            <button data-shades="star-pop" class="shades-btn ctrl-btn py-2 px-2 rounded-xl font-mono text-[11px] text-center">⭐ 9. Star Rimless</button>
+                            <button data-shades="matrix-oval" class="shades-btn ctrl-btn py-2 px-2 rounded-xl font-mono text-[11px] text-center">🟢 10. Matrix Micro</button>
+                        </div>
+                    </div>
+
+                    <!-- Photo Color Filters -->
+                    <div>
+                        <label class="block font-mono text-xs text-gray-800 uppercase tracking-wider mb-2 font-bold">
+                            3. FILM &amp; TONE FILTERS
+                        </label>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">
+                            <button data-filter="natural" class="filter-btn ctrl-btn py-2 px-2 rounded-xl font-mono text-[11px] active text-center">✨ Natural</button>
+                            <button data-filter="y2k-flash" class="filter-btn ctrl-btn py-2 px-2 rounded-xl font-mono text-[11px] text-center">📸 Y2K Flash</button>
+                            <button data-filter="halftone-bw" class="filter-btn ctrl-btn py-2 px-2 rounded-xl font-mono text-[11px] text-center">🐱 Cat Halftone</button>
+                            <button data-filter="crimson-tint" class="filter-btn ctrl-btn py-2 px-2 rounded-xl font-mono text-[11px] text-center">🍒 Cherry Film</button>
+                            <button data-filter="kodak-warm" class="filter-btn ctrl-btn py-2 px-2 rounded-xl font-mono text-[11px] text-center">🎞️ Kodak 400</button>
+                            <button data-filter="noir" class="filter-btn ctrl-btn py-2 px-2 rounded-xl font-mono text-[11px] text-center">🎱 High B&amp;W</button>
+                        </div>
+                    </div>
+
+                    <!-- 4 Photo Cuts Manager -->
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <label class="block font-mono text-xs text-gray-800 uppercase tracking-wider font-bold">
+                                4. 4-CUT PHOTO SLOTS (CLICK SLOT OR UPLOAD)
+                            </label>
+                            <span class="font-mono text-[11px] text-gray-500">4 VERTICAL FRAMES</span>
+                        </div>
+                        <div class="grid grid-cols-4 gap-2.5" id="frames-picker-grid"></div>
+                        <input type="file" id="frame-file-input" accept="image/*" class="hidden">
+                    </div>
+
+                    <!-- Capture Buttons -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                        <button id="btn-start-full-session" class="py-3.5 px-4 rounded-2xl bg-gradient-to-r from-crimson-800 to-red-700 text-white font-display font-bold text-xs tracking-wider shadow-md hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                            <span>AUTO SHOOT ALL 4 CUTS</span>
+                        </button>
+                        <button id="btn-snap-single-frame" class="py-3.5 px-4 rounded-2xl bg-gray-900 text-white font-display font-bold text-xs tracking-wider shadow-md hover:bg-gray-800 active:scale-[0.98] transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-camera"></i>
+                            <span>SNAP CUT <span id="btn-active-frame-num">1</span></span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- RIGHT COLUMN: LIVE 4-CUT PHOTOSTRIP PREVIEW & EXPORT (5 cols) -->
+            <div class="lg:col-span-5 flex flex-col items-center studio-card rounded-3xl p-5 min-h-[700px]">
+                <div class="w-full flex items-center justify-between border-b border-gray-200 pb-3 mb-4">
+                    <span class="font-display font-extrabold text-xs sm:text-sm text-gray-900 tracking-wide">4-CUT STRIP PREVIEW</span>
+                    <span id="style-badge" class="font-mono text-xs text-red-900 bg-red-100 border border-red-200 font-bold px-3 py-1 rounded-full">#01 CRIMSON 8-BALL</span>
+                </div>
+
+                <canvas id="strip-export-canvas" class="hidden"></canvas>
+
+                <div class="relative w-full max-w-[270px] flex justify-center my-auto py-2 px-3 rounded-2xl bg-gray-100 border border-gray-200">
+                    <img id="strip-preview-img" src="" alt="4-Cut Y2K Photostrip Preview" class="rounded-sm shadow-xl max-h-[650px] w-auto object-contain transition-all duration-300">
+                </div>
+
+                <div class="w-full flex flex-col gap-2.5 mt-4 pt-4 border-t border-gray-200">
+                    <button id="btn-download-png" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-crimson-800 to-rose-700 text-white font-display font-bold text-xs tracking-wider hover:brightness-110 transition-all shadow-md flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-download"></i>
+                        <span>DOWNLOAD 4-CUT STRIP (PNG)</span>
+                    </button>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <button id="btn-copy-image" class="ctrl-btn py-2.5 rounded-xl font-mono text-xs flex items-center justify-center gap-1.5 font-semibold">
+                            <i class="fa-solid fa-copy text-crimson-800"></i>
+                            <span>Copy Image</span>
+                        </button>
+                        <button id="btn-reset-all" class="ctrl-btn py-2.5 rounded-xl font-mono text-xs flex items-center justify-center gap-1.5 font-semibold">
+                            <i class="fa-solid fa-rotate-right text-gray-700"></i>
+                            <span>Clear Cuts</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // DOM Elements
+            const videoEl = document.getElementById('webcam-video');
+            const studioCanvas = document.getElementById('studio-canvas');
+            const studioCtx = studioCanvas.getContext('2d');
+            const exportCanvas = document.getElementById('strip-export-canvas');
+            const exportCtx = exportCanvas.getContext('2d');
+            const previewImg = document.getElementById('strip-preview-img');
+
+            const stripsGrid = document.getElementById('strips-grid');
+            const cameraSelect = document.getElementById('camera-select');
+            const cameraErrorBanner = document.getElementById('camera-error-banner');
+            const cameraErrorMsg = document.getElementById('camera-error-msg');
+            const btnRetryCamera = document.getElementById('btn-retry-camera');
+            const btnUseDemo = document.getElementById('btn-use-demo');
+            const btnToggleDemo = document.getElementById('btn-toggle-demo');
+            const btnMirrorToggle = document.getElementById('btn-mirror-toggle');
+            const btnToggleSound = document.getElementById('btn-toggle-sound');
+            const soundIcon = document.getElementById('sound-icon');
+            const soundLabel = document.getElementById('sound-label');
+            const statusIndicator = document.getElementById('status-indicator');
+            const statusText = document.getElementById('status-text');
+            const propScaleSlider = document.getElementById('prop-scale-slider');
+            const propTiltSlider = document.getElementById('prop-tilt-slider');
+            const btnResetShades = document.getElementById('btn-reset-shades');
+
+            const countdownOverlay = document.getElementById('countdown-overlay');
+            const countdownText = document.getElementById('countdown-text');
+            const countdownFrameNum = document.getElementById('countdown-frame-num');
+            const cameraFlash = document.getElementById('camera-flash');
+
+            const activeFrameBadge = document.getElementById('active-frame-badge');
+            const btnActiveFrameNum = document.getElementById('btn-active-frame-num');
+            const framesPickerGrid = document.getElementById('frames-picker-grid');
+            const frameFileInput = document.getElementById('frame-file-input');
+            const styleBadge = document.getElementById('style-badge');
+
+            const btnStartFullSession = document.getElementById('btn-start-full-session');
+            const btnSnapSingleFrame = document.getElementById('btn-snap-single-frame');
+            const btnDownloadPng = document.getElementById('btn-download-png');
+            const btnCopyImage = document.getElementById('btn-copy-image');
+            const btnResetAll = document.getElementById('btn-reset-all');
+            const dashCapturedCount = document.getElementById('dash-captured-count');
+            const dashActiveStyle = document.getElementById('dash-active-style');
+
+            // 20 Strip Configurations inspired by the uploaded reference image
+            const STRIP_THEMES = [
+                { id: 1, name: '#01 CRIMSON 8-BALL', bg: '#8b0d0d', c1: '#000000', c2: '#8b0d0d', tag: 'Exact Reference', dot: '#8b0d0d', layout: 'classic-ref' },
+                { id: 2, name: '#02 NOIR 8-BALL', bg: '#09090b', c1: '#ffffff', c2: '#09090b', tag: 'Black & White Checkers', dot: '#09090b', layout: 'noir-billiards' },
+                { id: 3, name: '#03 COBALT 2-BALL', bg: '#1e3a8a', c1: '#ffffff', c2: '#1e3a8a', tag: 'Blue Pool & Pixel Cat', dot: '#1d4ed8', layout: 'cobalt-pool' },
+                { id: 4, name: '#04 EMERALD FELT', bg: '#064e3b', c1: '#facc15', c2: '#064e3b', tag: '6-Ball & Gold Checkers', dot: '#059669', layout: 'emerald-table' },
+                { id: 5, name: '#05 CHERRY POP CAT', bg: '#be123c', c1: '#fda4af', c2: '#881337', tag: 'Pink Checkers & Cats', dot: '#e11d48', layout: 'cherry-cat' },
+                { id: 6, name: '#06 PIXEL THUG', bg: '#18181b', c1: '#22c55e', c2: '#09090b', tag: 'Neon Pixel Shades Strip', dot: '#22c55e', layout: 'pixel-thug' },
+                { id: 7, name: '#07 9-BALL GOLD', bg: '#78350f', c1: '#facc15', c2: '#18181b', tag: '9-Ball & Gold Aviators', dot: '#d97706', layout: 'nine-ball' },
+                { id: 8, name: '#08 VIOLET 4-BALL', bg: '#4c1d95', c1: '#e879f9', c2: '#2e1065', tag: 'Purple Pool & Chrome', dot: '#7c3aed', layout: 'violet-pool' },
+                { id: 9, name: '#09 Y2K CHROME', bg: '#334155', c1: '#e2e8f0', c2: '#0f172a', tag: 'Silver Mirror & Dice', dot: '#94a3b8', layout: 'y2k-chrome' },
+                { id: 10, name: '#10 CREAM VINTAGE', bg: '#f5f5f4', c1: '#8b0d0d', c2: '#f5f5f4', tag: 'Cream & Crimson Checks', dot: '#d6d3d1', layout: 'cream-retro' },
+                { id: 11, name: '#11 BURGUNDY RACK', bg: '#4c0519', c1: '#fb7185', c2: '#4c0519', tag: 'Full Pool Rack & Cats', dot: '#881337', layout: 'full-rack' },
+                { id: 12, name: '#12 CYBER RED', bg: '#7f1d1d', c1: '#ef4444', c2: '#09090b', tag: 'Red Visor & 3-Ball', dot: '#dc2626', layout: 'cyber-red' },
+                { id: 13, name: '#13 ACID LIME', bg: '#1a2e05', c1: '#a3e635', c2: '#09090b', tag: 'Matrix Shades & 8-Ball', dot: '#65a30d', layout: 'acid-lime' },
+                { id: 14, name: '#14 ORANGE 5-BALL', bg: '#9a3412', c1: '#fdba74', c2: '#431407', tag: '5-Ball & Tortoise', dot: '#ea580c', layout: 'orange-five' },
+                { id: 15, name: '#15 TEAL 10-BALL', bg: '#115e59', c1: '#5eead4', c2: '#042f2e', tag: '10-Ball & Y2K Wrap', dot: '#0d9488', layout: 'teal-ten' },
+                { id: 16, name: '#16 CAT ARMY', bg: '#27272a', c1: '#f4f4f5', c2: '#18181b', tag: '4 Halftone Cats Collage', dot: '#52525b', layout: 'cat-army' },
+                { id: 17, name: '#17 SHADES GALORE', bg: '#6b0707', c1: '#facc15', c2: '#09090b', tag: 'All 4 Sunglasses Stickers', dot: '#991b1b', layout: 'shades-galore' },
+                { id: 18, name: '#18 ARCADE CHECKS', bg: '#0f172a', c1: '#38bdf8', c2: '#f43f5e', tag: 'Dual-Color Checkers', dot: '#0284c7', layout: 'arcade-checks' },
+                { id: 19, name: '#19 ROYAL GOLD', bg: '#1e1b4b', c1: '#fbbf24', c2: '#1e1b4b', tag: '8-Ball Crown & Stars', dot: '#312e81', layout: 'royal-gold' },
+                { id: 20, name: '#20 LUCKY 8-3 COMBO', bg: '#991b1b', c1: '#ffffff', c2: '#111827', tag: 'Double Checkers & Dice', dot: '#b91c1c', layout: 'lucky-combo' }
+            ];
+
+            // App State
+            let currentStyle = 1; // 1 to 20
+            let currentShades = 'none';
+            let currentFilter = 'natural';
+            let isMuted = false;
+            let isMirrored = true;
+            let useDemoMode = false;
+            let isCapturing = false;
+            let activeFrame = 1; // 1 to 4
+            let currentStream = null;
+            let studioAnimId = null;
+
+            const propState = {
+                x: 320,
+                y: 225,
+                scale: 1.0,
+                tiltDeg: 0,
+                dragging: false,
+                offsetX: 0,
+                offsetY: 0
+            };
+
+            const framesData = [null, null, null, null];
+
+            // Build 20 Strip Selector Buttons
+            STRIP_THEMES.forEach(t => {
+                const btn = document.createElement('button');
+                btn.setAttribute('data-style', t.id);
+                btn.className = `strip-btn ${t.id === 1 ? 'active' : ''} rounded-2xl p-2.5 text-left flex flex-col gap-1`;
+                btn.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <span class="font-display text-[10px] font-extrabold text-gray-900 truncate">${t.name}</span>
+                        <span class="w-3 h-3 rounded-full shrink-0 border border-black/20" style="background:${t.dot}"></span>
+                    </div>
+                    <span class="font-mono text-[9px] text-gray-500 leading-tight truncate">${t.tag}</span>
+                `;
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.strip-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentStyle = t.id;
+                    styleBadge.textContent = t.name;
+                    updateDashboardStats();
+                    playBeep(760, 0.09);
+                    renderPhotostrip();
+                });
+                stripsGrid.appendChild(btn);
+            });
+
+            // Audio Feedback
+            let audioCtx = null;
+            function initAudio() {
+                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            function playBeep(freq = 560, dur = 0.12) {
+                if (isMuted) return;
+                try {
+                    initAudio();
+                    const now = audioCtx.currentTime;
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(freq, now);
+                    gain.gain.setValueAtTime(0.14, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + dur);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now);
+                    osc.stop(now + dur);
+                } catch (e) {}
+            }
+            function playShutter() {
+                if (isMuted) return;
+                try {
+                    initAudio();
+                    const now = audioCtx.currentTime;
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(980, now);
+                    osc.frequency.exponentialRampToValueAtTime(160, now + 0.14);
+                    gain.gain.setValueAtTime(0.26, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.14);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.14);
+                } catch (e) {}
+            }
+
+            function showToast(msg) {
+                const container = document.getElementById('toast-container');
+                const toast = document.createElement('div');
+                toast.className = 'px-4 py-2.5 rounded-xl bg-white border border-red-300 text-gray-900 font-mono text-xs font-semibold shadow-lg transition-opacity duration-300';
+                toast.textContent = `🎱 ${msg}`;
+                container.appendChild(toast);
+                setTimeout(() => {
+                    toast.classList.add('opacity-0');
+                    setTimeout(() => toast.remove(), 300);
+                }, 2500);
+            }
+
+            function updateDashboardStats() {
+                const count = framesData.filter(Boolean).length;
+                const theme = STRIP_THEMES.find(s => s.id === currentStyle) || STRIP_THEMES[0];
+                if (dashCapturedCount) dashCapturedCount.textContent = `${count} / 4`;
+                if (dashActiveStyle) dashActiveStyle.textContent = theme.name;
+            }
+
+            // WebRTC Camera Handler
+            function stopCurrentStream() {
+                if (currentStream) {
+                    currentStream.getTracks().forEach(t => t.stop());
+                    currentStream = null;
+                }
+                if (videoEl.srcObject) videoEl.srcObject = null;
+            }
+
+            async function populateCameraDevices() {
+                if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) return;
+                try {
+                    const devices = await navigator.mediaDevices.enumerateDevices();
+                    const videoDevices = devices.filter(d => d.kind === 'videoinput');
+                    cameraSelect.innerHTML = '';
+                    if (videoDevices.length > 0) {
+                        videoDevices.forEach((dev, idx) => {
+                            const opt = document.createElement('option');
+                            opt.value = dev.deviceId;
+                            opt.textContent = dev.label || `Camera ${idx + 1}`;
+                            cameraSelect.appendChild(opt);
+                        });
+                        cameraSelect.classList.remove('hidden');
+                    }
+                } catch (e) {}
+            }
+
+            async function initCamera(deviceId = null) {
+                stopCurrentStream();
+                cameraErrorBanner.classList.add('hidden');
+                useDemoMode = false;
+                statusIndicator.className = 'w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping';
+                statusText.textContent = 'CONNECTING CAMERA...';
+
+                if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                    activateDemoFallback('WebRTC not supported in this browser.');
+                    return;
+                }
+
+                let stream = null;
+                try {
+                    const constraints = {
+                        video: deviceId ? { deviceId: { exact: deviceId } } : { facingMode: 'user', width: { ideal: 640 }, height: { ideal: 480 } },
+                        audio: false
+                    };
+                    stream = await navigator.mediaDevices.getUserMedia(constraints);
+                } catch (e1) {
+                    try {
+                        stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+                    } catch (e2) {
+                        activateDemoFallback('Camera permission blocked or unavailable. Scenic Demo mode enabled.');
+                        return;
+                    }
+                }
+
+                try {
+                    currentStream = stream;
+                    videoEl.srcObject = stream;
+                    videoEl.setAttribute('playsinline', '');
+                    videoEl.setAttribute('webkit-playsinline', '');
+                    videoEl.muted = true;
+                    await videoEl.play().catch(() => {});
+
+                    statusIndicator.className = 'w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse';
+                    statusText.textContent = 'WEBCAM FEED LIVE';
+                    document.getElementById('demo-toggle-text').textContent = 'SWITCH TO DEMO FEED';
+                    await populateCameraDevices();
+                    if (deviceId) cameraSelect.value = deviceId;
+                    startStudioLoop();
+                } catch (e) {
+                    activateDemoFallback('Stream error. Scenic Demo mode enabled.');
+                }
+            }
+
+            function activateDemoFallback(msg) {
+                useDemoMode = true;
+                statusIndicator.className = 'w-2.5 h-2.5 rounded-full bg-crimson-800 animate-bounce';
+                statusText.textContent = 'DEMO FEED ACTIVE';
+                cameraErrorMsg.textContent = `⚠️ ${msg}`;
+                cameraErrorBanner.classList.remove('hidden');
+                document.getElementById('demo-toggle-text').textContent = 'SWITCH TO WEBCAM';
+                startStudioLoop();
+            }
+
+            // Dragging Sunglasses on Viewfinder
+            function getCanvasCoords(clientX, clientY) {
+                const rect = studioCanvas.getBoundingClientRect();
+                const scaleX = studioCanvas.width / rect.width;
+                const scaleY = studioCanvas.height / rect.height;
+                return {
+                    x: (clientX - rect.left) * scaleX,
+                    y: (clientY - rect.top) * scaleY
+                };
+            }
+
+            studioCanvas.addEventListener('pointerdown', (e) => {
+                if (currentShades === 'none') return;
+                const pt = getCanvasCoords(e.clientX, e.clientY);
+                const hitRadius = 115 * propState.scale;
+                if (Math.hypot(pt.x - propState.x, pt.y - propState.y) <= hitRadius) {
+                    propState.dragging = true;
+                    propState.offsetX = pt.x - propState.x;
+                    propState.offsetY = pt.y - propState.y;
+                }
+            });
+
+            window.addEventListener('pointermove', (e) => {
+                if (!propState.dragging) return;
+                const pt = getCanvasCoords(e.clientX, e.clientY);
+                propState.x = Math.max(40, Math.min(600, pt.x - propState.offsetX));
+                propState.y = Math.max(40, Math.min(440, pt.y - propState.offsetY));
+            });
+
+            window.addEventListener('pointerup', () => {
+                propState.dragging = false;
+            });
+
+            propScaleSlider.addEventListener('input', (e) => {
+                propState.scale = parseFloat(e.target.value);
+            });
+            propTiltSlider.addEventListener('input', (e) => {
+                propState.tiltDeg = parseFloat(e.target.value);
+            });
+            btnResetShades.addEventListener('click', () => {
+                propState.x = 320;
+                propState.y = 225;
+                propState.scale = 1.0;
+                propState.tiltDeg = 0;
+                propScaleSlider.value = '1';
+                propTiltSlider.value = '0';
+                showToast('Sunglasses centered!');
+            });
+
+
+            // ==================== 10 REALISTIC & PIXEL SUNGLASSES GRAPHICS ENGINE ====================
+            function drawSunglasses(ctx, type, cx, cy, scale = 1, tiltDeg = 0) {
+                if (!type || type === 'none') return;
+                ctx.save();
+                ctx.translate(cx, cy);
+                ctx.rotate((tiltDeg * Math.PI) / 180);
+                ctx.scale(scale, scale);
+
+                // Subtle realistic drop shadow beneath frames
+                ctx.shadowColor = 'rgba(0, 0, 0, 0.42)';
+                ctx.shadowBlur = 10;
+                ctx.shadowOffsetY = 6;
+
+                switch (type) {
+                    case 'pixel-thug': {
+                        // 1. Exact Crisp Pixel "Deal With It" Thug Shades from uploaded image
+                        ctx.shadowBlur = 4;
+                        ctx.shadowOffsetY = 3;
+                        const p = 7; // pixel block size
+                        // 25x6 pixel grid
+                        const grid = [
+                            "1111111111111111111111111",
+                            "1111111111111111111111111",
+                            "0011221111100011221111100",
+                            "0001122111000001122111000",
+                            "0000112210000000112210000",
+                            "0000011100000000011100000"
+                        ];
+                        const startX = -(grid[0].length * p) / 2;
+                        const startY = -(grid.length * p) / 2;
+
+                        for (let r = 0; r < grid.length; r++) {
+                            for (let c = 0; c < grid[r].length; c++) {
+                                const cell = grid[r][c];
+                                if (cell === '0') continue;
+                                ctx.fillStyle = cell === '1' ? '#09090b' : '#ffffff';
+                                ctx.fillRect(startX + c * p, startY + r * p, p + 0.4, p + 0.4);
+                            }
+                        }
+                        break;
+                    }
+
+                    case 'wayfarer-black': {
+                        // 2. Classic Glossy Acetate Black Wayfarers with Silver Rivets & Realistic Lens Reflection
+                        // Acetate Frame
+                        const frameGrad = ctx.createLinearGradient(0, -28, 0, 28);
+                        frameGrad.addColorStop(0, '#27272a');
+                        frameGrad.addColorStop(0.5, '#09090b');
+                        frameGrad.addColorStop(1, '#18181b');
+                        ctx.fillStyle = frameGrad;
+
+                        // Left & Right Outer Rims + Keyhole Bridge
+                        ctx.beginPath();
+                        ctx.roundRect(-102, -26, 92, 54, [8, 12, 22, 18]);
+                        ctx.roundRect(10, -26, 92, 54, [12, 8, 18, 22]);
+                        ctx.roundRect(-16, -22, 32, 14, 4);
+                        ctx.fill();
+
+                        // Silver Corner Rivets
+                        ctx.shadowColor = 'transparent';
+                        ctx.fillStyle = '#e2e8f0';
+                        ctx.fillRect(-96, -18, 7, 3);
+                        ctx.fillRect(89, -18, 7, 3);
+
+                        // Gradient Tinted Lenses
+                        const lensGrad = ctx.createLinearGradient(-90, -20, -20, 22);
+                        lensGrad.addColorStop(0, '#1e293b');
+                        lensGrad.addColorStop(0.6, '#09090b');
+                        lensGrad.addColorStop(1, '#111827');
+                        ctx.fillStyle = lensGrad;
+
+                        ctx.beginPath();
+                        ctx.roundRect(-93, -18, 74, 39, [5, 9, 17, 14]);
+                        ctx.roundRect(19, -18, 74, 39, [9, 5, 14, 17]);
+                        ctx.fill();
+
+                        // Specular Diagonal Sky Reflection
+                        ctx.fillStyle = 'rgba(255, 255, 255, 0.22)';
+                        ctx.beginPath();
+                        ctx.moveTo(-80, -16); ctx.lineTo(-62, -16); ctx.lineTo(-82, 19); ctx.lineTo(-90, 19);
+                        ctx.closePath();
+                        ctx.moveTo(32, -16); ctx.lineTo(50, -16); ctx.lineTo(30, 19); ctx.lineTo(22, 19);
+                        ctx.closePath();
+                        ctx.fill();
+                        break;
+                    }
+
+                    case 'gold-aviator': {
+                        // 3. 18k Gold-Wire Teardrop Aviators with Double Brow Bar & G-15 Green Gradient Lenses
+                        const goldGrad = ctx.createLinearGradient(-100, -30, 100, 30);
+                        goldGrad.addColorStop(0, '#fef08a');
+                        goldGrad.addColorStop(0.5, '#d97706');
+                        goldGrad.addColorStop(1, '#fde047');
+
+                        // Teardrop Lenses
+                        const lensGrad = ctx.createLinearGradient(0, -24, 0, 34);
+                        lensGrad.addColorStop(0, 'rgba(20, 45, 35, 0.94)');
+                        lensGrad.addColorStop(0.55, 'rgba(35, 65, 50, 0.86)');
+                        lensGrad.addColorStop(1, 'rgba(85, 115, 95, 0.78)');
+
+                        ctx.fillStyle = lensGrad;
+                        ctx.strokeStyle = goldGrad;
+                        ctx.lineWidth = 3.5;
+
+                        // Left Lens
+                        ctx.beginPath();
+                        ctx.moveTo(-94, -16);
+                        ctx.quadraticCurveTo(-54, -26, -14, -14);
+                        ctx.quadraticCurveTo(-12, 32, -56, 32);
+                        ctx.quadraticCurveTo(-96, 30, -94, -16);
+                        ctx.closePath();
+                        ctx.fill(); ctx.stroke();
+
+                        // Right Lens
+                        ctx.beginPath();
+                        ctx.moveTo(14, -14);
+                        ctx.quadraticCurveTo(54, -26, 94, -16);
+                        ctx.quadraticCurveTo(96, 30, 56, 32);
+                        ctx.quadraticCurveTo(12, 32, 14, -14);
+                        ctx.closePath();
+                        ctx.fill(); ctx.stroke();
+
+                        // Double Gold Bridge
+                        ctx.shadowColor = 'transparent';
+                        ctx.beginPath();
+                        ctx.moveTo(-22, -19); ctx.lineTo(22, -19);
+                        ctx.moveTo(-15, -10); ctx.lineTo(15, -10);
+                        ctx.stroke();
+
+                        // Gloss Highlight
+                        ctx.fillStyle = 'rgba(255, 255, 255, 0.28)';
+                        ctx.beginPath();
+                        ctx.ellipse(-72, -4, 14, 5, -0.45, 0, Math.PI * 2);
+                        ctx.ellipse(36, -4, 14, 5, -0.45, 0, Math.PI * 2);
+                        ctx.fill();
+                        break;
+                    }
+
+                    case 'chrome-silver': {
+                        // 4. Liquid Chrome Silver Mirror Y2K Rectangular Frames
+                        const silverRim = ctx.createLinearGradient(-105, -24, 105, 24);
+                        silverRim.addColorStop(0, '#f8fafc');
+                        silverRim.addColorStop(0.3, '#64748b');
+                        silverRim.addColorStop(0.6, '#ffffff');
+                        silverRim.addColorStop(1, '#475569');
+
+                        ctx.fillStyle = silverRim;
+                        ctx.beginPath();
+                        ctx.roundRect(-104, -22, 94, 42, 10);
+                        ctx.roundRect(10, -22, 94, 42, 10);
+                        ctx.roundRect(-14, -14, 28, 9, 4);
+                        ctx.fill();
+
+                        // Mirror Reflective Horizon Gradient inside lenses
+                        const mirrorGrad = ctx.createLinearGradient(0, -17, 0, 16);
+                        mirrorGrad.addColorStop(0, '#38bdf8');
+                        mirrorGrad.addColorStop(0.45, '#f8fafc');
+                        mirrorGrad.addColorStop(0.52, '#334155');
+                        mirrorGrad.addColorStop(1, '#94a3b8');
+
+                        ctx.shadowColor = 'transparent';
+                        ctx.fillStyle = mirrorGrad;
+                        ctx.beginPath();
+                        ctx.roundRect(-98, -17, 82, 32, 7);
+                        ctx.roundRect(16, -17, 82, 32, 7);
+                        ctx.fill();
+                        break;
+                    }
+
+                    case 'y2k-shield': {
+                        // 5. Y2K Rimless Monolens Sport Wrap Shield with Iridescent Blue-Magenta Coating
+                        const shieldGrad = ctx.createLinearGradient(-112, -26, 112, 26);
+                        shieldGrad.addColorStop(0, 'rgba(37, 99, 235, 0.92)');
+                        shieldGrad.addColorStop(0.35, 'rgba(6, 182, 212, 0.88)');
+                        shieldGrad.addColorStop(0.7, 'rgba(192, 38, 211, 0.88)');
+                        shieldGrad.addColorStop(1, 'rgba(30, 58, 138, 0.94)');
+
+                        ctx.fillStyle = shieldGrad;
+                        ctx.strokeStyle = '#e2e8f0';
+                        ctx.lineWidth = 2.5;
+
+                        ctx.beginPath();
+                        ctx.moveTo(-110, -18);
+                        ctx.quadraticCurveTo(0, -32, 110, -18);
+                        ctx.lineTo(104, 16);
+                        ctx.quadraticCurveTo(56, 28, 16, 12);
+                        ctx.quadraticCurveTo(0, 4, -16, 12);
+                        ctx.quadraticCurveTo(-56, 28, -104, 16);
+                        ctx.closePath();
+                        ctx.fill(); ctx.stroke();
+
+                        // Metallic Center Nose Emblem & Sweeping Reflection
+                        ctx.shadowColor = 'transparent';
+                        ctx.fillStyle = '#f8fafc';
+                        ctx.beginPath();
+                        ctx.moveTo(-8, -22); ctx.lineTo(8, -22); ctx.lineTo(4, -6); ctx.lineTo(-4, -6);
+                        ctx.closePath();
+                        ctx.fill();
+
+                        ctx.fillStyle = 'rgba(255,255,255,0.34)';
+                        ctx.beginPath();
+                        ctx.ellipse(-45, -8, 36, 5, -0.1, 0, Math.PI * 2);
+                        ctx.fill();
+                        break;
+                    }
+
+                    case 'cyber-visor': {
+                        // 6. Futuristic Crimson-Red Glowing Robocop / Cyclops Visor
+                        ctx.fillStyle = '#18181b';
+                        ctx.beginPath();
+                        ctx.roundRect(-112, -20, 224, 38, 18);
+                        ctx.fill();
+
+                        const laserGrad = ctx.createLinearGradient(-104, 0, 104, 0);
+                        laserGrad.addColorStop(0, '#991b1b');
+                        laserGrad.addColorStop(0.5, '#ef4444');
+                        laserGrad.addColorStop(1, '#991b1b');
+
+                        ctx.fillStyle = laserGrad;
+                        ctx.beginPath();
+                        ctx.roundRect(-104, -13, 208, 24, 12);
+                        ctx.fill();
+
+                        // Bright Laser Core Line
+                        ctx.shadowColor = '#fca5a5';
+                        ctx.shadowBlur = 12;
+                        ctx.fillStyle = '#fecaca';
+                        ctx.fillRect(-94, -3, 188, 4);
+                        break;
+                    }
+
+                    case 'heart-crimson': {
+                        // 7. Glossy Crimson Heart-Shaped Lolita Sunglasses
+                        function drawHeartLens(hx, hy, size, fill, stroke, lw) {
+                            ctx.save();
+                            ctx.translate(hx, hy);
+                            ctx.beginPath();
+                            ctx.moveTo(0, size * 0.85);
+                            ctx.bezierCurveTo(-size * 1.35, size * 0.1, -size * 1.1, -size * 0.9, 0, -size * 0.35);
+                            ctx.bezierCurveTo(size * 1.1, -size * 0.9, size * 1.35, size * 0.1, 0, size * 0.85);
+                            ctx.closePath();
+                            if (fill) { ctx.fillStyle = fill; ctx.fill(); }
+                            if (stroke) { ctx.strokeStyle = stroke; ctx.lineWidth = lw; ctx.stroke(); }
+                            ctx.restore();
+                        }
+
+                        // Outer Glossy Crimson Frame
+                        drawHeartLens(-54, 0, 42, '#dc2626', '#7f1d1d', 3);
+                        drawHeartLens(54, 0, 42, '#dc2626', '#7f1d1d', 3);
+
+                        // Bridge
+                        ctx.shadowColor = 'transparent';
+                        ctx.strokeStyle = '#dc2626';
+                        ctx.lineWidth = 6;
+                        ctx.beginPath();
+                        ctx.moveTo(-16, -10); ctx.quadraticCurveTo(0, -16, 16, -10);
+                        ctx.stroke();
+
+                        // Inner Dark Cherry Lenses
+                        drawHeartLens(-54, 1, 33, '#2a080d', null, 0);
+                        drawHeartLens(54, 1, 33, '#2a080d', null, 0);
+
+                        // Cute Gloss Dots
+                        ctx.fillStyle = 'rgba(255,255,255,0.45)';
+                        ctx.beginPath();
+                        ctx.arc(-70, -12, 4, 0, Math.PI * 2);
+                        ctx.arc(38, -12, 4, 0, Math.PI * 2);
+                        ctx.fill();
+                        break;
+                    }
+
+                    case 'tortoise-round': {
+                        // 8. Amber Tortoiseshell Vintage Round Frames with Brown Gradient Lenses
+                        // Tortoiseshell Base
+                        ctx.fillStyle = '#78350f';
+                        ctx.beginPath();
+                        ctx.arc(-52, 0, 40, 0, Math.PI * 2);
+                        ctx.arc(52, 0, 40, 0, Math.PI * 2);
+                        ctx.fill();
+
+                        // Amber Tortoise Spots
+                        ctx.shadowColor = 'transparent';
+                        ctx.fillStyle = '#d97706';
+                        [[-78, -14], [-30, 18], [-72, 20], [28, -16], [76, 14], [34, 22]].forEach(([sx, sy]) => {
+                            ctx.beginPath(); ctx.arc(sx, sy, 6, 0, Math.PI * 2); ctx.fill();
+                        });
+
+                        // Keyhole Bridge
+                        ctx.fillStyle = '#78350f';
+                        ctx.fillRect(-16, -10, 32, 9);
+
+                        // Warm Sepia Lenses
+                        const brownGrad = ctx.createLinearGradient(0, -32, 0, 32);
+                        brownGrad.addColorStop(0, '#291509');
+                        brownGrad.addColorStop(1, '#5c2d12');
+                        ctx.fillStyle = brownGrad;
+                        ctx.beginPath();
+                        ctx.arc(-52, 0, 31, 0, Math.PI * 2);
+                        ctx.arc(52, 0, 31, 0, Math.PI * 2);
+                        ctx.fill();
+
+                        // Glare
+                        ctx.strokeStyle = 'rgba(255,255,255,0.28)';
+                        ctx.lineWidth = 3;
+                        ctx.beginPath();
+                        ctx.arc(-52, 0, 22, Math.PI * 1.15, Math.PI * 1.45);
+                        ctx.stroke();
+                        ctx.beginPath();
+                        ctx.arc(52, 0, 22, Math.PI * 1.15, Math.PI * 1.45);
+                        ctx.stroke();
+                        break;
+                    }
+
+                    case 'star-pop': {
+                        // 9. Rimless Gold-Trimmed Pink/Amber Starburst Glasses
+                        function drawStar(sx, sy, outerR, innerR) {
+                            ctx.beginPath();
+                            for (let i = 0; i < 10; i++) {
+                                const r = i % 2 === 0 ? outerR : innerR;
+                                const a = (i * Math.PI) / 5 - Math.PI / 2;
+                                const x = sx + Math.cos(a) * r;
+                                const y = sy + Math.sin(a) * r;
+                                if (i === 0) ctx.moveTo(x, y);
+                                else ctx.lineTo(x, y);
+                            }
+                            ctx.closePath();
+                        }
+
+                        const starGrad = ctx.createLinearGradient(0, -40, 0, 40);
+                        starGrad.addColorStop(0, 'rgba(244, 63, 94, 0.88)');
+                        starGrad.addColorStop(1, 'rgba(251, 191, 36, 0.88)');
+
+                        ctx.fillStyle = starGrad;
+                        ctx.strokeStyle = '#fef08a';
+                        ctx.lineWidth = 3;
+
+                        drawStar(-54, 2, 44, 21);
+                        ctx.fill(); ctx.stroke();
+
+                        drawStar(54, 2, 44, 21);
+                        ctx.fill(); ctx.stroke();
+
+                        ctx.shadowColor = 'transparent';
+                        ctx.beginPath();
+                        ctx.moveTo(-22, -4); ctx.lineTo(22, -4);
+                        ctx.stroke();
+                        break;
+                    }
+
+                    case 'matrix-oval': {
+                        // 10. Sleek Micro Oval Neo-Matrix Sunglasses with Green-Tint Reflection
+                        ctx.fillStyle = '#09090b';
+                        ctx.strokeStyle = '#52525b';
+                        ctx.lineWidth = 2.5;
+
+                        ctx.beginPath();
+                        ctx.ellipse(-52, 0, 42, 18, -0.05, 0, Math.PI * 2);
+                        ctx.fill(); ctx.stroke();
+
+                        ctx.beginPath();
+                        ctx.ellipse(52, 0, 42, 18, 0.05, 0, Math.PI * 2);
+                        ctx.fill(); ctx.stroke();
+
+                        // Sleek nose bridge
+                        ctx.shadowColor = 'transparent';
+                        ctx.strokeStyle = '#a1a1aa';
+                        ctx.lineWidth = 3;
+                        ctx.beginPath();
+                        ctx.moveTo(-12, -3); ctx.quadraticCurveTo(0, -8, 12, -3);
+                        ctx.stroke();
+
+                        // Emerald Matrix Sheen
+                        ctx.fillStyle = 'rgba(34, 197, 94, 0.32)';
+                        ctx.beginPath();
+                        ctx.ellipse(-56, -4, 26, 6, -0.08, 0, Math.PI * 2);
+                        ctx.ellipse(48, -4, 26, 6, 0.08, 0, Math.PI * 2);
+                        ctx.fill();
+                        break;
+                    }
+                }
+                ctx.restore();
+            }
+
+
+            // ==================== CAMERA FILM & TONE FILTERS ====================
+            function applyFilter(ctx, w, h, type) {
+                if (type === 'natural') return;
+                const img = ctx.getImageData(0, 0, w, h);
+                const d = img.data;
+
+                for (let y = 0; y < h; y++) {
+                    for (let x = 0; x < w; x++) {
+                        const i = (y * w + x) * 4;
+                        const r = d[i], g = d[i + 1], b = d[i + 2];
+
+                        if (type === 'y2k-flash') {
+                            // High-contrast digicam flash look
+                            const dist = Math.hypot(x - w / 2, y - h / 2) / (w * 0.65);
+                            const boost = Math.max(0.78, 1.24 - dist * 0.42);
+                            d[i] = Math.min(255, r * boost + 8);
+                            d[i + 1] = Math.min(255, g * boost + 6);
+                            d[i + 2] = Math.min(255, b * boost + 10);
+                        } else if (type === 'halftone-bw') {
+                            // Newspaper halftone dot pattern matching the cat sticker in your uploaded image!
+                            const lum = r * 0.299 + g * 0.587 + b * 0.114;
+                            const dotPattern = ((x % 4 === 0 && y % 4 === 0) ? -28 : 14);
+                            const val = lum + dotPattern > 122 ? 245 : 22;
+                            d[i] = d[i + 1] = d[i + 2] = val;
+                        } else if (type === 'crimson-tint') {
+                            d[i] = Math.min(255, r * 1.22 + 16);
+                            d[i + 1] = Math.max(0, g * 0.88);
+                            d[i + 2] = Math.max(0, b * 0.92);
+                        } else if (type === 'kodak-warm') {
+                            d[i] = Math.min(255, r * 1.14 + 14);
+                            d[i + 1] = Math.min(255, g * 1.05 + 6);
+                            d[i + 2] = Math.max(0, b * 0.82);
+                        } else if (type === 'noir') {
+                            const lum = r * 0.299 + g * 0.587 + b * 0.114;
+                            const c = Math.max(0, Math.min(255, (lum - 128) * 1.38 + 128));
+                            d[i] = d[i + 1] = d[i + 2] = c;
+                        }
+                    }
+                }
+                ctx.putImageData(img, 0, 0);
+            }
+
+            // Live Viewfinder Render Loop
+            function startStudioLoop() {
+                if (studioAnimId) cancelAnimationFrame(studioAnimId);
+                studioCanvas.width = 640;
+                studioCanvas.height = 480;
+
+                let t = 0;
+                function loop() {
+                    t += 0.04;
+                    const ready = !useDemoMode && videoEl.readyState >= 2 && videoEl.videoWidth > 0;
+
+                    if (useDemoMode || !ready) {
+                        // Scenic hills & fluffy clouds matching the exact slots in your uploaded image
+                        const skyGrad = studioCtx.createLinearGradient(0, 0, 0, 340);
+                        skyGrad.addColorStop(0, '#bae6fd');
+                        skyGrad.addColorStop(1, '#f0f9ff');
+                        studioCtx.fillStyle = skyGrad;
+                        studioCtx.fillRect(0, 0, 640, 480);
+
+                        studioCtx.fillStyle = '#ffffff';
+                        const cx = (210 + t * 14) % 740 - 60;
+                        studioCtx.beginPath();
+                        studioCtx.arc(cx, 100, 26, 0, Math.PI * 2);
+                        studioCtx.arc(cx + 28, 94, 34, 0, Math.PI * 2);
+                        studioCtx.arc(cx + 58, 102, 22, 0, Math.PI * 2);
+                        studioCtx.fill();
+
+                        studioCtx.fillStyle = '#bef264';
+                        studioCtx.beginPath();
+                        studioCtx.moveTo(0, 330);
+                        studioCtx.quadraticCurveTo(220, 270, 440, 335);
+                        studioCtx.quadraticCurveTo(560, 365, 640, 310);
+                        studioCtx.lineTo(640, 480);
+                        studioCtx.lineTo(0, 480);
+                        studioCtx.fill();
+
+                        studioCtx.fillStyle = '#73980c';
+                        studioCtx.beginPath();
+                        studioCtx.moveTo(0, 310);
+                        studioCtx.quadraticCurveTo(150, 390, 320, 340);
+                        studioCtx.quadraticCurveTo(490, 300, 640, 345);
+                        studioCtx.lineTo(640, 480);
+                        studioCtx.lineTo(0, 480);
+                        studioCtx.fill();
+
+                        studioCtx.fillStyle = '#8b0d0d';
+                        studioCtx.font = '800 18px "Syne", sans-serif';
+                        studioCtx.textAlign = 'center';
+                        studioCtx.fillText('SCENIC DEMO • TRY SUNGLASSES BELOW', 320, 175);
+                    } else {
+                        studioCtx.save();
+                        if (isMirrored) {
+                            studioCtx.translate(640, 0);
+                            studioCtx.scale(-1, 1);
+                        }
+                        studioCtx.drawImage(videoEl, 0, 0, 640, 480);
+                        studioCtx.restore();
+                    }
+
+                    applyFilter(studioCtx, 640, 480, currentFilter);
+                    drawSunglasses(studioCtx, currentShades, propState.x, propState.y, propState.scale, propState.tiltDeg);
+
+                    studioAnimId = requestAnimationFrame(loop);
+                }
+                loop();
+            }
+
+            // 4 Cut Slots Thumbnails UI
+            function renderFramesPickerUI() {
+                framesPickerGrid.innerHTML = '';
+                for (let i = 1; i <= 4; i++) {
+                    const div = document.createElement('div');
+                    const isSel = activeFrame === i;
+                    const photo = framesData[i - 1];
+
+                    div.className = `relative aspect-[4/3] rounded-xl border-2 flex flex-col items-center justify-center cursor-pointer overflow-hidden transition-all ${
+                        isSel ? 'border-crimson-800 ring-4 ring-red-800/15 bg-gray-900' : 'border-gray-300 bg-gray-100 hover:border-gray-400'
+                    }`;
+
+                    if (photo) {
+                        div.innerHTML = `
+                            <img src="${photo.toDataURL()}" class="w-full h-full object-cover">
+                            <span class="absolute top-1 left-1 w-5 h-5 rounded-full bg-crimson-800 text-white font-bold text-[10px] flex items-center justify-center border border-white">${i}</span>
+                            <div class="absolute inset-0 bg-gray-950/55 opacity-0 hover:opacity-100 flex items-center justify-center gap-1.5 transition-opacity">
+                                <button class="w-6 h-6 rounded-full bg-crimson-800 text-white text-[10px] flex items-center justify-center font-bold" title="Select Cut"><i class="fa-solid fa-camera"></i></button>
+                                <button class="w-6 h-6 rounded-full bg-white text-gray-900 text-[10px] flex items-center justify-center font-bold btn-upload-slot" title="Upload Photo"><i class="fa-solid fa-upload"></i></button>
+                            </div>
+                        `;
+                    } else {
+                        div.innerHTML = `
+                            <span class="w-5 h-5 rounded-full bg-red-100 text-red-900 font-bold text-[10px] flex items-center justify-center mb-1 border border-red-300">${i}</span>
+                            <span class="font-mono text-[9px] text-gray-600 font-medium">Cut ${i}</span>
+                            <button class="mt-0.5 px-1.5 py-0.5 rounded bg-white hover:bg-gray-200 border border-gray-300 font-mono text-[8px] text-gray-700 btn-upload-slot">Upload</button>
+                        `;
+                    }
+
+                    div.addEventListener('click', (e) => {
+                        if (e.target.closest('.btn-upload-slot')) {
+                            frameFileInput.setAttribute('data-slot', i);
+                            frameFileInput.click();
+                            return;
+                        }
+                        activeFrame = i;
+                        renderFramesPickerUI();
+                        playBeep(680, 0.08);
+                    });
+
+                    framesPickerGrid.appendChild(div);
+                }
+                activeFrameBadge.textContent = activeFrame;
+                btnActiveFrameNum.textContent = activeFrame;
+                updateDashboardStats();
+            }
+
+            frameFileInput.addEventListener('change', (e) => {
+                const slot = parseInt(frameFileInput.getAttribute('data-slot') || activeFrame);
+                const file = e.target.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = (ev) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        const c = document.createElement('canvas');
+                        c.width = 640; c.height = 480;
+                        const ctx = c.getContext('2d');
+                        const scale = Math.max(640 / img.width, 480 / img.height);
+                        const sw = img.width * scale;
+                        const sh = img.height * scale;
+                        ctx.drawImage(img, (640 - sw) / 2, (480 - sh) / 2, sw, sh);
+                        framesData[slot - 1] = c;
+                        renderFramesPickerUI();
+                        renderPhotostrip();
+                        showToast(`Uploaded to Cut ${slot}!`);
+                    };
+                    img.src = ev.target.result;
+                };
+                reader.readAsDataURL(file);
+                frameFileInput.value = '';
+            });
+
+            function snapViewfinder() {
+                const c = document.createElement('canvas');
+                c.width = 640; c.height = 480;
+                c.getContext('2d').drawImage(studioCanvas, 0, 0, 640, 480);
+                return c;
+            }
+
+            function runCountdown(sec, slotNum) {
+                return new Promise((resolve) => {
+                    countdownFrameNum.textContent = slotNum;
+                    countdownOverlay.classList.remove('opacity-0', 'pointer-events-none');
+                    let count = sec;
+                    countdownText.textContent = count;
+                    playBeep(500, 0.12);
+
+                    const timer = setInterval(() => {
+                        count--;
+                        if (count > 0) {
+                            countdownText.textContent = count;
+                            playBeep(500 + (3 - count) * 150, 0.12);
+                        } else {
+                            clearInterval(timer);
+                            countdownOverlay.classList.add('opacity-0', 'pointer-events-none');
+                            resolve();
+                        }
+                    }, 850);
+                });
+            }
+
+            function triggerFlash() {
+                playShutter();
+                cameraFlash.classList.add('flash-active');
+                setTimeout(() => cameraFlash.classList.remove('flash-active'), 450);
+            }
+
+            btnSnapSingleFrame.addEventListener('click', async () => {
+                if (isCapturing) return;
+                isCapturing = true;
+                await runCountdown(3, activeFrame);
+                triggerFlash();
+                framesData[activeFrame - 1] = snapViewfinder();
+                renderFramesPickerUI();
+                renderPhotostrip();
+                if (activeFrame < 4) activeFrame++;
+                renderFramesPickerUI();
+                isCapturing = false;
+                showToast('Cut captured!');
+            });
+
+            btnStartFullSession.addEventListener('click', async () => {
+                if (isCapturing) return;
+                isCapturing = true;
+                btnStartFullSession.disabled = true;
+                btnStartFullSession.classList.add('opacity-50');
+
+                for (let s = 1; s <= 4; s++) {
+                    activeFrame = s;
+                    renderFramesPickerUI();
+                    await runCountdown(3, s);
+                    triggerFlash();
+                    framesData[s - 1] = snapViewfinder();
+                    renderFramesPickerUI();
+                    renderPhotostrip();
+                    if (s < 4) await new Promise(r => setTimeout(r, 650));
+                }
+
+                isCapturing = false;
+                btnStartFullSession.disabled = false;
+                btnStartFullSession.classList.remove('opacity-50');
+                showToast('All 4 cuts captured!');
+            });
+
+            // Sunglasses Switcher
+            document.querySelectorAll('.shades-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    document.querySelectorAll('.shades-btn').forEach(b => b.classList.remove('active'));
+                    e.currentTarget.classList.add('active');
+                    currentShades = e.currentTarget.getAttribute('data-shades');
+                    playBeep(720, 0.08);
+                });
+            });
+
+            // Filter Switcher
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    e.currentTarget.classList.add('active');
+                    currentFilter = e.currentTarget.getAttribute('data-filter');
+                    playBeep(640, 0.08);
+                });
+            });
+
+            btnMirrorToggle.addEventListener('click', () => { isMirrored = !isMirrored; showToast(`Mirror: ${isMirrored ? 'ON' : 'OFF'}`); });
+            btnToggleSound.addEventListener('click', () => {
+                isMuted = !isMuted;
+                soundIcon.className = isMuted ? 'fa-solid fa-volume-xmark' : 'fa-solid fa-volume-high';
+                soundLabel.textContent = isMuted ? 'MUTED' : 'SFX ON';
+            });
+            btnToggleDemo.addEventListener('click', () => {
+                if (useDemoMode) initCamera(cameraSelect.value || null);
+                else activateDemoFallback('Demo mode toggled manually.');
+            });
+            cameraSelect.addEventListener('change', (e) => { if (e.target.value) initCamera(e.target.value); });
+            btnRetryCamera.addEventListener('click', () => initCamera(cameraSelect.value || null));
+            btnUseDemo.addEventListener('click', () => { cameraErrorBanner.classList.add('hidden'); useDemoMode = true; });
+
+
+            // ==================== SIGNATURE STICKER ELEMENTS FROM UPLOADED IMAGE ====================
+            // 1. Glossy 3D Billiard Pool Ball (8-Ball, 3-Ball, 2-Ball, 6-Ball, 9-Ball, etc.)
+            function drawBilliardBall(ctx, cx, cy, radius = 48, num = '8', ballColor = '#09090b', stripe = false) {
+                ctx.save();
+                ctx.translate(cx, cy);
+
+                // Drop Shadow
+                ctx.shadowColor = 'rgba(0, 0, 0, 0.45)';
+                ctx.shadowBlur = 12;
+                ctx.shadowOffsetX = 3;
+                ctx.shadowOffsetY = 6;
+
+                // Base Sphere Gradient
+                const sphereGrad = ctx.createRadialGradient(-radius * 0.32, -radius * 0.35, radius * 0.1, 0, 0, radius);
+                if (stripe) {
+                    sphereGrad.addColorStop(0, '#ffffff');
+                    sphereGrad.addColorStop(0.75, '#e2e8f0');
+                    sphereGrad.addColorStop(1, '#94a3b8');
+                } else {
+                    sphereGrad.addColorStop(0, lightenHex(ballColor, 55));
+                    sphereGrad.addColorStop(0.45, ballColor);
+                    sphereGrad.addColorStop(1, '#050505');
+                }
+
+                ctx.fillStyle = sphereGrad;
+                ctx.beginPath();
+                ctx.arc(0, 0, radius, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.shadowColor = 'transparent';
+
+                // Optional Center Stripe (e.g. 9-Ball, 10-Ball)
+                if (stripe) {
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.arc(0, 0, radius, 0, Math.PI * 2);
+                    ctx.clip();
+                    ctx.fillStyle = ballColor;
+                    ctx.fillRect(-radius, -radius * 0.52, radius * 2, radius * 1.04);
+                    ctx.restore();
+                }
+
+                // White Number Circle
+                ctx.fillStyle = '#f8fafc';
+                ctx.beginPath();
+                ctx.arc(-radius * 0.12, -radius * 0.08, radius * 0.42, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Crisp Serif Pool Ball Number
+                ctx.fillStyle = '#09090b';
+                ctx.font = `900 ${Math.round(radius * 0.56)}px Georgia, serif`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(String(num), -radius * 0.12, -radius * 0.05);
+
+                // Glossy Specular Reflection Highlight
+                const gloss = ctx.createRadialGradient(-radius * 0.38, -radius * 0.42, 1, -radius * 0.35, -radius * 0.38, radius * 0.45);
+                gloss.addColorStop(0, 'rgba(255, 255, 255, 0.85)');
+                gloss.addColorStop(0.5, 'rgba(255, 255, 255, 0.22)');
+                gloss.addColorStop(1, 'rgba(255, 255, 255, 0)');
+                ctx.fillStyle = gloss;
+                ctx.beginPath();
+                ctx.arc(0, 0, radius, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.restore();
+            }
+
+            // 2. Halftone Black-and-White Die-Cut Cat Sticker (Exact match to uploaded image)
+            function drawHalftoneCatSticker(ctx, cx, cy, scale = 1, flipX = false) {
+                ctx.save();
+                ctx.translate(cx, cy);
+                if (flipX) ctx.scale(-scale, scale);
+                else ctx.scale(scale, scale);
+
+                ctx.shadowColor = 'rgba(0, 0, 0, 0.35)';
+                ctx.shadowBlur = 10;
+                ctx.shadowOffsetY = 5;
+
+                // Jagged White Die-Cut Sticker Outline
+                ctx.fillStyle = '#ffffff';
+                ctx.beginPath();
+                ctx.moveTo(-76, -58);
+                ctx.lineTo(-32, -36);
+                ctx.lineTo(28, -36);
+                ctx.lineTo(76, -56);
+                ctx.lineTo(66, 6);
+                ctx.lineTo(54, 46);
+                ctx.lineTo(14, 64);
+                ctx.lineTo(-22, 64);
+                ctx.lineTo(-56, 44);
+                ctx.lineTo(-68, 4);
+                ctx.closePath();
+                ctx.fill();
+
+                ctx.shadowColor = 'transparent';
+
+                // Inner Cat Head Silhouette
+                ctx.save();
+                ctx.beginPath();
+                ctx.moveTo(-64, -44);
+                ctx.lineTo(-26, -26);
+                ctx.lineTo(24, -26);
+                ctx.lineTo(64, -44);
+                ctx.lineTo(54, 4);
+                ctx.lineTo(42, 38);
+                ctx.lineTo(10, 52);
+                ctx.lineTo(-16, 52);
+                ctx.lineTo(-44, 36);
+                ctx.lineTo(-56, 2);
+                ctx.closePath();
+                ctx.clip();
+
+                // Off-white fur base
+                ctx.fillStyle = '#e5e7eb';
+                ctx.fillRect(-70, -55, 140, 120);
+
+                // Dark fur patch on left ear & brow (just like reference cat)
+                ctx.fillStyle = '#18181b';
+                ctx.beginPath();
+                ctx.moveTo(-68, -48);
+                ctx.lineTo(-12, -24);
+                ctx.lineTo(-32, -2);
+                ctx.lineTo(-62, 6);
+                ctx.closePath();
+                ctx.fill();
+
+                // Right ear shadow
+                ctx.fillStyle = '#52525b';
+                ctx.beginPath();
+                ctx.moveTo(66, -46);
+                ctx.lineTo(30, -24);
+                ctx.lineTo(52, -4);
+                ctx.closePath();
+                ctx.fill();
+
+                // Newspaper Halftone Dot Shading Overlay
+                ctx.fillStyle = 'rgba(24, 24, 27, 0.25)';
+                for (let hy = -45; hy < 55; hy += 4) {
+                    for (let hx = -60; hx < 60; hx += 4) {
+                        const distCenter = Math.hypot(hx, hy - 10);
+                        if (distCenter > 22) {
+                            ctx.beginPath();
+                            ctx.arc(hx + (hy % 8 === 0 ? 2 : 0), hy, 1.3, 0, Math.PI * 2);
+                            ctx.fill();
+                        }
+                    }
+                }
+
+                // Expressive Cat Eyes
+                ctx.fillStyle = '#18181b';
+                ctx.beginPath();
+                ctx.ellipse(-22, 4, 8, 5, 0.15, 0, Math.PI * 2);
+                ctx.ellipse(22, 4, 8, 5, -0.15, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.fillStyle = '#ffffff';
+                ctx.beginPath();
+                ctx.arc(-24, 3, 2, 0, Math.PI * 2);
+                ctx.arc(20, 3, 2, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Little Nose & Smirk Mouth
+                ctx.fillStyle = '#27272a';
+                ctx.beginPath();
+                ctx.moveTo(-6, 22); ctx.lineTo(6, 22); ctx.lineTo(0, 29);
+                ctx.closePath();
+                ctx.fill();
+
+                ctx.strokeStyle = '#18181b';
+                ctx.lineWidth = 2.5;
+                ctx.beginPath();
+                ctx.moveTo(0, 29); ctx.lineTo(0, 36);
+                ctx.quadraticCurveTo(-8, 42, -16, 36);
+                ctx.moveTo(0, 36);
+                ctx.quadraticCurveTo(8, 42, 16, 36);
+                ctx.stroke();
+
+                ctx.restore();
+                ctx.restore();
+            }
+
+            // 3. Bottom Checkered Border Band (Exact match to uploaded image)
+            function drawBottomCheckers(ctx, W, H, col1 = '#000000', col2 = '#8b0d0d', rows = 3, cols = 16) {
+                const bandH = 66;
+                const startY = H - bandH;
+                const cellW = W / cols;
+                const cellH = bandH / rows;
+
+                for (let r = 0; r < rows; r++) {
+                    for (let c = 0; c < cols; c++) {
+                        ctx.fillStyle = (r + c) % 2 === 0 ? col1 : col2;
+                        ctx.fillRect(c * cellW, startY + r * cellH, cellW + 0.5, cellH + 0.5);
+                    }
+                }
+            }
+
+            function drawTopCheckers(ctx, W, col1 = '#000000', col2 = '#8b0d0d', rows = 2, cols = 16) {
+                const bandH = 34;
+                const cellW = W / cols;
+                const cellH = bandH / rows;
+                for (let r = 0; r < rows; r++) {
+                    for (let c = 0; c < cols; c++) {
+                        ctx.fillStyle = (r + c) % 2 === 0 ? col1 : col2;
+                        ctx.fillRect(c * cellW, r * cellH, cellW + 0.5, cellH + 0.5);
+                    }
+                }
+            }
+
+            function lightenHex(hex, amt) {
+                let col = hex.replace('#', '');
+                if (col.length === 3) col = col.split('').map(c => c + c).join('');
+                const num = parseInt(col, 16);
+                const r = Math.min(255, (num >> 16) + amt);
+                const g = Math.min(255, ((num >> 8) & 0x00ff) + amt);
+                const b = Math.min(255, (num & 0x0000ff) + amt);
+                return `rgb(${r},${g},${b})`;
+            }
+
+            // Photo Slot Renderer (4 Vertical Cuts matching uploaded reference proportions)
+            function drawPhotoSlot(ctx, index, x, y, w, h, borderCol = null) {
+                const photo = framesData[index];
+                ctx.save();
+                ctx.beginPath();
+                ctx.rect(x, y, w, h);
+                ctx.clip();
+
+                if (photo) {
+                    const scale = Math.max(w / photo.width, h / photo.height);
+                    const dw = photo.width * scale;
+                    const dh = photo.height * scale;
+                    ctx.drawImage(photo, x + (w - dw) / 2, y + (h - dh) / 2, dw, dh);
+                } else {
+                    // Exact scenic hills & clouds placeholder from your uploaded image
+                    const sky = ctx.createLinearGradient(x, y, x, y + h * 0.72);
+                    sky.addColorStop(0, '#bae6fd');
+                    sky.addColorStop(1, '#f0f9ff');
+                    ctx.fillStyle = sky;
+                    ctx.fillRect(x, y, w, h);
+
+                    ctx.fillStyle = '#ffffff';
+                    ctx.beginPath();
+                    ctx.arc(x + w * 0.44, y + h * 0.20, 18, 0, Math.PI * 2);
+                    ctx.arc(x + w * 0.50, y + h * 0.18, 24, 0, Math.PI * 2);
+                    ctx.arc(x + w * 0.56, y + h * 0.21, 15, 0, Math.PI * 2);
+                    ctx.arc(x + w * 0.06, y + h * 0.20, 15, 0, Math.PI * 2);
+                    ctx.arc(x + w * 0.12, y + h * 0.21, 12, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    ctx.fillStyle = '#bef264';
+                    ctx.beginPath();
+                    ctx.moveTo(x, y + h * 0.74);
+                    ctx.quadraticCurveTo(x + w * 0.35, y + h * 0.62, x + w * 0.70, y + h * 0.79);
+                    ctx.lineTo(x + w, y + h * 0.79);
+                    ctx.lineTo(x + w, y + h);
+                    ctx.lineTo(x, y + h);
+                    ctx.fill();
+
+                    ctx.fillStyle = '#73980c';
+                    ctx.beginPath();
+                    ctx.moveTo(x, y + h * 0.68);
+                    ctx.quadraticCurveTo(x + w * 0.22, y + h * 0.90, x + w * 0.48, y + h * 0.78);
+                    ctx.quadraticCurveTo(x + w * 0.75, y + h * 0.85, x + w, y + h * 0.68);
+                    ctx.lineTo(x + w, y + h);
+                    ctx.lineTo(x, y + h);
+                    ctx.fill();
+                }
+                ctx.restore();
+
+                if (borderCol) {
+                    ctx.save();
+                    ctx.strokeStyle = borderCol;
+                    ctx.lineWidth = 3;
+                    ctx.strokeRect(x, y, w, h);
+                    ctx.restore();
+                }
+            }
+
+
+            // ==================== RENDER ANY OF THE 20 PHOTOSTRIP STYLES ====================
+            function renderPhotostrip() {
+                const W = 480;
+                const H = 1360; // Exact tall 4-cut vertical aspect ratio from uploaded reference
+                exportCanvas.width = W;
+                exportCanvas.height = H;
+                const ctx = exportCtx;
+                const theme = STRIP_THEMES.find(t => t.id === currentStyle) || STRIP_THEMES[0];
+
+                ctx.clearRect(0, 0, W, H);
+
+                // 1. Strip Background
+                ctx.fillStyle = theme.bg;
+                ctx.fillRect(0, 0, W, H);
+
+                // 2. 4 Photo Slots Coordinates (Matching your uploaded reference)
+                const slotX = 46;
+                const slotW = 388;
+                const slotH = 266;
+                const slotYs = [36, 336, 636, 936];
+
+                const slotBorder = (theme.id === 10) ? '#8b0d0d' : null;
+                slotYs.forEach((sy, idx) => drawPhotoSlot(ctx, idx, slotX, sy, slotW, slotH, slotBorder));
+
+                // 3. Bottom Checkered Border (Present on all 20 strips, matching uploaded layout)
+                drawBottomCheckers(ctx, W, H, theme.c1, theme.c2, 3, 16);
+                if (theme.id === 18 || theme.id === 20) {
+                    drawTopCheckers(ctx, W, theme.c1, theme.c2, 2, 16);
+                }
+
+                // 4. Layered Y2K Stickers (Billiard Balls, Pixel Sunglasses, Realistic Sunglasses & Halftone Cats)
+                switch (theme.layout) {
+                    case 'classic-ref': {
+                        // #01 EXACT MATCH TO YOUR UPLOADED REFERENCE IMAGE:
+                        // - Glossy 8-Ball overlapping bottom-left of Cut 1 / top-left of Cut 2
+                        // - Pixel "Deal With It" Thug Sunglasses overlapping bottom-right of Cut 1
+                        // - Halftone Die-Cut Cat overlapping bottom-left of Cut 3
+                        // - Glossy Red 3-Ball overlapping bottom-right of Cut 3 / top-right of Cut 4
+                        drawBilliardBall(ctx, 50, 326, 48, '8', '#09090b', false);
+                        drawSunglasses(ctx, 'pixel-thug', 376, 294, 0.96, 0);
+                        drawHalftoneCatSticker(ctx, 94, 892, 1.15, false);
+                        drawBilliardBall(ctx, 412, 956, 52, '3', '#dc2626', false);
+                        break;
+                    }
+
+                    case 'noir-billiards': {
+                        drawBilliardBall(ctx, 424, 315, 48, '8', '#09090b', false);
+                        drawSunglasses(ctx, 'wayfarer-black', 135, 305, 0.85, -6);
+                        drawHalftoneCatSticker(ctx, 385, 620, 1.05, true);
+                        drawBilliardBall(ctx, 56, 945, 50, '1', '#eab308', false);
+                        break;
+                    }
+
+                    case 'cobalt-pool': {
+                        drawBilliardBall(ctx, 52, 325, 48, '2', '#1d4ed8', false);
+                        drawSunglasses(ctx, 'y2k-shield', 355, 295, 0.82, 5);
+                        drawHalftoneCatSticker(ctx, 95, 890, 1.12, false);
+                        drawBilliardBall(ctx, 415, 955, 50, '10', '#1d4ed8', true);
+                        break;
+                    }
+
+                    case 'emerald-table': {
+                        drawBilliardBall(ctx, 54, 325, 48, '6', '#15803d', false);
+                        drawSunglasses(ctx, 'gold-aviator', 365, 295, 0.84, -4);
+                        drawHalftoneCatSticker(ctx, 388, 895, 1.12, true);
+                        drawBilliardBall(ctx, 58, 950, 50, '8', '#09090b', false);
+                        break;
+                    }
+
+                    case 'cherry-cat': {
+                        drawHalftoneCatSticker(ctx, 92, 305, 1.05, false);
+                        drawSunglasses(ctx, 'heart-crimson', 372, 298, 0.82, 8);
+                        drawHalftoneCatSticker(ctx, 385, 892, 1.15, true);
+                        drawBilliardBall(ctx, 56, 950, 50, '3', '#e11d48', false);
+                        break;
+                    }
+
+                    case 'pixel-thug': {
+                        drawSunglasses(ctx, 'pixel-thug', 135, 296, 0.92, -5);
+                        drawBilliardBall(ctx, 420, 325, 48, '8', '#09090b', false);
+                        drawSunglasses(ctx, 'pixel-thug', 360, 895, 0.95, 4);
+                        drawHalftoneCatSticker(ctx, 92, 895, 1.1, false);
+                        break;
+                    }
+
+                    case 'nine-ball': {
+                        drawBilliardBall(ctx, 54, 325, 50, '9', '#eab308', true);
+                        drawSunglasses(ctx, 'gold-aviator', 365, 298, 0.86, 4);
+                        drawHalftoneCatSticker(ctx, 95, 892, 1.12, false);
+                        drawBilliardBall(ctx, 415, 955, 50, '8', '#09090b', false);
+                        break;
+                    }
+
+                    case 'violet-pool': {
+                        drawBilliardBall(ctx, 54, 325, 48, '4', '#7e22ce', false);
+                        drawSunglasses(ctx, 'chrome-silver', 365, 298, 0.85, -5);
+                        drawHalftoneCatSticker(ctx, 96, 892, 1.12, false);
+                        drawBilliardBall(ctx, 414, 955, 50, '12', '#7e22ce', true);
+                        break;
+                    }
+
+                    case 'y2k-chrome': {
+                        drawSunglasses(ctx, 'chrome-silver', 135, 298, 0.88, -6);
+                        drawBilliardBall(ctx, 420, 325, 48, '8', '#09090b', false);
+                        drawHalftoneCatSticker(ctx, 385, 892, 1.12, true);
+                        drawSunglasses(ctx, 'y2k-shield', 135, 900, 0.84, 5);
+                        break;
+                    }
+
+                    case 'cream-retro': {
+                        drawBilliardBall(ctx, 54, 325, 48, '3', '#b91c1c', false);
+                        drawSunglasses(ctx, 'tortoise-round', 368, 296, 0.85, 6);
+                        drawHalftoneCatSticker(ctx, 95, 892, 1.14, false);
+                        drawBilliardBall(ctx, 414, 955, 50, '8', '#09090b', false);
+                        break;
+                    }
+
+                    case 'full-rack': {
+                        drawBilliardBall(ctx, 52, 315, 42, '8', '#09090b', false);
+                        drawBilliardBall(ctx, 426, 335, 42, '3', '#dc2626', false);
+                        drawBilliardBall(ctx, 52, 625, 42, '2', '#1d4ed8', false);
+                        drawHalftoneCatSticker(ctx, 386, 895, 1.12, true);
+                        drawBilliardBall(ctx, 56, 955, 46, '9', '#eab308', true);
+                        break;
+                    }
+
+                    case 'cyber-red': {
+                        drawSunglasses(ctx, 'cyber-visor', 355, 296, 0.82, 4);
+                        drawBilliardBall(ctx, 54, 325, 48, '3', '#dc2626', false);
+                        drawHalftoneCatSticker(ctx, 95, 892, 1.14, false);
+                        drawBilliardBall(ctx, 414, 955, 50, '8', '#09090b', false);
+                        break;
+                    }
+
+                    case 'acid-lime': {
+                        drawSunglasses(ctx, 'matrix-oval', 365, 296, 0.88, -4);
+                        drawBilliardBall(ctx, 54, 325, 48, '8', '#09090b', false);
+                        drawHalftoneCatSticker(ctx, 95, 892, 1.14, false);
+                        drawBilliardBall(ctx, 414, 955, 50, '6', '#16a34a', false);
+                        break;
+                    }
+
+                    case 'orange-five': {
+                        drawBilliardBall(ctx, 54, 325, 48, '5', '#ea580c', false);
+                        drawSunglasses(ctx, 'tortoise-round', 365, 296, 0.86, 5);
+                        drawHalftoneCatSticker(ctx, 95, 892, 1.14, false);
+                        drawBilliardBall(ctx, 414, 955, 50, '13', '#ea580c', true);
+                        break;
+                    }
+
+                    case 'teal-ten': {
+                        drawBilliardBall(ctx, 54, 325, 48, '10', '#0d9488', true);
+                        drawSunglasses(ctx, 'y2k-shield', 355, 296, 0.82, -5);
+                        drawHalftoneCatSticker(ctx, 95, 892, 1.14, false);
+                        drawBilliardBall(ctx, 414, 955, 50, '8', '#09090b', false);
+                        break;
+                    }
+
+                    case 'cat-army': {
+                        drawHalftoneCatSticker(ctx, 88, 300, 0.96, false);
+                        drawHalftoneCatSticker(ctx, 392, 310, 0.96, true);
+                        drawHalftoneCatSticker(ctx, 88, 892, 1.08, false);
+                        drawHalftoneCatSticker(ctx, 392, 910, 1.08, true);
+                        drawSunglasses(ctx, 'pixel-thug', 88, 292, 0.62, 0);
+                        break;
+                    }
+
+                    case 'shades-galore': {
+                        drawSunglasses(ctx, 'pixel-thug', 368, 294, 0.92, 0);
+                        drawSunglasses(ctx, 'gold-aviator', 128, 598, 0.82, -6);
+                        drawSunglasses(ctx, 'heart-crimson', 368, 896, 0.82, 6);
+                        drawBilliardBall(ctx, 54, 950, 48, '8', '#09090b', false);
+                        break;
+                    }
+
+                    case 'arcade-checks': {
+                        drawSunglasses(ctx, 'star-pop', 365, 296, 0.85, 6);
+                        drawBilliardBall(ctx, 54, 325, 48, '2', '#0284c7', false);
+                        drawHalftoneCatSticker(ctx, 95, 892, 1.14, false);
+                        drawBilliardBall(ctx, 414, 955, 50, '3', '#f43f5e', false);
+                        break;
+                    }
+
+                    case 'royal-gold': {
+                        drawBilliardBall(ctx, 54, 325, 48, '8', '#09090b', false);
+                        drawSunglasses(ctx, 'star-pop', 365, 296, 0.85, -5);
+                        drawHalftoneCatSticker(ctx, 95, 892, 1.14, false);
+                        drawBilliardBall(ctx, 414, 955, 50, '9', '#eab308', true);
+                        break;
+                    }
+
+                    case 'lucky-combo': {
+                        drawBilliardBall(ctx, 52, 326, 48, '8', '#09090b', false);
+                        drawSunglasses(ctx, 'pixel-thug', 374, 296, 0.94, 0);
+                        drawHalftoneCatSticker(ctx, 94, 892, 1.15, false);
+                        drawBilliardBall(ctx, 412, 956, 52, '3', '#dc2626', false);
+                        break;
+                    }
+                }
+
+                previewImg.src = exportCanvas.toDataURL('image/png');
+            }
+
+            // Export & Reset Actions
+            btnDownloadPng.addEventListener('click', () => {
+                renderPhotostrip();
+                playBeep(880, 0.14);
+                const link = document.createElement('a');
+                link.download = `Y2K_4Cut_Photostrip_Style${currentStyle}_${Date.now()}.png`;
+                link.href = exportCanvas.toDataURL('image/png');
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                showToast('4-Cut Photostrip PNG downloaded!');
+            });
+
+            btnCopyImage.addEventListener('click', () => {
+                renderPhotostrip();
+                try {
+                    exportCanvas.toBlob(async (blob) => {
+                        await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+                        showToast('Copied strip to clipboard!');
+                    });
+                } catch (e) {
+                    showToast('Use Download button to save PNG!');
+                }
+            });
+
+            btnResetAll.addEventListener('click', () => {
+                for (let i = 0; i < 4; i++) framesData[i] = null;
+                activeFrame = 1;
+                renderFramesPickerUI();
+                renderPhotostrip();
+                showToast('All 4 cuts cleared!');
+            });
+
+            // Initialize App
+            renderFramesPickerUI();
+            renderPhotostrip();
+            initCamera();
+        });
+    </script>
+</body>
+</html>
