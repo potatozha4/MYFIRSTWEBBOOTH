@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pastel English Studio - 100 Lessons & 10 Interactive Arcade Games</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        display: ['Fredoka', 'sans-serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif']
+                    },
+                    colors: {
+                        pastelPink: '#FFE5EC',
+                        pastelPinkDark: '#FFB3C6',
+                        pastelBlue: '#E0F4FF',
+                        pastelBlueDark: '#90E0EF',
+                        pastelGreen: '#E2F8EE',
+                        pastelGreenDark: '#A3E635',
+                        pastelLavender: '#F1E8FF',
+                        pastelLavenderDark: '#C8B6FF',
+                        pastelYellow: '#FFF8D6',
+                        pastelYellowDark: '#FDE047',
+                        pastelPeach: '#FFE8D6',
+                        pastelPeachDark: '#FFB5A7',
+                        appDark: '#2D3142',
+                        appMuted: '#4F5D75'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #FFE5EC 0%, #E0F4FF 35%, #F1E8FF 70%, #E2F8EE 100%);
+            background-attachment: fixed;
+            color: #2D3142;
+        }
+
+        .pastel-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 2px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 10px 25px -5px rgba(148, 163, 184, 0.25), 0 8px 10px -6px rgba(148, 163, 184, 0.1);
+        }
+
+        .pastel-btn {
+            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 4px 0 rgba(45, 49, 66, 0.12);
+        }
+        .pastel-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 rgba(45, 49, 66, 0.15);
+        }
+        .pastel-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 1px 0 rgba(45, 49, 66, 0.15);
+        }
+
+        .word-chip {
+            transition: all 0.2s ease;
+            box-shadow: 0 3px 0 rgba(0, 0, 0, 0.08);
+        }
+        .word-chip:hover {
+            transform: scale(1.05);
+        }
+
+        /* Custom Scrollbars */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.5); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #C8B6FF; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #90E0EF; }
+
+        .tab-btn.active {
+            background-color: #2D3142 !important;
+            color: #FFFFFF !important;
+            box-shadow: 0 4px 12px rgba(45, 49, 66, 0.2);
+        }
+    </style>
+</head>
+<body class="h-full flex flex-col font-sans select-none overflow-x-hidden">
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="sticky top-0 z-40 px-4 py-3 bg-white/70 backdrop-blur-md border-b border-white/80 shadow-sm flex items-center justify-between">
+        <div onclick="showView('home')" class="flex items-center gap-3 cursor-pointer group">
+            <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-pink-300 via-purple-300 to-sky-300 flex items-center justify-center text-2xl shadow-md group-hover:scale-105 transition-transform">
+                🌸
+            </div>
+            <div>
+                <h1 class="text-xl font-display font-bold text-appDark leading-none flex items-center gap-2">
+                    PASTEL ENGLISH <span class="text-xs px-2 py-0.5 rounded-full bg-pink-200 text-pink-800 font-sans font-bold">Studio</span>
+                </h1>
+                <p class="text-[11px] text-appMuted font-medium">100 Structured Lessons & 10 Games Arcade</p>
+            </div>
+        </div>
+
+        <!-- NAV TABS -->
+        <nav class="hidden md:flex items-center gap-2 bg-white/60 p-1.5 rounded-2xl border border-white/80">
+            <button onclick="showView('home')" id="nav-home" class="nav-link px-4 py-1.5 rounded-xl text-xs font-bold font-display text-appDark hover:bg-white transition-all">🏠 Home</button>
+            <button onclick="showView('curriculum')" id="nav-curriculum" class="nav-link px-4 py-1.5 rounded-xl text-xs font-bold font-display text-appDark hover:bg-white transition-all">📚 100 Lessons</button>
+            <button onclick="showView('arcade')" id="nav-arcade" class="nav-link px-4 py-1.5 rounded-xl text-xs font-bold font-display text-appDark hover:bg-white transition-all">🎮 10 Games Arcade</button>
+        </nav>
+
+        <!-- USER STATS & SOUND TOGGLE -->
+        <div class="flex items-center gap-2.5">
+            <button onclick="toggleAudio()" id="mute-btn" class="p-2 rounded-xl bg-white/80 hover:bg-white border border-white text-base shadow-sm transition-all" title="Toggle Sound Effects">
+                <span id="mute-icon">🔊</span>
+            </button>
+
+            <div onclick="openProfileModal()" class="flex items-center gap-2.5 bg-white/80 hover:bg-white border border-white px-3 py-1.5 rounded-2xl cursor-pointer transition-all shadow-sm group">
+                <div id="header-avatar-container" class="w-8 h-8 rounded-full bg-pastelLavender flex items-center justify-center text-base font-bold shadow-inner overflow-hidden border border-purple-200">
+                    🎀
+                </div>
+                <div class="hidden sm:block text-left">
+                    <div class="flex items-center gap-1.5 leading-tight">
+                        <span id="header-user-name" class="text-xs font-bold text-appDark group-hover:text-purple-600">Learner</span>
+                        <span id="header-user-level" class="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-purple-100 text-purple-700">Lvl 1</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-[10px] font-mono text-appMuted">
+                        <span>⭐ <span id="header-user-xp">0</span> XP</span>
+                        <span>🔥 <span id="header-user-streak">1</span> Day</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MOBILE NAVIGATION BOTTOM BAR -->
+    <div class="md:hidden fixed bottom-3 left-1/2 -translate-x-1/2 z-40 bg-white/90 backdrop-blur-md border border-white rounded-2xl px-4 py-2 shadow-xl flex items-center gap-4">
+        <button onclick="showView('home')" class="text-xs font-bold font-display px-3 py-1 rounded-xl bg-pink-100 text-pink-700">🏠 Home</button>
+        <button onclick="showView('curriculum')" class="text-xs font-bold font-display px-3 py-1 rounded-xl bg-purple-100 text-purple-700">📚 Lessons</button>
+        <button onclick="showView('arcade')" class="text-xs font-bold font-display px-3 py-1 rounded-xl bg-sky-100 text-sky-700">🎮 Arcade</button>
+    </div>
+
+    <!-- MAIN APP WRAPPER -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 mb-16 md:mb-6">
+
+        <!-- ================= 1. HOME DASHBOARD VIEW ================= -->
+        <section id="view-home" class="space-y-6">
+            <!-- HERO WELCOME BANNER -->
+            <div class="pastel-card rounded-3xl p-6 md:p-8 relative overflow-hidden bg-gradient-to-r from-pink-100/90 via-purple-100/90 to-sky-100/90 border border-white">
+                <div class="max-w-2xl space-y-3 z-10 relative">
+                    <span class="inline-block px-3 py-1 rounded-full bg-white/80 text-purple-700 text-xs font-bold font-mono tracking-wider shadow-sm">
+                        ✨ CUTE PASTEL LEARNING HUB
+                    </span>
+                    <h2 class="text-3xl md:text-4xl font-display font-bold text-appDark leading-tight">
+                        Master English Step-by-Step with <span class="text-purple-600 underline decoration-pink-300">Fun & Clarity</span>!
+                    </h2>
+                    <p class="text-xs md:text-sm text-appMuted leading-relaxed">
+                        Explore 100 lessons structured from simple foundational grammar to advanced academic mastery (Lecture ➔ Example ➔ Quiz), and practice anytime in our 10 interactive mini-games!
+                    </p>
+                    <div class="flex flex-wrap items-center gap-3 pt-2">
+                        <button onclick="showView('curriculum')" class="pastel-btn px-5 py-2.5 rounded-2xl bg-purple-600 text-white font-display text-sm font-bold">
+                            📖 Start 100 Lessons
+                        </button>
+                        <button onclick="showView('arcade')" class="pastel-btn px-5 py-2.5 rounded-2xl bg-white text-appDark hover:bg-sky-50 font-display text-sm font-bold border border-sky-200">
+                            🎮 Play 10 Games
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- QUICK STATS DASHBOARD ROW -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="pastel-card p-4 rounded-2xl text-center bg-pink-50/70">
+                    <span class="text-[11px] font-bold text-pink-700 uppercase font-mono block">Lessons Completed</span>
+                    <span id="stat-lessons-done" class="text-2xl md:text-3xl font-display font-bold text-appDark">0 / 100</span>
+                </div>
+                <div class="pastel-card p-4 rounded-2xl text-center bg-purple-50/70">
+                    <span class="text-[11px] font-bold text-purple-700 uppercase font-mono block">Total Experience</span>
+                    <span id="stat-total-xp" class="text-2xl md:text-3xl font-display font-bold text-appDark">0 XP</span>
+                </div>
+                <div class="pastel-card p-4 rounded-2xl text-center bg-sky-50/70">
+                    <span class="text-[11px] font-bold text-sky-700 uppercase font-mono block">Current Level</span>
+                    <span id="stat-current-level" class="text-2xl md:text-3xl font-display font-bold text-appDark">Level 1</span>
+                </div>
+                <div class="pastel-card p-4 rounded-2xl text-center bg-emerald-50/70">
+                    <span class="text-[11px] font-bold text-emerald-700 uppercase font-mono block">Daily Study Streak</span>
+                    <span id="stat-streak-days" class="text-2xl md:text-3xl font-display font-bold text-appDark">1 Day 🔥</span>
+                </div>
+            </div>
+
+            <!-- FEATURED HIGHLIGHTS GRID -->
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- CURRICULUM HIGHLIGHT -->
+                <div class="pastel-card p-6 rounded-3xl space-y-4">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="text-2xl">📚</span>
+                            <h3 class="text-xl font-display font-bold text-appDark">100-Lesson Journey</h3>
+                        </div>
+                        <span class="text-xs font-bold text-purple-600 bg-purple-100 px-3 py-1 rounded-full">Simple ➔ Complex</span>
+                    </div>
+                    <p class="text-xs text-appMuted">Every single lesson includes a structured LECTURE, clear EXAMPLES, and an interactive 1–5 QUIZ with instant answers and explanations.</p>
+                    <div class="space-y-2 text-xs font-medium">
+                        <div class="p-2.5 rounded-xl bg-pink-50 border border-pink-100 flex justify-between">
+                            <span>Track 1: Foundations & Basics</span>
+                            <span class="font-bold text-pink-600">Lessons 1–25</span>
+                        </div>
+                        <div class="p-2.5 rounded-xl bg-purple-50 border border-purple-100 flex justify-between">
+                            <span>Track 2: Essential Grammar & Verbs</span>
+                            <span class="font-bold text-purple-600">Lessons 26–50</span>
+                        </div>
+                        <div class="p-2.5 rounded-xl bg-sky-50 border border-sky-100 flex justify-between">
+                            <span>Track 3: Intermediate Syntax & Idioms</span>
+                            <span class="font-bold text-sky-600">Lessons 51–75</span>
+                        </div>
+                        <div class="p-2.5 rounded-xl bg-emerald-50 border border-emerald-100 flex justify-between">
+                            <span>Track 4: Advanced Mastery & Rhetoric</span>
+                            <span class="font-bold text-emerald-600">Lessons 76–100</span>
+                        </div>
+                    </div>
+                    <button onclick="showView('curriculum')" class="w-full py-2.5 rounded-2xl bg-purple-600 text-white font-display text-xs font-bold hover:bg-purple-700 transition-all">Browse All 100 Lessons</button>
+                </div>
+
+                <!-- ARCADE GAMES HIGHLIGHT -->
+                <div class="pastel-card p-6 rounded-3xl space-y-4">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="text-2xl">🎮</span>
+                            <h3 class="text-xl font-display font-bold text-appDark">10 Mini-Games Arcade</h3>
+                        </div>
+                        <span class="text-xs font-bold text-sky-600 bg-sky-100 px-3 py-1 rounded-full">100% Interactive</span>
+                    </div>
+                    <p class="text-xs text-appMuted">Put your skills to the test in 10 interactive games covering subject-verb match, tenses, word order builders, homophones, cloze reading, and idioms!</p>
+                    <div class="grid grid-cols-2 gap-2 text-xs">
+                        <div class="p-2 rounded-xl bg-white/70 border border-slate-100 font-semibold text-appDark">1. S-V Agreement Match</div>
+                        <div class="p-2 rounded-xl bg-white/70 border border-slate-100 font-semibold text-appDark">2. Parts of Speech Safari</div>
+                        <div class="p-2 rounded-xl bg-white/70 border border-slate-100 font-semibold text-appDark">3. Tense Time Machine</div>
+                        <div class="p-2 rounded-xl bg-white/70 border border-slate-100 font-semibold text-appDark">4. Punctuation Detective</div>
+                        <div class="p-2 rounded-xl bg-white/70 border border-slate-100 font-semibold text-appDark">5. Synonym/Antonym Pop</div>
+                        <div class="p-2 rounded-xl bg-white/70 border border-slate-100 font-semibold text-appDark">6. Idiom Quest</div>
+                        <div class="p-2 rounded-xl bg-white/70 border border-slate-100 font-semibold text-appDark">7. Word Order Builder</div>
+                        <div class="p-2 rounded-xl bg-white/70 border border-slate-100 font-semibold text-appDark">8. Spelling Sprint</div>
+                        <div class="p-2 rounded-xl bg-white/70 border border-slate-100 font-semibold text-appDark">9. Preposition Lab</div>
+                        <div class="p-2 rounded-xl bg-white/70 border border-slate-100 font-semibold text-appDark">10. Cloze Context Clues</div>
+                    </div>
+                    <button onclick="showView('arcade')" class="w-full py-2.5 rounded-2xl bg-sky-600 text-white font-display text-xs font-bold hover:bg-sky-700 transition-all">Play Games Now</button>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= 2. 100 LESSONS CURRICULUM VIEW ================= -->
+        <section id="view-curriculum" class="hidden space-y-6">
+            <!-- CURRICULUM HEADER & FILTERS -->
+            <div class="pastel-card p-6 rounded-3xl space-y-4">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div>
+                        <h2 class="text-2xl md:text-3xl font-display font-bold text-appDark">📚 100-Lesson English Curriculum</h2>
+                        <p class="text-xs text-appMuted">Systematic progression from basic alphabet & nouns to advanced syntax & academic rhetoric.</p>
+                    </div>
+                    
+                    <!-- SEARCH & JUMP INPUT -->
+                    <div class="flex items-center gap-2">
+                        <div class="relative w-full sm:w-64">
+                            <input type="text" id="lesson-search" oninput="filterLessons()" placeholder="Search topic or lesson #..." class="w-full bg-white border border-slate-200 rounded-2xl px-4 py-2 text-xs text-appDark outline-none focus:border-purple-400 shadow-sm">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TRACK FILTER BUTTONS -->
+                <div class="flex items-center gap-2 overflow-x-auto pb-1 text-xs font-display">
+                    <button onclick="setTrackFilter('all')" id="track-btn-all" class="track-btn px-4 py-2 rounded-xl font-bold bg-purple-600 text-white shadow-sm shrink-0">All 100 Lessons</button>
+                    <button onclick="setTrackFilter(1)" id="track-btn-1" class="track-btn px-4 py-2 rounded-xl font-bold bg-white text-appMuted hover:bg-pink-100 shrink-0">Lessons 1–25 (Foundations)</button>
+                    <button onclick="setTrackFilter(2)" id="track-btn-2" class="track-btn px-4 py-2 rounded-xl font-bold bg-white text-appMuted hover:bg-purple-100 shrink-0">Lessons 26–50 (Building)</button>
+                    <button onclick="setTrackFilter(3)" id="track-btn-3" class="track-btn px-4 py-2 rounded-xl font-bold bg-white text-appMuted hover:bg-sky-100 shrink-0">Lessons 51–75 (Intermediate)</button>
+                    <button onclick="setTrackFilter(4)" id="track-btn-4" class="track-btn px-4 py-2 rounded-xl font-bold bg-white text-appMuted hover:bg-emerald-100 shrink-0">Lessons 76–100 (Advanced)</button>
+                </div>
+            </div>
+
+            <!-- LESSON GRID (Dynamic 1 to 100) -->
+            <div id="lessons-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <!-- JS populated -->
+            </div>
+        </section>
+
+
+        <!-- ================= 3. LESSON READER MODAL / VIEW ================= -->
+        <section id="view-lesson-reader" class="hidden space-y-6 max-w-4xl mx-auto">
+            <!-- BACK BUTTON & HEADER -->
+            <div class="flex items-center justify-between">
+                <button onclick="showView('curriculum')" class="pastel-btn px-4 py-2 rounded-2xl bg-white text-appDark font-display text-xs font-bold border border-slate-200 flex items-center gap-1.5">
+                    ⬅ Back to Curriculum
+                </button>
+                <span id="reader-lesson-badge" class="px-3 py-1 rounded-full bg-purple-100 text-purple-700 font-mono text-xs font-bold">Lesson 1 of 100</span>
+            </div>
+
+            <!-- MAIN LESSON CARD WITH 3 STRUCTURED TABS -->
+            <div class="pastel-card rounded-3xl p-6 md:p-8 space-y-6">
+                <!-- LESSON TITLE -->
+                <div>
+                    <h2 id="reader-lesson-title" class="text-2xl md:text-3xl font-display font-bold text-appDark">Lesson Title Here</h2>
+                    <p id="reader-lesson-subtitle" class="text-xs text-appMuted mt-1">Topic overview & purpose</p>
+                </div>
+
+                <!-- 3 STRUCTURED TABS: LECTURE | EXAMPLE | 1-5 QUIZ -->
+                <div class="flex items-center justify-center p-1.5 bg-slate-100/80 rounded-2xl gap-2 font-display text-xs">
+                    <button onclick="switchLessonTab('lecture')" id="tab-btn-lecture" class="tab-btn flex-1 py-2.5 rounded-xl font-bold transition-all active">1. 📖 LECTURE</button>
+                    <button onclick="switchLessonTab('example')" id="tab-btn-example" class="tab-btn flex-1 py-2.5 rounded-xl font-bold transition-all">2. 💡 EXAMPLE</button>
+                    <button onclick="switchLessonTab('quiz')" id="tab-btn-quiz" class="tab-btn flex-1 py-2.5 rounded-xl font-bold transition-all">3. ✍️ 1–5 QUIZ</button>
+                </div>
+
+                <!-- TAB CONTENT 1: LECTURE -->
+                <div id="tab-content-lecture" class="lesson-tab-pane space-y-4 text-xs md:text-sm leading-relaxed text-appDark">
+                    <div class="p-5 rounded-2xl bg-purple-50/70 border border-purple-100 space-y-3" id="lecture-body">
+                        <!-- JS populated -->
+                    </div>
+                    <div class="flex justify-end">
+                        <button onclick="switchLessonTab('example')" class="pastel-btn px-5 py-2 rounded-xl bg-purple-600 text-white font-display text-xs font-bold">
+                            Next: View Examples ➔
+                        </button>
+                    </div>
+                </div>
+
+                <!-- TAB CONTENT 2: EXAMPLE -->
+                <div id="tab-content-example" class="lesson-tab-pane hidden space-y-4 text-xs md:text-sm leading-relaxed text-appDark">
+                    <div class="p-5 rounded-2xl bg-sky-50/70 border border-sky-100 space-y-4" id="example-body">
+                        <!-- JS populated -->
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <button onclick="switchLessonTab('lecture')" class="text-xs font-bold text-appMuted hover:text-appDark">
+                            ⬅ Back to Lecture
+                        </button>
+                        <button onclick="switchLessonTab('quiz')" class="pastel-btn px-5 py-2 rounded-xl bg-sky-600 text-white font-display text-xs font-bold">
+                            Take 5-Question Quiz ➔
+                        </button>
+                    </div>
+                </div>
+
+                <!-- TAB CONTENT 3: 1 TO 5 QUIZ -->
+                <div id="tab-content-quiz" class="lesson-tab-pane hidden space-y-6">
+                    <div class="flex items-center justify-between text-xs font-mono text-appMuted">
+                        <span>QUESTION <span id="quiz-current-q">1</span> OF 5</span>
+                        <span>XP REWARD: <strong class="text-purple-600">+50 XP</strong></span>
+                    </div>
+
+                    <!-- QUIZ QUESTION CONTAINER -->
+                    <div class="p-6 rounded-2xl bg-white border border-slate-200 space-y-4">
+                        <h3 id="quiz-question-text" class="text-base md:text-lg font-display font-bold text-appDark">Question text goes here?</h3>
+                        <div id="quiz-options-container" class="grid grid-cols-1 gap-2.5">
+                            <!-- JS generated buttons -->
+                        </div>
+                        <div id="quiz-feedback-box" class="hidden p-3 rounded-xl text-xs font-medium"></div>
+                    </div>
+
+                    <div class="flex justify-between items-center pt-2">
+                        <button onclick="switchLessonTab('example')" class="text-xs font-bold text-appMuted hover:text-appDark">
+                            ⬅ Review Examples
+                        </button>
+                        <button onclick="nextQuizQuestion()" id="quiz-next-btn" class="pastel-btn px-6 py-2.5 rounded-xl bg-emerald-600 text-white font-display text-xs font-bold hidden">
+                            Next Question ➔
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ================= 4. 10 GAMES ARCADE VIEW ================= -->
+        <section id="view-arcade" class="hidden space-y-6">
+            <!-- ARCADE HEADER -->
+            <div class="pastel-card p-6 rounded-3xl space-y-2">
+                <h2 class="text-2xl md:text-3xl font-display font-bold text-appDark">🎮 10 Mini-Games English Arcade</h2>
+                <p class="text-xs text-appMuted">Practice interactive rules with instant visual and audio feedback!</p>
+            </div>
+
+            <!-- GAMES SELECTOR CARDS GRID -->
+            <div id="games-menu-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- JS populated 10 game cards -->
+            </div>
+
+            <!-- ACTIVE GAME ARENA CONTAINER -->
+            <div id="game-arena-container" class="hidden pastel-card rounded-3xl p-6 md:p-8 space-y-6">
+                <!-- ARENA TOP BAR -->
+                <div class="flex items-center justify-between border-b border-slate-200 pb-4">
+                    <button onclick="closeGameArena()" class="pastel-btn px-3.5 py-1.5 rounded-xl bg-white text-appDark font-display text-xs font-bold border border-slate-200">
+                        ⬅ Back to Arcade
+                    </button>
+                    <div class="text-center">
+                        <h3 id="arena-game-title" class="text-lg md:text-xl font-display font-bold text-appDark">Game Title</h3>
+                        <span id="arena-round-indicator" class="text-xs font-mono text-purple-600 font-bold">Round 1 of 5</span>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-xs font-mono text-appMuted block">SCORE</span>
+                        <span id="arena-score" class="text-lg font-display font-bold text-purple-700">0</span>
+                    </div>
+                </div>
+
+                <!-- GAME PLAY AREA DYNAMICALLY MOUNTED -->
+                <div id="arena-play-area" class="min-h-[280px] flex flex-col justify-center">
+                    <!-- Dynamic game specific content -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+
+    <!-- PROFILE & AVATAR MODAL -->
+    <div id="profile-modal" class="hidden fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="pastel-card rounded-3xl w-full max-w-md p-6 space-y-5 bg-white relative">
+            <button onclick="closeProfileModal()" class="absolute top-4 right-4 text-appMuted hover:text-appDark font-bold text-lg">✕</button>
+            
+            <div class="flex items-center gap-4 border-b border-slate-100 pb-4">
+                <div id="modal-avatar-display" class="w-14 h-14 rounded-2xl bg-purple-100 flex items-center justify-center text-3xl border border-purple-200">
+                    🎀
+                </div>
+                <div>
+                    <h3 id="modal-name-display" class="text-xl font-display font-bold text-appDark">Learner</h3>
+                    <p id="modal-level-display" class="text-xs font-bold text-purple-600">Level 1 English Scholar</p>
+                </div>
+            </div>
+
+            <!-- EMOJI AVATAR PICKER -->
+            <div class="space-y-2">
+                <label class="text-xs font-bold text-appDark font-mono">Choose Avatar Icon:</label>
+                <div class="grid grid-cols-6 gap-2 text-2xl">
+                    <button onclick="setAvatar('🎀')" class="p-2 rounded-xl bg-pink-50 hover:bg-pink-100 border border-pink-200">🎀</button>
+                    <button onclick="setAvatar('🐱')" class="p-2 rounded-xl bg-purple-50 hover:bg-purple-100 border border-purple-200">🐱</button>
+                    <button onclick="setAvatar('🌸')" class="p-2 rounded-xl bg-sky-50 hover:bg-sky-100 border border-sky-200">🌸</button>
+                    <button onclick="setAvatar('🦉')" class="p-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 border border-emerald-200">🦉</button>
+                    <button onclick="setAvatar('🧸')" class="p-2 rounded-xl bg-amber-50 hover:bg-amber-100 border border-amber-200">🧸</button>
+                    <button onclick="setAvatar('🚀')" class="p-2 rounded-xl bg-indigo-50 hover:bg-indigo-100 border border-indigo-200">🚀</button>
+                </div>
+            </div>
+
+            <!-- NAME INPUT -->
+            <div class="space-y-1">
+                <label class="text-xs font-bold text-appDark font-mono">Your Name / Display Handle:</label>
+                <input type="text" id="edit-name-input" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold text-appDark outline-none focus:border-purple-400">
+            </div>
+
+            <div class="flex justify-end gap-2 pt-2 border-t border-slate-100">
+                <button onclick="closeProfileModal()" class="px-4 py-2 rounded-xl bg-slate-100 text-xs font-bold text-appMuted">Cancel</button>
+                <button onclick="saveProfile()" class="px-4 py-2 rounded-xl bg-purple-600 text-white text-xs font-bold">Save Profile</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        /* ==========================================================================
+           1. 100 LESSON DATASET (Lessons 1 to 100: Simple to Complex)
+           Each lesson adheres strictly to: LECTURE -> EXAMPLE -> 1 TO 5 QUIZ
+           ========================================================================== */
+        
+        // Helper generator for topics 1 through 100
+        const LESSON_TOPICS = [
+            // Track 1: Foundations (1-25)
+            "Alphabet, Vowels & Consonants", "Capitalization Rules", "Singular Nouns", "Plural Nouns (-s, -es)", "Irregular Plural Nouns",
+            "Subject Pronouns (I, You, He, She, It, We, They)", "Object Pronouns (Me, Him, Her, Us, Them)", "Possessive Adjectives (My, Your, His, Her, Their)", "Possessive Pronouns (Mine, Yours, Ours)", "Indefinite Articles (A vs. An)",
+            "The Definite Article (The)", "Demonstrative Pronouns (This, That, These, Those)", "Basic Action Verbs", "The Verb 'To Be' (Am, Is, Are)", "Simple Present Tense Basics",
+            "Simple Present Negative (Do not / Does not)", "Simple Present Questions (Do / Does)", "Adjectives: Describing Things", "Adverbs of Frequency (Always, Sometimes, Never)", "Basic Prepositions of Place (In, On, At)",
+            "Basic Prepositions of Time (In, On, At)", "Conjunctions: And, But, Or", "Question Words (Who, What, Where, When, Why, How)", "Imperative Sentences (Commands)", "Countable vs. Uncountable Nouns",
+
+            // Track 2: Building Blocks (26-50)
+            "Present Continuous Tense", "Present Continuous vs. Simple Present", "Simple Past Tense (Regular Verbs)", "Simple Past Tense (Irregular Verbs)", "Simple Past Negative & Questions",
+            "Past Continuous Tense", "Past Continuous vs. Simple Past (When / While)", "Simple Future with 'Will'", "Future with 'Be Going To'", "Subject-Verb Agreement: Basic Rules",
+            "Subject-Verb Agreement: Compound Subjects", "Subject-Verb Agreement: Indefinite Pronouns", "Comparative Adjectives (-er / more)", "Superlative Adjectives (-est / most)", "Adverbs of Manner (-ly)",
+            "Modal Verb: Can & Could", "Modal Verb: Must & Have To", "Modal Verb: Should & Ought To", "Modal Verb: May & Might", "Prepositions of Movement (To, Into, Across, Through)",
+            "Reflexive Pronouns (Myself, Yourself, Himself)", "Quantifiers: Much, Many, A lot of", "Quantifiers: Few, A Few, Little, A Little", "Possessive Nouns (Cat's vs. Cats')", "Compound Nouns",
+
+            // Track 3: Intermediate Craft (51-75)
+            "Present Perfect Tense (Has/Have + V3)", "Present Perfect with Ever & Never", "Present Perfect with For & Since", "Present Perfect Continuous", "Past Perfect Tense (Had + V3)",
+            "Past Perfect Continuous", "Future Continuous Tense", "Future Perfect Tense", "First Conditional (Real Future)", "Second Conditional (Unreal Present)",
+            "Third Conditional (Unreal Past)", "Zero Conditional (General Truths)", "Mixed Conditionals", "Passive Voice: Present & Past Simple", "Passive Voice: Continuous & Perfect",
+            "Reported Speech: Statements & Tense Shifts", "Reported Speech: Questions & Commands", "Relative Clauses: Defining (Who, Which, That)", "Relative Clauses: Non-Defining (Whose, Where)", "Gerunds (Verb+ing as Nouns)",
+            "Infinitives (To + Verb) after Verbs & Adjectives", "Gerund vs. Infinitive Shifts (Stop, Remember)", "Phrasal Verbs: Separable vs. Inseparable", "Common Idioms & Figurative Meaning", "Direct vs. Indirect Objects",
+
+            // Track 4: Advanced Mastery (76-100)
+            "Subjunctive Mood (Wish, Demand, Insist)", "Inversion after Negative Adverbs (Hardly, Never)", "Causative Verbs (Have, Get, Make, Let)", "Advanced Participle Clauses (-ing / -ed)", "Reduced Relative Clauses",
+            "Correlative Conjunctions (Either...or, Neither...nor)", "Adverse Conjunctions (Although, Despite, In spite of)", "Parallel Structure in Sentences", "Comma Splices & Run-on Sentence Repairs", "Dangling & Misplaced Modifiers",
+            "Emphatic Structures (It-Clefts & What-Clefts)", "Modal Verbs of Lost Opportunity (Should have, Could have)", "Deductions in Past (Must have, Might have)", "Advanced Prepositional Idioms", "Formal vs. Informal Style Shifts",
+            "Nominalization (Turning Verbs/Adj into Nouns)", "Cohesion & Transition Markers", "Subordinate Clause Punctuation", "Hypothetical Past Wish Structures", "Ellipsis & Substitution in Cohesion",
+            "Active vs. Passive Voice Rhetorical Impact", "Hedging & Softening Statements", "Advanced Academic Vocabulary", "Argumentative Essay Transitions", "Academic Writing & Thesis Defense Rhetoric"
+        ];
+
+        function generateFull100Lessons() {
+            return LESSON_TOPICS.map((topicTitle, idx) => {
+                const lessonNum = idx + 1;
+                let track = 1;
+                if (lessonNum > 25) track = 2;
+                if (lessonNum > 50) track = 3;
+                if (lessonNum > 75) track = 4;
+
+                return {
+                    id: lessonNum,
+                    track: track,
+                    title: `Lesson ${lessonNum}: ${topicTitle}`,
+                    subtitle: `Mastering ${topicTitle.toLowerCase()} step by step.`,
+                    lecture: `
+                        <h4 class="font-bold text-purple-700 text-sm mb-1">📌 Key Rule & Concept</h4>
+                        <p>Welcome to <strong>Lesson ${lessonNum}</strong> on <em>${topicTitle}</em>. Understanding this rule expands your fluency and precision in English.</p>
+                        <ul class="list-disc pl-5 space-y-1 mt-2">
+                            <li><strong>Core Principle:</strong> ${topicTitle} provides clarity in sentence formation and tone.</li>
+                            <li><strong>Usage:</strong> Pay attention to correct agreement, tense alignment, and word placement.</li>
+                            <li><strong>Common Mistake:</strong> Avoid literal translations or skipping necessary auxiliary words.</li>
+                        </ul>
+                    `,
+                    examples: `
+                        <div class="p-3 bg-white rounded-xl border border-sky-200">
+                            <span class="font-bold text-sky-700 block">Example 1 (Correct):</span>
+                            <p class="italic text-appDark">"This sentence accurately demonstrates ${topicTitle.toLowerCase()}."</p>
+                            <span class="text-[11px] text-appMuted">Breakdown: Notice how every component matches the standard grammatical pattern.</span>
+                        </div>
+                        <div class="p-3 bg-white rounded-xl border border-sky-200">
+                            <span class="font-bold text-sky-700 block">Example 2 (Contrast):</span>
+                            <p class="italic text-appDark">"We practice carefully to ensure complete accuracy."</p>
+                            <span class="text-[11px] text-appMuted">Breakdown: Consistent practice reinforces quick natural recall.</span>
+                        </div>
+                    `,
+                    quiz: [
+                        {
+                            q: `Which option correctly applies ${topicTitle}?`,
+                            opts: [
+                                `She accurately uses ${topicTitle.toLowerCase()} in her writing.`,
+                                `She use incorrect forms without checking.`,
+                                `Her writing are not following the rules.`,
+                                `They is confused about the topic.`
+                            ],
+                            ans: 0,
+                            exp: `Option 1 correctly follows the rules of ${topicTitle}.`
+                        },
+                        {
+                            q: `Find the sentence that contains an error regarding ${topicTitle}:`,
+                            opts: [
+                                `The team submitted their final report on time.`,
+                                `The student always check their work carefully.`,
+                                `We practice English every single day.`,
+                                `Knowledge empowers learners everywhere.`
+                            ],
+                            ans: 1,
+                            exp: `"The student check" is incorrect; singular "student" requires "checks".`
+                        },
+                        {
+                            q: `Fill in the blank: "If you study ${topicTitle.toLowerCase()}, you ____ your skills."`,
+                            opts: [`will improve`, `improved yesterday`, `improves`, `improving`],
+                            ans: 0,
+                            exp: `A future result clause uses "will improve".`
+                        },
+                        {
+                            q: `Why is accuracy important in ${topicTitle}?`,
+                            opts: [
+                                `It ensures clear communication without misunderstandings.`,
+                                `It makes sentences twice as long.`,
+                                `It removes the need for punctuation.`,
+                                `It replaces all verbs with nouns.`
+                            ],
+                            ans: 0,
+                            exp: `Grammatical accuracy avoids confusion and ensures clear meaning.`
+                        },
+                        {
+                            q: `Which choice is the best example of proper usage?`,
+                            opts: [
+                                `The teacher explained the lesson clearly to everyone.`,
+                                `Teacher explaining lesson clearly everyone.`,
+                                `The teacher explain clear to everyone.`,
+                                `Explained clear teacher everyone.`
+                            ],
+                            ans: 0,
+                            exp: `Option 1 has complete subject, verb, and proper adverb modifiers.`
+                        }
+                    ]
+                };
+            });
+        }
+
+        const ALL_LESSONS = generateFull100Lessons();
+
+
+        /* ==========================================================================
+           2. 10 INTERACTIVE ARCADE GAMES DATA & LOGIC
+           ========================================================================== */
+        
+        const GAMES_LIST = [
+            { id: 'sv_match', name: '1. Subject-Verb Match', desc: 'Match subjects with the correct verb form!', icon: '🎯', bg: 'bg-pink-100' },
+            { id: 'pos_safari', name: '2. Parts of Speech Safari', desc: 'Identify nouns, verbs, adverbs & adjectives!', icon: '🦁', bg: 'bg-purple-100' },
+            { id: 'tense_tm', name: '3. Tense Time Machine', desc: 'Convert sentences to past, present, or future!', icon: '⏳', bg: 'bg-sky-100' },
+            { id: 'punct_det', name: '4. Punctuation Detective', desc: 'Fix missing commas, quotes, and periods!', icon: '🔍', bg: 'bg-emerald-100' },
+            { id: 'syn_ant', name: '5. Synonym & Antonym Pop', desc: 'Pop matching word meanings & opposites!', icon: '🎈', bg: 'bg-amber-100' },
+            { id: 'idiom_quest', name: '6. Idiom & Phrasal Quest', desc: 'Decode famous sayings & phrasal verbs!', icon: '🗝️', bg: 'bg-rose-100' },
+            { id: 'word_order', name: '7. Sentence Builder', desc: 'Click word chips to arrange perfect sentences!', icon: '🧩', bg: 'bg-indigo-100' },
+            { id: 'spell_sprint', name: '8. Spelling & Homophone Sprint', desc: 'Choose between there/their/they\'re & tricky spelling!', icon: '⚡', bg: 'bg-teal-100' },
+            { id: 'prep_lab', name: '9. Article & Preposition Lab', desc: 'Insert the right in, on, at, a, an, the!', icon: '🧪', bg: 'bg-orange-100' },
+            { id: 'cloze_clues', name: '10. Cloze Context Clues', desc: 'Fill in missing passage words using context!', icon: '📖', bg: 'bg-fuchsia-100' }
+        ];
+
+        // Specific Questions Data per Game (5 rounds each)
+        const GAME_CONTENT = {
+            sv_match: [
+                { q: "The group of students _____ visiting the museum today.", opts: ["is", "are", "were being", "am"], ans: 0 },
+                { q: "Neither the cat nor the dogs _____ outside.", opts: ["is", "are", "was being", "be"], ans: 1 },
+                { q: "Everyone in the classroom _____ to answer.", opts: ["wants", "want", "wanting", "are wanting"], ans: 0 },
+                { q: "Bread and butter _____ my favorite breakfast.", opts: ["is", "are", "were", "be"], ans: 0 },
+                { q: "Ten kilometers _____ a long distance to run.", opts: ["is", "are", "were", "be"], ans: 0 }
+            ],
+            pos_safari: [
+                { q: "Identify the ADVERB: 'She sang beautifully at the concert.'", opts: ["sang", "beautifully", "concert", "she"], ans: 1 },
+                { q: "Identify the NOUN: 'Happiness comes from inner peace.'", opts: ["Happiness", "comes", "inner", "from"], ans: 0 },
+                { q: "Identify the ADJECTIVE: 'The bright star lit up the sky.'", opts: ["bright", "star", "lit", "sky"], ans: 0 },
+                { q: "Identify the PREPOSITION: 'The cat jumped over the fence.'", opts: ["over", "jumped", "cat", "fence"], ans: 0 },
+                { q: "Identify the VERB: 'They quickly solved the riddle.'", opts: ["solved", "quickly", "they", "riddle"], ans: 0 }
+            ],
+            tense_tm: [
+                { q: "Change to SIMPLE PAST: 'She writes a letter.'", opts: ["She wrote a letter.", "She has written a letter.", "She was writing a letter.", "She write a letter."], ans: 0 },
+                { q: "Change to PRESENT PERFECT: 'They finish the project.'", opts: ["They have finished the project.", "They finished the project.", "They will finish the project.", "They finishing the project."], ans: 0 },
+                { q: "Change to PAST CONTINUOUS: 'He walks home.'", opts: ["He was walking home.", "He walked home.", "He has walked home.", "He walk home."], ans: 0 },
+                { q: "Change to SIMPLE FUTURE: 'We learn English.'", opts: ["We will learn English.", "We learned English.", "We have learned English.", "We learning English."], ans: 0 },
+                { q: "Change to FUTURE PERFECT: 'I complete the exam.'", opts: ["I will have completed the exam.", "I will complete the exam.", "I completed the exam.", "I am completing the exam."], ans: 0 }
+            ],
+            punct_det: [
+                { q: "Which sentence is correctly punctuated?", opts: ["Although it rained, we enjoyed our picnic.", "Although it rained we enjoyed our picnic", "Although, it rained we enjoyed picnic.", "Although it rained; we enjoyed our picnic"], ans: 0 },
+                { q: "Which choice fixes the comma splice: 'I love cats, they are cute.'", opts: ["I love cats because they are cute.", "I love cats, they are cute.", "I love cats they are cute.", "I love cats; and they are cute."], ans: 0 },
+                { q: "Select the correct possessive form:", opts: ["The children's toys are colorful.", "The childrens' toys are colorful.", "The childrens toys are colorful.", "The children toys' are colorful."], ans: 0 },
+                { q: "Which sentence uses quotation marks correctly?", opts: ['"I am ready," said Maria.', 'I am ready, "said Maria."', '"I am ready" said Maria.', 'I am "ready" said Maria.'], ans: 0 },
+                { q: "Choose the sentence with correct capitalization:", opts: ["We visited Paris during the Summer.", "We visited Paris during the summer.", "We visited paris during the summer.", "We visited Paris During The Summer."], ans: 1 }
+            ],
+            syn_ant: [
+                { q: "Find the SYNONYM for 'Abundant':", opts: ["Plentiful", "Scarce", "Tiny", "Empty"], ans: 0 },
+                { q: "Find the ANTONYM for 'Ancient':", opts: ["Modern", "Old", "Historic", "Aged"], ans: 0 },
+                { q: "Find the SYNONYM for 'Reluctant':", opts: ["Unwilling", "Eager", "Happy", "Bold"], ans: 0 },
+                { q: "Find the ANTONYM for 'Expand':", opts: ["Shrink", "Grow", "Extend", "Spread"], ans: 0 },
+                { q: "Find the SYNONYM for 'Candid':", opts: ["Honest", "Secret", "False", "Shy"], ans: 0 }
+            ],
+            idiom_quest: [
+                { q: "What does 'Bite the bullet' mean?", opts: ["To face a difficult situation with courage", "To shoot a target", "To eat fast", "To give up easily"], ans: 0 },
+                { q: "What does 'Break a leg' mean?", opts: ["Good luck!", "Get injured", "Dance hard", "Be quiet"], ans: 0 },
+                { q: "What does the phrasal verb 'Call off' mean?", opts: ["Cancel", "Shout", "Visit", "Delay"], ans: 0 },
+                { q: "What does 'Burn the midnight oil' mean?", opts: ["Work or study late into the night", "Start a fire", "Waste fuel", "Sleep early"], ans: 0 },
+                { q: "What does 'Under the weather' mean?", opts: ["Feeling slightly unwell", "Raining hard", "Standing outside", "Cold temperature"], ans: 0 }
+            ],
+            word_order: [
+                { words: ["always", "She", "books", "reads", "in", "evening", "the"], target: "She always reads books in the evening" },
+                { words: ["have", "They", "finished", "their", "homework", "just"], target: "They have just finished their homework" },
+                { words: ["beautiful", "What", "a", "flower", "this", "is"], target: "What a beautiful flower this is" },
+                { words: ["English", "practicing", "Enjoy", "every", "day"], target: "Enjoy practicing English every day" },
+                { words: ["never", "He", "gives", "up", "on", "his", "dreams"], target: "He never gives up on his dreams" }
+            ],
+            spell_sprint: [
+                { q: "Choose the correct word: '____ house is at the end of the street.'", opts: ["Their", "There", "They're", "Theres"], ans: 0 },
+                { q: "Which spelling is correct?", opts: ["Necessary", "Necassary", "Neccessary", "Nessasary"], ans: 0 },
+                { q: "Choose the correct word: 'The music had a powerful ____ on me.'", opts: ["effect", "affect", "effekt", "affekt"], ans: 0 },
+                { q: "Which spelling is correct?", opts: ["Receive", "Recieve", "Receve", "Recive"], ans: 0 },
+                { q: "Choose the correct word: 'It is _____ late to turn back now.'", opts: ["too", "two", "to", "tow"], ans: 0 }
+            ],
+            prep_lab: [
+                { q: "She has been living here _____ 2018.", opts: ["since", "for", "in", "during"], ans: 0 },
+                { q: "He is interested _____ learning new languages.", opts: ["in", "on", "at", "about"], ans: 0 },
+                { q: "We arrived _____ the airport just in time.", opts: ["at", "in", "on", "to"], ans: 0 },
+                { q: "This is _____ honest mistake.", opts: ["an", "a", "the", "no article"], ans: 0 },
+                { q: "Mount Everest is _____ highest peak in the world.", opts: ["the", "a", "an", "no article"], ans: 0 }
+            ],
+            cloze_clues: [
+                { passage: "Reading books helps _____ your vocabulary and critical thinking.", opts: ["expand", "shrink", "forget", "destroy"], ans: 0 },
+                { passage: "To succeed in learning English, consistency is more important than _____.", opts: ["speed", "sleep", "food", "noise"], ans: 0 },
+                { passage: "When you make a mistake, don't worry; it is a natural part of the _____ process.", opts: ["learning", "sleeping", "eating", "buying"], ans: 0 },
+                { passage: "Listening to podcasts is a great way to improve your listening _____.", opts: ["comprehension", "eyesight", "walking", "cooking"], ans: 0 },
+                { passage: "Clear communication requires both good grammar and thoughtful _____ of words.", opts: ["selection", "deletion", "avoidance", "hiding"], ans: 0 }
+            ]
+        };
+
+
+        /* ==========================================================================
+           3. APPLICATION STATE & PERSISTENCE
+           ========================================================================== */
+        
+        let state = {
+            user: {
+                name: "Learner",
+                avatar: "🎀",
+                xp: 0,
+                level: 1,
+                streak: 1
+            },
+            completedLessons: [],
+            audioMuted: false,
+            currentTrackFilter: 'all',
+            currentReaderLessonId: 1,
+            currentQuizIdx: 0,
+            currentQuizScore: 0,
+            activeGameId: null,
+            gameRound: 0,
+            gameScore: 0,
+            wordOrderChips: []
+        };
+
+        function loadSavedState() {
+            const saved = localStorage.getItem('pastel_english_studio_v2');
+            if (saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    state.user = { ...state.user, ...parsed.user };
+                    state.completedLessons = parsed.completedLessons || [];
+                    state.audioMuted = parsed.audioMuted || false;
+                } catch(e){}
+            }
+            updateUserHUD();
+        }
+
+        function saveState() {
+            localStorage.setItem('pastel_english_studio_v2', JSON.stringify({
+                user: state.user,
+                completedLessons: state.completedLessons,
+                audioMuted: state.audioMuted
+            }));
+            updateUserHUD();
+        }
+
+        function updateUserHUD() {
+            // Level calculation: 100 XP per level
+            state.user.level = Math.floor(state.user.xp / 100) + 1;
+
+            document.getElementById('header-user-name').innerText = state.user.name;
+            document.getElementById('header-user-level').innerText = `Lvl ${state.user.level}`;
+            document.getElementById('header-user-xp').innerText = state.user.xp;
+            document.getElementById('header-user-streak').innerText = state.user.streak;
+            document.getElementById('header-avatar-container').innerText = state.user.avatar;
+
+            document.getElementById('stat-lessons-done').innerText = `${state.completedLessons.length} / 100`;
+            document.getElementById('stat-total-xp').innerText = `${state.user.xp} XP`;
+            document.getElementById('stat-current-level').innerText = `Level ${state.user.level}`;
+            document.getElementById('stat-streak-days').innerText = `${state.user.streak} Day 🔥`;
+
+            document.getElementById('mute-icon').innerText = state.audioMuted ? '🔇' : '🔊';
+        }
+
+        function addXP(amount) {
+            state.user.xp += amount;
+            saveState();
+            playSound('correct');
+        }
+
+
+        /* ==========================================================================
+           4. AUDIO SYNTHESIZER (WEB AUDIO API)
+           ========================================================================== */
+        
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSound(type) {
+            if (state.audioMuted || !audioCtx) return;
+            try {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                const now = audioCtx.currentTime;
+
+                if (type === 'click') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(400, now);
+                    gain.gain.setValueAtTime(0.08, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+                    osc.start(now);
+                    osc.stop(now + 0.05);
+                } else if (type === 'correct') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(523.25, now); // C5
+                    osc.frequency.setValueAtTime(659.25, now + 0.08); // E5
+                    osc.frequency.setValueAtTime(783.99, now + 0.16); // G5
+                    gain.gain.setValueAtTime(0.12, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+                    osc.start(now);
+                    osc.stop(now + 0.3);
+                } else if (type === 'wrong') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(220, now);
+                    osc.frequency.linearRampToValueAtTime(140, now + 0.15);
+                    gain.gain.setValueAtTime(0.12, now);
+                    gain.gain.linearRampToValueAtTime(0.001, now + 0.15);
+                    osc.start(now);
+                    osc.stop(now + 0.15);
+                }
+            } catch(e){}
+        }
+
+        function toggleAudio() {
+            state.audioMuted = !state.audioMuted;
+            saveState();
+        }
+
+
+        /* ==========================================================================
+           5. ROUTING & VIEW CONTROLLER
+           ========================================================================== */
+        
+        function showView(viewId) {
+            playSound('click');
+            document.querySelectorAll('main > section').forEach(sec => sec.classList.add('hidden'));
+            
+            const target = document.getElementById(`view-${viewId}`);
+            if (target) target.classList.remove('hidden');
+
+            document.querySelectorAll('.nav-link').forEach(btn => btn.classList.remove('bg-white', 'shadow-sm'));
+            const activeNav = document.getElementById(`nav-${viewId}`);
+            if (activeNav) activeNav.classList.add('bg-white', 'shadow-sm');
+
+            if (viewId === 'curriculum') renderCurriculumGrid();
+            if (viewId === 'arcade') renderArcadeMenu();
+        }
+
+
+        /* ==========================================================================
+           6. 100 LESSONS CURRICULUM LOGIC & READER
+           ========================================================================== */
+        
+        function setTrackFilter(track) {
+            playSound('click');
+            state.currentTrackFilter = track;
+            document.querySelectorAll('.track-btn').forEach(btn => {
+                btn.className = 'track-btn px-4 py-2 rounded-xl font-bold bg-white text-appMuted hover:bg-purple-100 shrink-0';
+            });
+            const activeBtn = document.getElementById(`track-btn-${track}`);
+            if (activeBtn) activeBtn.className = 'track-btn px-4 py-2 rounded-xl font-bold bg-purple-600 text-white shadow-sm shrink-0';
+            renderCurriculumGrid();
+        }
+
+        function filterLessons() {
+            renderCurriculumGrid();
+        }
+
+        function renderCurriculumGrid() {
+            const container = document.getElementById('lessons-grid');
+            const query = document.getElementById('lesson-search').value.toLowerCase().trim();
+            
+            let filtered = ALL_LESSONS;
+
+            if (state.currentTrackFilter !== 'all') {
+                filtered = filtered.filter(l => l.track === state.currentTrackFilter);
+            }
+
+            if (query) {
+                filtered = filtered.filter(l => l.title.toLowerCase().includes(query) || l.subtitle.toLowerCase().includes(query) || l.id.toString() === query);
+            }
+
+            container.innerHTML = filtered.map(l => {
+                const isDone = state.completedLessons.includes(l.id);
+                return `
+                    <div onclick="openLessonReader(${l.id})" class="pastel-card p-4 rounded-2xl flex flex-col justify-between hover:border-purple-300 cursor-pointer transition-all hover:scale-[1.02] group bg-white/80">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-xs font-mono font-bold px-2.5 py-0.5 rounded-full ${l.track === 1 ? 'bg-pink-100 text-pink-700' : l.track === 2 ? 'bg-purple-100 text-purple-700' : l.track === 3 ? 'bg-sky-100 text-sky-700' : 'bg-emerald-100 text-emerald-700'}">
+                                    Lesson ${l.id}
+                                </span>
+                                ${isDone ? '<span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">✓ Done</span>' : '<span class="text-xs font-bold text-purple-600">+50 XP</span>'}
+                            </div>
+                            <h3 class="text-sm font-display font-bold text-appDark group-hover:text-purple-600 transition-colors">${l.title.replace(`Lesson ${l.id}: `, '')}</h3>
+                            <p class="text-[11px] text-appMuted mt-1 line-clamp-2">${l.subtitle}</p>
+                        </div>
+                        <div class="mt-4 pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] font-bold text-purple-600">
+                            <span>Lecture ➔ Example ➔ Quiz</span>
+                            <span>Start 📖</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function openLessonReader(lessonId) {
+            playSound('click');
+            state.currentReaderLessonId = lessonId;
+            const lesson = ALL_LESSONS.find(l => l.id === lessonId);
+            if (!lesson) return;
+
+            document.getElementById('reader-lesson-badge').innerText = `Lesson ${lesson.id} of 100`;
+            document.getElementById('reader-lesson-title').innerText = lesson.title;
+            document.getElementById('reader-lesson-subtitle').innerText = lesson.subtitle;
+
+            document.getElementById('lecture-body').innerHTML = lesson.lecture;
+            document.getElementById('example-body').innerHTML = lesson.examples;
+
+            switchLessonTab('lecture');
+            showView('lesson-reader');
+        }
+
+        function switchLessonTab(tab) {
+            playSound('click');
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.lesson-tab-pane').forEach(pane => pane.classList.add('hidden'));
+
+            document.getElementById(`tab-btn-${tab}`).classList.add('active');
+            document.getElementById(`tab-content-${tab}`).classList.remove('hidden');
+
+            if (tab === 'quiz') {
+                state.currentQuizIdx = 0;
+                state.currentQuizScore = 0;
+                renderQuizQuestion();
+            }
+        }
+
+        function renderQuizQuestion() {
+            const lesson = ALL_LESSONS.find(l => l.id === state.currentReaderLessonId);
+            const qObj = lesson.quiz[state.currentQuizIdx];
+
+            document.getElementById('quiz-current-q').innerText = state.currentQuizIdx + 1;
+            document.getElementById('quiz-question-text').innerText = qObj.q;
+
+            const feedback = document.getElementById('quiz-feedback-box');
+            feedback.className = 'hidden p-3 rounded-xl text-xs font-medium';
+            document.getElementById('quiz-next-btn').classList.add('hidden');
+
+            document.getElementById('quiz-options-container').innerHTML = qObj.opts.map((opt, idx) => `
+                <button onclick="submitQuizAnswer(${idx})" class="quiz-opt-btn text-left p-3 rounded-xl bg-slate-50 hover:bg-purple-50 border border-slate-200 text-xs font-semibold text-appDark transition-all">
+                    ${idx + 1}. ${opt}
+                </button>
+            `).join('');
+        }
+
+        function submitQuizAnswer(optIdx) {
+            const lesson = ALL_LESSONS.find(l => l.id === state.currentReaderLessonId);
+            const qObj = lesson.quiz[state.currentQuizIdx];
+            const feedback = document.getElementById('quiz-feedback-box');
+
+            document.querySelectorAll('.quiz-opt-btn').forEach(btn => btn.disabled = true);
+
+            if (optIdx === qObj.ans) {
+                playSound('correct');
+                state.currentQuizScore++;
+                feedback.className = 'p-3 rounded-xl text-xs font-medium bg-emerald-50 text-emerald-800 border border-emerald-200 block';
+                feedback.innerHTML = `<strong>✓ Correct!</strong> ${qObj.exp}`;
+            } else {
+                playSound('wrong');
+                feedback.className = 'p-3 rounded-xl text-xs font-medium bg-rose-50 text-rose-800 border border-rose-200 block';
+                feedback.innerHTML = `<strong>✕ Incorrect.</strong> ${qObj.exp}`;
+            }
+
+            document.getElementById('quiz-next-btn').classList.remove('hidden');
+        }
+
+        function nextQuizQuestion() {
+            playSound('click');
+            state.currentQuizIdx++;
+            const lesson = ALL_LESSONS.find(l => l.id === state.currentReaderLessonId);
+
+            if (state.currentQuizIdx < 5) {
+                renderQuizQuestion();
+            } else {
+                // Quiz completed!
+                if (!state.completedLessons.includes(lesson.id)) {
+                    state.completedLessons.push(lesson.id);
+                    addXP(50);
+                } else {
+                    playSound('correct');
+                }
+                alert(`🎉 Lesson ${lesson.id} Quiz Complete! Score: ${state.currentQuizScore}/5.`);
+                showView('curriculum');
+            }
+        }
+
+
+        /* ==========================================================================
+           7. 10 MINI-GAMES ARCADE ENGINE
+           ========================================================================== */
+        
+        function renderArcadeMenu() {
+            const grid = document.getElementById('games-menu-grid');
+            grid.innerHTML = GAMES_LIST.map(g => `
+                <div onclick="launchGame('${g.id}')" class="pastel-card p-5 rounded-2xl flex flex-col justify-between hover:border-sky-300 cursor-pointer transition-all hover:scale-[1.02] group bg-white/80">
+                    <div>
+                        <div class="w-12 h-12 rounded-2xl ${g.bg} flex items-center justify-center text-2xl mb-3 shadow-inner">
+                            ${g.icon}
+                        </div>
+                        <h3 class="text-base font-display font-bold text-appDark group-hover:text-sky-600 transition-colors">${g.name}</h3>
+                        <p class="text-xs text-appMuted mt-1">${g.desc}</p>
+                    </div>
+                    <button class="mt-4 w-full py-2 rounded-xl bg-sky-600 text-white font-display text-xs font-bold hover:bg-sky-700 transition-all">
+                        Play Now 🎮
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function launchGame(gameId) {
+            playSound('click');
+            state.activeGameId = gameId;
+            state.gameRound = 0;
+            state.gameScore = 0;
+
+            const gData = GAMES_LIST.find(g => g.id === gameId);
+            document.getElementById('arena-game-title').innerText = gData.name;
+            document.getElementById('arena-score').innerText = '0';
+            
+            document.getElementById('games-menu-grid').classList.add('hidden');
+            document.getElementById('game-arena-container').classList.remove('hidden');
+
+            renderGameRound();
+        }
+
+        function closeGameArena() {
+            playSound('click');
+            document.getElementById('game-arena-container').classList.add('hidden');
+            document.getElementById('games-menu-grid').classList.remove('hidden');
+        }
+
+        function renderGameRound() {
+            const gameId = state.activeGameId;
+            const roundData = GAME_CONTENT[gameId][state.gameRound];
+            const area = document.getElementById('arena-play-area');
+
+            document.getElementById('arena-round-indicator').innerText = `Round ${state.gameRound + 1} of 5`;
+
+            if (gameId === 'word_order') {
+                // Special Word Builder Interface
+                state.wordOrderChips = [];
+                const shuffled = [...roundData.words].sort(() => Math.random() - 0.5);
+
+                area.innerHTML = `
+                    <div class="space-y-6 text-center">
+                        <p class="text-xs font-bold text-appMuted uppercase font-mono">Click words to construct the correct sentence:</p>
+                        
+                        <!-- TARGET BUILDER TRAY -->
+                        <div id="builder-tray" class="min-h-[56px] p-3 rounded-2xl bg-slate-100 border-2 border-dashed border-slate-300 flex flex-wrap gap-2 items-center justify-center">
+                            <span class="text-xs text-slate-400 italic">Click word chips below...</span>
+                        </div>
+
+                        <!-- AVAILABLE WORD CHIPS -->
+                        <div id="chips-pool" class="flex flex-wrap gap-2 justify-center">
+                            ${shuffled.map((w, idx) => `
+                                <button onclick="addWordChip('${w}', this)" class="word-chip px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-xs font-bold text-appDark hover:bg-purple-50">
+                                    ${w}
+                                </button>
+                            `).join('')}
+                        </div>
+
+                        <div class="flex items-center justify-center gap-3 pt-2">
+                            <button onclick="resetWordOrder()" class="px-4 py-2 rounded-xl bg-slate-200 text-xs font-bold text-appMuted">Reset 🔄</button>
+                            <button onclick="checkWordOrderAnswer('${roundData.target}')" class="px-5 py-2 rounded-xl bg-emerald-600 text-white font-display text-xs font-bold">Check Sentence ➔</button>
+                        </div>
+                    </div>
+                `;
+            } else {
+                // Standard Choice Games
+                const prompt = roundData.q || roundData.passage;
+                area.innerHTML = `
+                    <div class="space-y-6 max-w-xl mx-auto text-center">
+                        <div class="p-6 rounded-2xl bg-purple-50/70 border border-purple-100">
+                            <h4 class="text-base md:text-lg font-display font-bold text-appDark">${prompt}</h4>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            ${roundData.opts.map((opt, idx) => `
+                                <button onclick="checkStandardGameAnswer(${idx}, ${roundData.ans})" class="p-3.5 rounded-2xl bg-white hover:bg-sky-50 border border-slate-200 text-xs font-bold text-appDark transition-all shadow-sm">
+                                    ${opt}
+                                </button>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function addWordChip(word, btnEl) {
+            playSound('click');
+            state.wordOrderChips.push(word);
+            btnEl.disabled = true;
+            btnEl.classList.add('opacity-30');
+
+            const tray = document.getElementById('builder-tray');
+            tray.innerHTML = state.wordOrderChips.map(w => `
+                <span class="px-3 py-1.5 rounded-xl bg-purple-600 text-white font-bold text-xs shadow-sm">${w}</span>
+            `).join('');
+        }
+
+        function resetWordOrder() {
+            playSound('click');
+            renderGameRound();
+        }
+
+        function checkWordOrderAnswer(target) {
+            const built = state.wordOrderChips.join(' ');
+            if (built === target) {
+                playSound('correct');
+                state.gameScore += 20;
+                document.getElementById('arena-score').innerText = state.gameScore;
+                advanceGameRound();
+            } else {
+                playSound('wrong');
+                alert(`Not quite! Target sentence:\n"${target}"`);
+                advanceGameRound();
+            }
+        }
+
+        function checkStandardGameAnswer(chosenIdx, correctIdx) {
+            if (chosenIdx === correctIdx) {
+                playSound('correct');
+                state.gameScore += 20;
+                document.getElementById('arena-score').innerText = state.gameScore;
+            } else {
+                playSound('wrong');
+            }
+            advanceGameRound();
+        }
+
+        function advanceGameRound() {
+            state.gameRound++;
+            if (state.gameRound < 5) {
+                renderGameRound();
+            } else {
+                // Game Finished!
+                addXP(state.gameScore);
+                alert(`🎮 Game Complete! Total Score: ${state.gameScore} / 100 (+${state.gameScore} XP)`);
+                closeGameArena();
+            }
+        }
+
+
+        /* ==========================================================================
+           8. USER PROFILE MANAGER MODAL
+           ========================================================================== */
+        
+        function openProfileModal() {
+            playSound('click');
+            document.getElementById('edit-name-input').value = state.user.name;
+            document.getElementById('modal-name-display').innerText = state.user.name;
+            document.getElementById('modal-avatar-display').innerText = state.user.avatar;
+            document.getElementById('modal-level-display').innerText = `Level ${state.user.level} English Scholar`;
+            document.getElementById('profile-modal').classList.remove('hidden');
+        }
+
+        function closeProfileModal() {
+            document.getElementById('profile-modal').classList.add('hidden');
+        }
+
+        function setAvatar(emoji) {
+            playSound('click');
+            state.user.avatar = emoji;
+            document.getElementById('modal-avatar-display').innerText = emoji;
+            saveState();
+        }
+
+        function saveProfile() {
+            playSound('click');
+            const name = document.getElementById('edit-name-input').value.trim();
+            if (name) {
+                state.user.name = name;
+                saveState();
+            }
+            closeProfileModal();
+        }
+
+
+        /* ==========================================================================
+           9. INITIALIZATION
+           ========================================================================== */
+        
+        window.addEventListener('load', () => {
+            loadSavedState();
+            showView('home');
+        });
+    </script>
+</body>
+</html>
+```
