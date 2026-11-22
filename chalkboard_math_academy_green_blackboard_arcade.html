@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chalkboard Math Academy - Green Blackboard Arcade</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Fredoka:wght@400;500;600;700&family=Kalam:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        chalk: ['Caveat', 'Kalam', 'cursive'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        display: ['Fredoka', 'sans-serif'],
+                    },
+                    colors: {
+                        slateBoard: '#152c1e',
+                        boardDark: '#0e1f14',
+                        woodBorder: '#5c3a1e',
+                        woodLight: '#7e522a',
+                        woodDark: '#3d2512',
+                        chalkWhite: '#fdfbf7',
+                        chalkYellow: '#fef08a',
+                        chalkPink: '#fbcfe8',
+                        chalkCyan: '#a5f3fc',
+                        chalkOrange: '#fed7aa',
+                        chalkGreen: '#bbf7d0',
+                        chalkPurple: '#e9d5ff'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Blackboard Surface & Dust Overlay */
+        .blackboard-surface {
+            background-color: #152c1e;
+            background-image: 
+                radial-gradient(circle at 50% 30%, rgba(35, 68, 48, 0.8) 0%, rgba(18, 38, 26, 0.95) 70%),
+                radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.03) 0%, transparent 40%),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.04) 0%, transparent 40%);
+            box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.7);
+        }
+
+        .wooden-frame {
+            border: 14px solid #5c3a1e;
+            border-image: linear-gradient(135deg, #7e522a 0%, #5c3a1e 50%, #3d2512 100%) 14;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6), inset 0 2px 10px rgba(0,0,0,0.8);
+        }
+
+        .chalk-text {
+            color: #fdfbf7;
+            text-shadow: 0 0 2px rgba(255, 255, 255, 0.7), 0 0 6px rgba(255, 255, 255, 0.3);
+            font-family: 'Caveat', 'Kalam', cursive;
+        }
+
+        .chalk-yellow {
+            color: #fef08a;
+            text-shadow: 0 0 3px rgba(254, 240, 138, 0.6);
+        }
+
+        .chalk-pink {
+            color: #fbcfe8;
+            text-shadow: 0 0 3px rgba(251, 207, 232, 0.6);
+        }
+
+        .chalk-cyan {
+            color: #a5f3fc;
+            text-shadow: 0 0 3px rgba(165, 243, 252, 0.6);
+        }
+
+        .chalk-orange {
+            color: #fed7aa;
+            text-shadow: 0 0 3px rgba(254, 215, 170, 0.6);
+        }
+
+        .chalk-box {
+            border: 2px dashed rgba(253, 251, 247, 0.35);
+            background: rgba(10, 24, 16, 0.5);
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .chalk-button {
+            transition: all 0.15s ease;
+            border: 2px solid rgba(253, 251, 247, 0.4);
+            box-shadow: 0 4px 0 rgba(0, 0, 0, 0.4), inset 0 0 8px rgba(255, 255, 255, 0.1);
+        }
+        .chalk-button:hover {
+            transform: translateY(-2px);
+            border-color: rgba(253, 251, 247, 0.8);
+            box-shadow: 0 6px 0 rgba(0, 0, 0, 0.4), 0 0 12px rgba(255, 255, 255, 0.2);
+        }
+        .chalk-button:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 rgba(0, 0, 0, 0.4);
+        }
+
+        /* Custom Scrollbar for Blackboard */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: rgba(10, 24, 16, 0.8); }
+        ::-webkit-scrollbar-thumb { background: rgba(253, 251, 247, 0.3); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(253, 251, 247, 0.6); }
+
+        /* Keyframes */
+        @keyframes chalkDust {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            50% { opacity: 0.8; }
+            100% { transform: translateY(-30px) rotate(15deg); opacity: 0; }
+        }
+        .animate-dust { animation: chalkDust 1.5s ease-out forwards; }
+    </style>
+</head>
+<body class="h-full bg-slate-950 text-slate-100 font-sans flex flex-col justify-between select-none overflow-x-hidden">
+
+    <!-- HEADER / NAVIGATION BAR -->
+    <header class="bg-[#2a170a] border-b-4 border-[#5c3a1e] px-4 py-3 shadow-xl flex items-center justify-between shrink-0 z-30">
+        <!-- Brand Logo -->
+        <div onclick="showView('home')" class="flex items-center gap-3 cursor-pointer group">
+            <div class="w-11 h-11 rounded-2xl bg-[#152c1e] border-2 border-amber-200/50 flex items-center justify-center text-2xl shadow-inner group-hover:scale-105 transition-transform">
+                ✏️
+            </div>
+            <div>
+                <h1 class="text-xl md:text-2xl font-chalk font-bold text-chalkYellow tracking-wide leading-none flex items-center gap-2">
+                    CHALKBOARD MATH ACADEMY
+                    <span class="text-xs font-sans font-extrabold bg-amber-500/30 text-amber-200 border border-amber-400/40 px-2 py-0.5 rounded-full uppercase tracking-wider">Arcade</span>
+                </h1>
+                <p class="text-[11px] font-sans text-amber-200/70">Green Slate Math Arcade & Knowledge Classroom</p>
+            </div>
+        </div>
+
+        <!-- Student Profile Quick Stats Pill & Sound Toggle -->
+        <div class="flex items-center gap-3">
+            <!-- Audio Sound Toggle -->
+            <button onclick="toggleAudioMute()" id="mute-btn" class="p-2 rounded-xl bg-[#3d2512] hover:bg-[#5c3a1e] border border-amber-400/30 text-amber-200 text-sm flex items-center gap-1 transition-all" title="Toggle Chalk Sound Effects">
+                <span id="mute-icon">🔊</span>
+            </button>
+
+            <!-- Student Account Card -->
+            <div onclick="openProfileModal()" class="flex items-center gap-2.5 bg-[#152c1e] hover:bg-[#1d3d2a] border-2 border-amber-400/40 px-3 py-1.5 rounded-2xl cursor-pointer transition-all shadow-md group">
+                <div id="header-avatar-container" class="w-8 h-8 rounded-full border-2 border-amber-300 overflow-hidden bg-emerald-900 flex items-center justify-center text-sm font-bold text-amber-200 shrink-0">
+                    🦉
+                </div>
+                <div class="hidden sm:block text-left">
+                    <div class="flex items-center gap-1.5 leading-tight">
+                        <span id="header-user-name" class="text-xs font-bold text-slate-100 group-hover:text-amber-200">Alex Scholar</span>
+                        <span id="header-user-rank" class="text-[10px] font-bold px-1.5 py-0.2 rounded bg-amber-500/30 text-amber-300 border border-amber-400/30">Rookie</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-[10px] font-mono text-amber-200/80">
+                        <span>⭐ <span id="header-user-points">0</span> XP</span>
+                        <span>🔥 <span id="header-user-streak">0</span> Day Streak</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Switch User Button -->
+            <button onclick="openAccountSwitchModal()" class="hidden md:flex p-2 rounded-xl bg-[#3d2512] hover:bg-[#5c3a1e] border border-amber-400/30 text-amber-200 text-xs font-bold items-center gap-1 transition-all">
+                <span>🔄 Switch</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN CLASSROOM APP CONTAINER -->
+    <main class="flex-1 p-2 sm:p-4 md:p-6 flex items-center justify-center relative">
+        
+        <!-- LARGE WOODEN FRAME BLACKBOARD BOARD -->
+        <div class="w-full max-w-6xl h-full min-h-[620px] rounded-3xl wooden-frame blackboard-surface p-4 sm:p-6 md:p-8 flex flex-col justify-between relative overflow-hidden">
+
+            <!-- Dynamic Views Container -->
+            <div id="view-container" class="flex-1 flex flex-col h-full overflow-y-auto pr-1">
+
+                <!-- ================= 1. HOME DASHBOARD VIEW ================= -->
+                <section id="view-home" class="space-y-6">
+                    <!-- Chalk Welcome Banner -->
+                    <div class="chalk-box rounded-2xl p-4 sm:p-6 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-4">
+                        <div class="space-y-1 text-center md:text-left z-10">
+                            <span class="text-xs font-bold tracking-widest text-chalkPink uppercase font-mono">🌟 Welcome Back to Class!</span>
+                            <h2 class="text-3xl sm:text-4xl font-chalk chalk-yellow font-bold">
+                                Ready to conquer Math, <span id="home-welcome-name" class="text-chalkWhite underline decoration-amber-400">Alex</span>?
+                            </h2>
+                            <p class="text-xs sm:text-sm text-slate-300 max-w-xl">
+                                "Mistakes are proof that you are trying! Solve chalk puzzles, level up your rank, and earn shiny master badges."
+                            </p>
+                        </div>
+
+                        <!-- Daily Math Challenge Box -->
+                        <div onclick="startDailyChallenge()" class="bg-[#0e1f14] border-2 border-dashed border-amber-400/50 hover:border-amber-300 p-3.5 rounded-xl text-center cursor-pointer transition-all hover:scale-105 shrink-0 z-10">
+                            <span class="text-xs font-bold text-amber-300 font-mono block mb-0.5">🎯 DAILY CHALLENGE</span>
+                            <p class="text-xs text-slate-200 font-semibold" id="home-daily-task">Solve 3 Multiplication Problems</p>
+                            <span class="inline-block mt-1 text-[11px] font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-400/40">+100 BONUS XP</span>
+                        </div>
+                    </div>
+
+                    <!-- Quick Stats Cards Row -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        <div class="chalk-box p-3 rounded-xl text-center">
+                            <span class="text-[11px] text-slate-400 uppercase font-mono block">Total XP Score</span>
+                            <span id="stat-total-points" class="text-2xl sm:text-3xl font-chalk chalk-yellow font-bold">0</span>
+                        </div>
+                        <div class="chalk-box p-3 rounded-xl text-center">
+                            <span class="text-[11px] text-slate-400 uppercase font-mono block">Current Rank</span>
+                            <span id="stat-current-rank" class="text-xl sm:text-2xl font-chalk chalk-pink font-bold">Chalk Rookie</span>
+                        </div>
+                        <div class="chalk-box p-3 rounded-xl text-center">
+                            <span class="text-[11px] text-slate-400 uppercase font-mono block">Best Streak</span>
+                            <span id="stat-best-streak" class="text-2xl sm:text-3xl font-chalk chalk-cyan font-bold">0 Days</span>
+                        </div>
+                        <div class="chalk-box p-3 rounded-xl text-center">
+                            <span class="text-[11px] text-slate-400 uppercase font-mono block">Games Mastered</span>
+                            <span id="stat-games-mastered" class="text-2xl sm:text-3xl font-chalk chalk-green font-bold">0 / 8</span>
+                        </div>
+                    </div>
+
+                    <!-- Filter & Search Bar for 8 Games -->
+                    <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2 border-t border-white/10">
+                        <div class="flex items-center gap-2 overflow-x-auto w-full sm:w-auto pb-1">
+                            <button onclick="filterGames('all')" class="game-filter-btn px-3 py-1 rounded-lg text-xs font-bold border border-amber-300/40 bg-amber-500/20 text-amber-200 active-filter">All 8 Games</button>
+                            <button onclick="filterGames('logic')" class="game-filter-btn px-3 py-1 rounded-lg text-xs font-bold border border-white/20 bg-black/40 text-slate-300 hover:text-white">Logic & Sudoku</button>
+                            <button onclick="filterGames('words')" class="game-filter-btn px-3 py-1 rounded-lg text-xs font-bold border border-white/20 bg-black/40 text-slate-300 hover:text-white">Words & Riddles</button>
+                            <button onclick="filterGames('operations')" class="game-filter-btn px-3 py-1 rounded-lg text-xs font-bold border border-white/20 bg-black/40 text-slate-300 hover:text-white">Speed Operations</button>
+                        </div>
+                        <div class="w-full sm:w-48 relative">
+                            <input type="text" id="game-search-input" onkeyup="searchGames()" placeholder="Search game..." class="w-full bg-[#0a1810] border border-white/20 rounded-xl px-3 py-1.5 text-xs text-white placeholder-slate-400 outline-none focus:border-amber-400">
+                        </div>
+                    </div>
+
+                    <!-- 8 MATH GAMES GRID -->
+                    <div id="games-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <!-- Rendered via JS -->
+                    </div>
+                </section>
+
+                <!-- ================= 2. GAME VIEWS (SUDOKU, TILE, WORD SEARCH, etc.) ================= -->
+                
+                <!-- GAME HEADER BAR (Shared across all games) -->
+                <div id="game-view-header" class="hidden flex items-center justify-between border-b border-white/20 pb-3 mb-4">
+                    <button onclick="showView('home')" class="chalk-button px-3 py-1.5 rounded-xl bg-emerald-900/60 text-chalkYellow font-chalk text-lg flex items-center gap-2">
+                        <span>⬅ Back to Classroom</span>
+                    </button>
+                    <div class="text-center">
+                        <h2 id="current-game-title" class="text-2xl sm:text-3xl font-chalk chalk-yellow font-bold">Game Title</h2>
+                        <span id="current-game-subtitle" class="text-xs font-sans text-slate-300">Description subtext</span>
+                    </div>
+                    <div class="flex items-center gap-2 bg-[#0a1810] px-3 py-1 rounded-xl border border-white/20 text-xs font-mono">
+                        <span class="text-amber-300">XP: +<span id="game-xp-reward">100</span></span>
+                    </div>
+                </div>
+
+                <!-- GAME 1: SUDOKU -->
+                <section id="view-game-sudoku" class="game-section hidden space-y-4">
+                    <div class="flex flex-wrap items-center justify-between gap-2 bg-[#0e1f14] p-3 rounded-xl border border-white/10">
+                        <div class="flex items-center gap-2 text-xs font-bold">
+                            <span>Grid:</span>
+                            <button onclick="initSudoku(4)" id="sudoku-mode-4" class="px-2.5 py-1 rounded bg-amber-500/30 text-amber-200 border border-amber-400/40">4x4 Kids</button>
+                            <button onclick="initSudoku(9)" id="sudoku-mode-9" class="px-2.5 py-1 rounded bg-black/40 text-slate-300 border border-white/20">9x9 Standard</button>
+                        </div>
+                        <div class="flex items-center gap-3 text-xs font-mono">
+                            <span>⏱ Time: <span id="sudoku-timer">00:00</span></span>
+                            <button onclick="checkSudokuSolution()" class="px-3 py-1 rounded bg-emerald-700 hover:bg-emerald-600 text-white font-bold">Check Solution</button>
+                            <button onclick="getSudokuHint()" class="px-3 py-1 rounded bg-amber-600 hover:bg-amber-500 text-white font-bold">💡 Hint</button>
+                        </div>
+                    </div>
+                    <div class="flex flex-col md:flex-row items-center justify-center gap-6">
+                        <div id="sudoku-board-container" class="chalk-box p-3 rounded-2xl"></div>
+                        <div class="flex md:flex-col gap-2" id="sudoku-num-pad">
+                            <!-- JS Generated Buttons -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- GAME 2: MATH TILE PUZZLE -->
+                <section id="view-game-tile" class="game-section hidden space-y-4 text-center">
+                    <div class="flex items-center justify-between bg-[#0e1f14] p-3 rounded-xl border border-white/10 text-xs">
+                        <span>Moves: <span id="tile-moves" class="font-bold text-amber-300">0</span></span>
+                        <span>Time: <span id="tile-timer" class="font-mono text-amber-300">00:00</span></span>
+                        <button onclick="initTilePuzzle()" class="px-3 py-1 rounded bg-amber-600 hover:bg-amber-500 text-white font-bold">🔀 Shuffle</button>
+                    </div>
+                    <div class="flex justify-center">
+                        <div id="tile-board" class="grid grid-cols-3 gap-2 w-72 h-72 chalk-box p-3 rounded-2xl"></div>
+                    </div>
+                    <p class="text-xs text-slate-300">Slide the tiles in numerical order from 1 to 8!</p>
+                </section>
+
+                <!-- GAME 3: MATH WORD SEARCH -->
+                <section id="view-game-wordsearch" class="game-section hidden space-y-4">
+                    <div class="flex flex-col sm:flex-row items-center justify-between bg-[#0e1f14] p-3 rounded-xl border border-white/10 text-xs gap-2">
+                        <div>Found: <span id="wordsearch-found-count" class="font-bold text-amber-300">0</span> / <span id="wordsearch-total-count">6</span> Words</div>
+                        <button onclick="initWordSearch()" class="px-3 py-1 rounded bg-amber-600 hover:bg-amber-500 text-white font-bold">🔄 New Puzzle</button>
+                    </div>
+                    <div class="flex flex-col md:flex-row items-start justify-center gap-6">
+                        <div id="wordsearch-grid" class="grid grid-cols-10 gap-1 chalk-box p-3 rounded-2xl font-mono text-sm font-bold select-none cursor-pointer"></div>
+                        <div class="chalk-box p-4 rounded-xl w-full md:w-48 space-y-2">
+                            <h4 class="text-xs font-bold text-chalkYellow uppercase font-mono border-b border-white/20 pb-1">Word Bank</h4>
+                            <ul id="wordsearch-bank" class="space-y-1 text-xs text-slate-200"></ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- GAME 4: MATH WORD PUZZLE & RIDDLES -->
+                <section id="view-game-riddles" class="game-section hidden space-y-4 text-center max-w-xl mx-auto">
+                    <div class="chalk-box p-6 rounded-2xl space-y-4">
+                        <span class="text-xs font-mono text-chalkPink font-bold">QUESTION <span id="riddle-idx">1</span> / 8</span>
+                        <h3 id="riddle-question" class="text-2xl font-chalk chalk-yellow font-bold">Loading riddle...</h3>
+                        
+                        <div id="riddle-scramble-container" class="flex justify-center gap-2 my-4"></div>
+
+                        <div class="flex gap-2 justify-center">
+                            <input type="text" id="riddle-input" placeholder="Type your answer..." class="bg-[#0a1810] border border-white/30 rounded-xl px-4 py-2 text-center text-lg font-chalk text-white uppercase outline-none focus:border-amber-400">
+                            <button onclick="checkRiddleAnswer()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl">Submit</button>
+                        </div>
+                        <div id="riddle-feedback" class="text-sm font-chalk min-h-[24px]"></div>
+                    </div>
+                </section>
+
+                <!-- GAME 5: MULTIPLICATION TRAINER -->
+                <section id="view-game-multiplication" class="game-section hidden space-y-4 text-center max-w-lg mx-auto">
+                    <div class="flex items-center justify-between bg-[#0e1f14] p-3 rounded-xl border border-white/10 text-xs">
+                        <label class="flex items-center gap-2">
+                            <span>Table:</span>
+                            <select id="mult-table-select" onchange="initMultiplicationTrainer()" class="bg-[#152c1e] text-amber-200 font-bold border border-white/20 rounded px-2 py-1 outline-none">
+                                <option value="mix">All Mixed (1-12)</option>
+                                <option value="2">2 Times Table</option>
+                                <option value="5">5 Times Table</option>
+                                <option value="7">7 Times Table</option>
+                                <option value="9">9 Times Table</option>
+                                <option value="12">12 Times Table</option>
+                            </select>
+                        </label>
+                        <span>Streak: <span id="mult-streak" class="font-bold text-amber-300">0 🔥</span></span>
+                    </div>
+
+                    <div class="chalk-box p-8 rounded-2xl space-y-6">
+                        <div class="text-5xl sm:text-6xl font-chalk chalk-yellow font-bold tracking-wider" id="mult-problem-text">7 × 8 = ?</div>
+                        <div class="grid grid-cols-2 gap-3 max-w-xs mx-auto" id="mult-options-grid"></div>
+                        <div id="mult-feedback" class="text-lg font-chalk min-h-[28px]"></div>
+                    </div>
+                </section>
+
+                <!-- GAME 6: ADDITION CHALLENGE -->
+                <section id="view-game-addition" class="game-section hidden space-y-4 text-center max-w-lg mx-auto">
+                    <div class="chalk-box p-8 rounded-2xl space-y-6">
+                        <span class="text-xs font-mono text-chalkCyan font-bold">FAST ADDITION CHALLENGE</span>
+                        <div class="text-5xl sm:text-6xl font-chalk chalk-cyan font-bold tracking-wider" id="add-problem-text">24 + 18 = ?</div>
+                        <div class="flex justify-center gap-2">
+                            <input type="number" id="add-input" placeholder="Answer" class="w-36 bg-[#0a1810] border border-white/30 rounded-xl px-4 py-2 text-center text-3xl font-chalk text-white outline-none focus:border-amber-400">
+                            <button onclick="checkAdditionAnswer()" class="px-5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-lg">Check</button>
+                        </div>
+                        <div id="add-feedback" class="text-lg font-chalk min-h-[28px]"></div>
+                    </div>
+                </section>
+
+                <!-- GAME 7: SUBTRACTION CHALLENGE -->
+                <section id="view-game-subtraction" class="game-section hidden space-y-4 text-center max-w-lg mx-auto">
+                    <div class="chalk-box p-8 rounded-2xl space-y-6">
+                        <span class="text-xs font-mono text-chalkPink font-bold">SUBTRACTION DASH</span>
+                        <div class="text-5xl sm:text-6xl font-chalk chalk-pink font-bold tracking-wider" id="sub-problem-text">52 - 19 = ?</div>
+                        <div class="flex justify-center gap-2">
+                            <input type="number" id="sub-input" placeholder="Answer" class="w-36 bg-[#0a1810] border border-white/30 rounded-xl px-4 py-2 text-center text-3xl font-chalk text-white outline-none focus:border-amber-400">
+                            <button onclick="checkSubtractionAnswer()" class="px-5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-lg">Check</button>
+                        </div>
+                        <div id="sub-feedback" class="text-lg font-chalk min-h-[28px]"></div>
+                    </div>
+                </section>
+
+                <!-- GAME 8: DIVISION CHALLENGE -->
+                <section id="view-game-division" class="game-section hidden space-y-4 text-center max-w-lg mx-auto">
+                    <div class="chalk-box p-8 rounded-2xl space-y-6">
+                        <span class="text-xs font-mono text-chalkGreen font-bold">DIVISION & QUOTIENTS</span>
+                        <div class="text-5xl sm:text-6xl font-chalk chalk-green font-bold tracking-wider" id="div-problem-text">63 ÷ 9 = ?</div>
+                        <div class="flex justify-center gap-2">
+                            <input type="number" id="div-input" placeholder="Quotient" class="w-36 bg-[#0a1810] border border-white/30 rounded-xl px-4 py-2 text-center text-3xl font-chalk text-white outline-none focus:border-amber-400">
+                            <button onclick="checkDivisionAnswer()" class="px-5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-lg">Check</button>
+                        </div>
+                        <div id="div-feedback" class="text-lg font-chalk min-h-[28px]"></div>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- CHALKBOARD BOTTOM TRAY / DUST LIP -->
+            <div class="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-xs text-slate-400 shrink-0">
+                <div class="flex items-center gap-4">
+                    <span>✏️ Chalks: White, Yellow, Pink, Cyan</span>
+                    <span class="hidden sm:inline">🧹 Dust Eraser Ready</span>
+                </div>
+                <div class="font-mono text-amber-200/60">Chalkboard Math Academy v1.0</div>
+            </div>
+        </div>
+    </main>
+
+    <!-- STUDENT PROFILE & AVATAR CUSTOMIZER MODAL -->
+    <div id="profile-modal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-[#152c1e] border-4 border-[#5c3a1e] rounded-3xl w-full max-w-lg p-6 space-y-6 relative shadow-2xl">
+            <button onclick="closeProfileModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl">✕</button>
+            
+            <div class="flex items-center gap-4 border-b border-white/10 pb-4">
+                <div id="modal-avatar-preview" class="w-16 h-16 rounded-2xl border-4 border-amber-300 bg-emerald-900 flex items-center justify-center text-3xl shadow-lg shrink-0 overflow-hidden">
+                    🦉
+                </div>
+                <div>
+                    <h3 id="modal-user-name" class="text-2xl font-chalk chalk-yellow font-bold">Alex Scholar</h3>
+                    <p id="modal-user-rank-title" class="text-xs font-bold text-amber-300 font-mono">Rank: Chalk Rookie</p>
+                    <div class="w-48 bg-black/50 h-2.5 rounded-full mt-1.5 overflow-hidden border border-white/20">
+                        <div id="modal-xp-progress" class="bg-amber-400 h-full w-1/4 transition-all"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Avatar Customizer Options -->
+            <div class="space-y-3">
+                <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider font-mono">Custom Profile Picture / Avatar</h4>
+                
+                <div class="grid grid-cols-6 gap-2" id="avatar-presets-grid">
+                    <button onclick="selectPresetAvatar('🦉')" class="p-2 rounded-xl bg-black/40 hover:bg-amber-500/20 border border-white/20 text-2xl">🦉</button>
+                    <button onclick="selectPresetAvatar('🐱')" class="p-2 rounded-xl bg-black/40 hover:bg-amber-500/20 border border-white/20 text-2xl">🐱</button>
+                    <button onclick="selectPresetAvatar('🐉')" class="p-2 rounded-xl bg-black/40 hover:bg-amber-500/20 border border-white/20 text-2xl">🐉</button>
+                    <button onclick="selectPresetAvatar('🤖')" class="p-2 rounded-xl bg-black/40 hover:bg-amber-500/20 border border-white/20 text-2xl">🤖</button>
+                    <button onclick="selectPresetAvatar('⭐')" class="p-2 rounded-xl bg-black/40 hover:bg-amber-500/20 border border-white/20 text-2xl">⭐</button>
+                    <button onclick="selectPresetAvatar('✏️')" class="p-2 rounded-xl bg-black/40 hover:bg-amber-500/20 border border-white/20 text-2xl">✏️</button>
+                </div>
+
+                <!-- Custom Photo Upload -->
+                <div class="pt-2">
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Or Upload Custom Photo:</label>
+                    <input type="file" id="avatar-file-input" accept="image/*" onchange="handleCustomAvatarUpload(event)" class="text-xs text-slate-300 file:mr-2 file:py-1 file:px-3 file:rounded-xl file:border-0 file:bg-amber-600 file:text-white file:font-bold hover:file:bg-amber-500">
+                </div>
+            </div>
+
+            <!-- Edit Name -->
+            <div class="space-y-1">
+                <label class="text-xs font-bold text-slate-300 font-mono">Student Display Name:</label>
+                <input type="text" id="edit-user-name-input" class="w-full bg-[#0a1810] border border-white/20 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-amber-400">
+            </div>
+
+            <div class="flex justify-end gap-2 pt-2 border-t border-white/10">
+                <button onclick="closeProfileModal()" class="px-4 py-2 rounded-xl bg-slate-800 text-xs font-bold text-slate-300 hover:text-white">Cancel</button>
+                <button onclick="saveProfileChanges()" class="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-500 text-xs font-bold text-white">Save Profile</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SWITCH ACCOUNT / LOGIN MODAL -->
+    <div id="account-modal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-[#152c1e] border-4 border-[#5c3a1e] rounded-3xl w-full max-w-md p-6 space-y-4 relative shadow-2xl">
+            <button onclick="closeAccountModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl">✕</button>
+            <h3 class="text-2xl font-chalk chalk-yellow font-bold">Select Student Account</h3>
+            
+            <div id="accounts-list" class="space-y-2 max-h-48 overflow-y-auto pr-1">
+                <!-- JS populated -->
+            </div>
+
+            <div class="pt-2 border-t border-white/10 space-y-2">
+                <label class="text-xs font-bold text-slate-300 font-mono">Create New Student Account:</label>
+                <div class="flex gap-2">
+                    <input type="text" id="new-account-name-input" placeholder="Student Name..." class="flex-1 bg-[#0a1810] border border-white/20 rounded-xl px-3 py-2 text-xs text-white outline-none focus:border-amber-400">
+                    <button onclick="createNewAccount()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-xs font-bold text-white rounded-xl">Create</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // APP STATE & CONSTANTS
+        const GAMES_DATA = [
+            { id: 'sudoku', title: '1. Math Sudoku', desc: '4x4 & 9x9 logic puzzle with numbers', category: 'logic', xp: 150, icon: '🧩' },
+            { id: 'tile', title: '2. Math Tile Puzzle', desc: 'Sliding tile puzzle to order numbers', category: 'logic', xp: 100, icon: '🧱' },
+            { id: 'wordsearch', title: '3. Math Word Search', desc: 'Find hidden math terms in chalk grid', category: 'words', xp: 120, icon: '🔍' },
+            { id: 'riddles', title: '4. Math Word Puzzle', desc: 'Math riddles & term anagram puzzles', category: 'words', xp: 80, icon: '💡' },
+            { id: 'multiplication', title: '5. Multiplication Trainer', desc: 'Speed times-table trainer with streaks', category: 'operations', xp: 100, icon: '✖️' },
+            { id: 'addition', title: '6. Addition Challenge', desc: 'Fast mental addition & sum challenges', category: 'operations', xp: 80, icon: '➕' },
+            { id: 'subtraction', title: '7. Subtraction Dash', desc: 'Subtraction & difference practice', category: 'operations', xp: 80, icon: '➖' },
+            { id: 'division', title: '8. Division & Quotients', desc: 'Division facts & quotient challenges', category: 'operations', xp: 100, icon: '➗' }
+        ];
+
+        const RANKS = [
+            { name: 'Chalk Rookie', minXP: 0 },
+            { name: 'Number Explorer', minXP: 200 },
+            { name: 'Equation Ace', minXP: 600 },
+            { name: 'Math Scholar', minXP: 1200 },
+            { name: 'Grand Chalk Master', minXP: 2500 }
+        ];
+
+        let state = {
+            audioMuted: false,
+            currentAccount: 'default',
+            accounts: {
+                'default': {
+                    name: 'Alex Scholar',
+                    avatar: '🦉',
+                    customAvatarUrl: null,
+                    points: 0,
+                    streak: 1,
+                    masteredGames: []
+                }
+            }
+        };
+
+        // WEB AUDIO API SYNTHESIZER FOR SOUND EFFECTS
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSound(type) {
+            if (state.audioMuted || !audioCtx) return;
+            try {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                const now = audioCtx.currentTime;
+
+                if (type === 'chalk') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(300, now);
+                    osc.frequency.exponentialRampToValueAtTime(150, now + 0.08);
+                    gain.gain.setValueAtTime(0.15, now);
+                    gain.gain.linearRampToValueAtTime(0.01, now + 0.08);
+                    osc.start(now);
+                    osc.stop(now + 0.08);
+                } else if (type === 'correct') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(523.25, now); // C5
+                    osc.frequency.setValueAtTime(659.25, now + 0.1); // E5
+                    osc.frequency.setValueAtTime(783.99, now + 0.2); // G5
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+                    osc.start(now);
+                    osc.stop(now + 0.4);
+                } else if (type === 'wrong') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(180, now);
+                    osc.frequency.linearRampToValueAtTime(110, now + 0.2);
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.linearRampToValueAtTime(0.01, now + 0.2);
+                    osc.start(now);
+                    osc.stop(now + 0.2);
+                }
+            } catch (e) {}
+        }
+
+        function toggleAudioMute() {
+            state.audioMuted = !state.audioMuted;
+            document.getElementById('mute-icon').innerText = state.audioMuted ? '🔇' : '🔊';
+        }
+
+        // LOCAL STORAGE PERSISTENCE
+        function loadState() {
+            const saved = localStorage.getItem('chalkboard_math_academy_v1');
+            if (saved) {
+                try { state = JSON.parse(saved); } catch(e){}
+            }
+            updateProfileUI();
+        }
+
+        function saveState() {
+            localStorage.setItem('chalkboard_math_academy_v1', JSON.stringify(state));
+            updateProfileUI();
+        }
+
+        function getActiveUser() {
+            return state.accounts[state.currentAccount] || state.accounts['default'];
+        }
+
+        function updateProfileUI() {
+            const user = getActiveUser();
+            
+            // Header UI
+            document.getElementById('header-user-name').innerText = user.name;
+            document.getElementById('header-user-points').innerText = user.points;
+            document.getElementById('header-user-streak').innerText = user.streak;
+            
+            const rank = getCurrentRank(user.points);
+            document.getElementById('header-user-rank').innerText = rank.name;
+
+            const avatarContainer = document.getElementById('header-avatar-container');
+            if (user.customAvatarUrl) {
+                avatarContainer.innerHTML = `<img src="${user.customAvatarUrl}" class="w-full h-full object-cover">`;
+            } else {
+                avatarContainer.innerText = user.avatar || '🦉';
+            }
+
+            // Home Stats UI
+            document.getElementById('home-welcome-name').innerText = user.name;
+            document.getElementById('stat-total-points').innerText = user.points;
+            document.getElementById('stat-current-rank').innerText = rank.name;
+            document.getElementById('stat-best-streak').innerText = `${user.streak} Days`;
+            document.getElementById('stat-games-mastered').innerText = `${(user.masteredGames || []).length} / 8`;
+        }
+
+        function getCurrentRank(points) {
+            let current = RANKS[0];
+            for (let r of RANKS) {
+                if (points >= r.minXP) current = r;
+            }
+            return current;
+        }
+
+        function addXP(amount) {
+            const user = getActiveUser();
+            user.points += amount;
+            saveState();
+            playSound('correct');
+        }
+
+        // VIEW ROUTER
+        function showView(viewId) {
+            playSound('chalk');
+            document.querySelectorAll('#view-container > section').forEach(sec => sec.classList.add('hidden'));
+
+            if (viewId === 'home') {
+                document.getElementById('view-home').classList.remove('hidden');
+                document.getElementById('game-view-header').classList.add('hidden');
+            } else {
+                document.getElementById('game-view-header').classList.remove('hidden');
+                const gameSec = document.getElementById(`view-game-${viewId}`);
+                if (gameSec) gameSec.classList.remove('hidden');
+
+                const gData = GAMES_DATA.find(g => g.id === viewId);
+                if (gData) {
+                    document.getElementById('current-game-title').innerText = gData.title;
+                    document.getElementById('current-game-subtitle').innerText = gData.desc;
+                    document.getElementById('game-xp-reward').innerText = gData.xp;
+                }
+
+                // Game specific initializers
+                if (viewId === 'sudoku') initSudoku(4);
+                if (viewId === 'tile') initTilePuzzle();
+                if (viewId === 'wordsearch') initWordSearch();
+                if (viewId === 'riddles') initRiddles();
+                if (viewId === 'multiplication') initMultiplicationTrainer();
+                if (viewId === 'addition') initAdditionGame();
+                if (viewId === 'subtraction') initSubtractionGame();
+                if (viewId === 'division') initDivisionGame();
+            }
+        }
+
+        // HOME DASHBOARD RENDERER
+        function renderGamesGrid(filtered = GAMES_DATA) {
+            const grid = document.getElementById('games-grid');
+            grid.innerHTML = filtered.map(g => `
+                <div onclick="showView('${g.id}')" class="chalk-box p-4 rounded-2xl flex flex-col justify-between hover:border-amber-300/80 cursor-pointer transition-all hover:scale-[1.02] group">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-3xl">${g.icon}</span>
+                            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-400/30">+${g.xp} XP</span>
+                        </div>
+                        <h3 class="text-xl font-chalk chalk-yellow font-bold group-hover:text-white transition-colors">${g.title}</h3>
+                        <p class="text-xs text-slate-300 mt-1">${g.desc}</p>
+                    </div>
+                    <button class="mt-4 w-full py-1.5 rounded-xl bg-emerald-900/60 hover:bg-emerald-800 text-chalkYellow font-chalk text-base border border-amber-300/30">
+                        Play Game ✏️
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function filterGames(cat) {
+            playSound('chalk');
+            document.querySelectorAll('.game-filter-btn').forEach(b => {
+                b.classList.remove('active-filter', 'bg-amber-500/20', 'text-amber-200', 'border-amber-300/40');
+                b.classList.add('bg-black/40', 'text-slate-300', 'border-white/20');
+            });
+            event.target.classList.add('active-filter', 'bg-amber-500/20', 'text-amber-200', 'border-amber-300/40');
+
+            if (cat === 'all') renderGamesGrid(GAMES_DATA);
+            else renderGamesGrid(GAMES_DATA.filter(g => g.category === cat));
+        }
+
+        function searchGames() {
+            const q = document.getElementById('game-search-input').value.toLowerCase();
+            renderGamesGrid(GAMES_DATA.filter(g => g.title.toLowerCase().includes(q) || g.desc.toLowerCase().includes(q)));
+        }
+
+        function startDailyChallenge() {
+            showView('multiplication');
+        }
+
+        // ================= GAME 1: SUDOKU ENGINE =================
+        let sudokuBoard = [];
+        let sudokuSolution = [];
+        let sudokuGridSize = 4;
+        let selectedSudokuCell = null;
+
+        function initSudoku(size = 4) {
+            sudokuGridSize = size;
+            document.getElementById('sudoku-mode-4').className = size === 4 ? 'px-2.5 py-1 rounded bg-amber-500/30 text-amber-200 border border-amber-400/40' : 'px-2.5 py-1 rounded bg-black/40 text-slate-300 border border-white/20';
+            document.getElementById('sudoku-mode-9').className = size === 9 ? 'px-2.5 py-1 rounded bg-amber-500/30 text-amber-200 border border-amber-400/40' : 'px-2.5 py-1 rounded bg-black/40 text-slate-300 border border-white/20';
+
+            if (size === 4) {
+                sudokuSolution = [
+                    [1, 2, 3, 4],
+                    [3, 4, 1, 2],
+                    [2, 1, 4, 3],
+                    [4, 3, 2, 1]
+                ];
+                sudokuBoard = [
+                    [1, 0, 0, 4],
+                    [0, 4, 1, 0],
+                    [0, 1, 4, 0],
+                    [4, 0, 0, 1]
+                ];
+            } else {
+                sudokuSolution = [
+                    [5,3,4,6,7,8,9,1,2],[6,7,2,1,9,5,3,4,8],[1,9,8,3,4,2,5,6,7],
+                    [8,5,9,7,6,1,4,2,3],[4,2,6,8,5,3,7,9,1],[7,1,3,9,2,4,8,5,6],
+                    [9,6,1,5,3,7,2,8,4],[2,8,7,4,1,9,6,3,5],[3,4,5,2,8,6,1,7,9]
+                ];
+                sudokuBoard = [
+                    [5,3,0,0,7,0,0,0,0],[6,0,0,1,9,5,0,0,0],[0,9,8,0,0,0,0,6,0],
+                    [8,0,0,0,6,0,0,0,3],[4,0,0,8,0,3,0,0,1],[7,0,0,0,2,0,0,0,6],
+                    [0,6,0,0,0,0,2,8,0],[0,0,0,4,1,9,0,0,5],[0,0,0,0,8,0,0,7,9]
+                ];
+            }
+            renderSudokuBoard();
+        }
+
+        function renderSudokuBoard() {
+            const container = document.getElementById('sudoku-board-container');
+            const numPad = document.getElementById('sudoku-num-pad');
+
+            container.innerHTML = `<div class="grid grid-cols-${sudokuGridSize} gap-1">
+                ${sudokuBoard.flatMap((row, r) => row.map((val, c) => `
+                    <div onclick="selectSudokuCell(${r}, ${c})" id="sudoku-cell-${r}-${c}" class="w-10 h-10 sm:w-12 sm:h-12 border border-white/20 flex items-center justify-center font-chalk text-2xl font-bold cursor-pointer transition-colors ${val !== 0 ? 'text-amber-200 bg-emerald-950/40' : 'text-chalkWhite hover:bg-white/10'}">
+                        ${val !== 0 ? val : ''}
+                    </div>
+                `)).join('')}
+            </div>`;
+
+            numPad.innerHTML = Array.from({length: sudokuGridSize}, (_, i) => i + 1).map(n => `
+                <button onclick="inputSudokuNumber(${n})" class="px-4 py-2 bg-black/40 hover:bg-amber-500/30 border border-white/20 rounded-xl font-chalk text-xl text-chalkYellow font-bold">${n}</button>
+            `).join('') + `<button onclick="inputSudokuNumber(0)" class="px-4 py-2 bg-rose-900/40 hover:bg-rose-800 border border-rose-400/30 rounded-xl font-chalk text-sm text-rose-200 font-bold">Clear</button>`;
+        }
+
+        function selectSudokuCell(r, c) {
+            playSound('chalk');
+            selectedSudokuCell = { r, c };
+            document.querySelectorAll('[id^="sudoku-cell-"]').forEach(el => el.classList.remove('bg-amber-500/40'));
+            document.getElementById(`sudoku-cell-${r}-${c}`).classList.add('bg-amber-500/40');
+        }
+
+        function inputSudokuNumber(num) {
+            if (!selectedSudokuCell) return;
+            const { r, c } = selectedSudokuCell;
+            sudokuBoard[r][c] = num;
+            renderSudokuBoard();
+            selectSudokuCell(r, c);
+        }
+
+        function checkSudokuSolution() {
+            let correct = true;
+            for (let r = 0; r < sudokuGridSize; r++) {
+                for (let c = 0; c < sudokuGridSize; c++) {
+                    if (sudokuBoard[r][c] !== sudokuSolution[r][c]) correct = false;
+                }
+            }
+            if (correct) {
+                addXP(sudokuGridSize === 4 ? 100 : 200);
+                alert("🌟 Outstanding! You solved the Chalk Sudoku!");
+            } else {
+                playSound('wrong');
+                alert("Some numbers need adjusting! Keep trying!");
+            }
+        }
+
+        function getSudokuHint() {
+            if (!selectedSudokuCell) return;
+            const { r, c } = selectedSudokuCell;
+            sudokuBoard[r][c] = sudokuSolution[r][c];
+            renderSudokuBoard();
+        }
+
+        // ================= GAME 2: TILE PUZZLE ENGINE =================
+        let tileState = [1, 2, 3, 4, 5, 6, 7, 8, 0];
+        let tileMoves = 0;
+
+        function initTilePuzzle() {
+            tileMoves = 0;
+            document.getElementById('tile-moves').innerText = '0';
+            tileState = [1, 2, 3, 4, 5, 6, 7, 8, 0].sort(() => Math.random() - 0.5);
+            renderTileBoard();
+        }
+
+        function renderTileBoard() {
+            const board = document.getElementById('tile-board');
+            board.innerHTML = tileState.map((val, idx) => `
+                <div onclick="moveTile(${idx})" class="${val === 0 ? 'opacity-0 cursor-default' : 'bg-emerald-950/80 hover:bg-emerald-800 border-2 border-amber-300/40 text-chalkYellow shadow-md cursor-pointer'} rounded-xl flex items-center justify-center font-chalk text-3xl font-bold transition-all">
+                    ${val !== 0 ? val : ''}
+                </div>
+            `).join('');
+        }
+
+        function moveTile(idx) {
+            const blankIdx = tileState.indexOf(0);
+            const validMoves = [idx - 1, idx + 1, idx - 3, idx + 3];
+            if (validMoves.includes(blankIdx)) {
+                playSound('chalk');
+                [tileState[idx], tileState[blankIdx]] = [tileState[blankIdx], tileState[idx]];
+                tileMoves++;
+                document.getElementById('tile-moves').innerText = tileMoves;
+                renderTileBoard();
+
+                if (tileState.join('') === '123456780') {
+                    addXP(100);
+                    alert(`🎉 Solved in ${tileMoves} moves! +100 XP`);
+                }
+            }
+        }
+
+        // ================= GAME 3: WORD SEARCH ENGINE =================
+        const WORD_SEARCH_WORDS = ['FRACTION', 'ALGEBRA', 'INTEGER', 'DECIMAL', 'FACTOR', 'RADIUS'];
+        let wordSearchGrid = [];
+        let foundWords = [];
+
+        function initWordSearch() {
+            foundWords = [];
+            document.getElementById('wordsearch-found-count').innerText = '0';
+            const size = 10;
+            wordSearchGrid = Array.from({length: size}, () => Array(size).fill(''));
+
+            // Place words
+            WORD_SEARCH_WORDS.forEach(word => {
+                let placed = false;
+                while (!placed) {
+                    const dir = Math.random() > 0.5 ? 'H' : 'V';
+                    const r = Math.floor(Math.random() * (dir === 'V' ? size - word.length : size));
+                    const c = Math.floor(Math.random() * (dir === 'H' ? size - word.length : size));
+                    
+                    let canPlace = true;
+                    for (let i = 0; i < word.length; i++) {
+                        const cell = dir === 'H' ? wordSearchGrid[r][c+i] : wordSearchGrid[r+i][c];
+                        if (cell !== '' && cell !== word[i]) canPlace = false;
+                    }
+                    if (canPlace) {
+                        for (let i = 0; i < word.length; i++) {
+                            if (dir === 'H') wordSearchGrid[r][c+i] = word[i];
+                            else wordSearchGrid[r+i][c] = word[i];
+                        }
+                        placed = true;
+                    }
+                }
+            });
+
+            // Fill empty
+            const alpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            for (let r = 0; r < size; r++) {
+                for (let c = 0; c < size; c++) {
+                    if (!wordSearchGrid[r][c]) wordSearchGrid[r][c] = alpha[Math.floor(Math.random() * alpha.length)];
+                }
+            }
+
+            renderWordSearch();
+        }
+
+        function renderWordSearch() {
+            const gridEl = document.getElementById('wordsearch-grid');
+            gridEl.innerHTML = wordSearchGrid.flatMap((row, r) => row.map((char, c) => `
+                <div onclick="clickWordSearchCell(this, '${char}')" class="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded hover:bg-amber-500/30 text-chalkWhite transition-colors">
+                    ${char}
+                </div>
+            `)).join('');
+
+            document.getElementById('wordsearch-bank').innerHTML = WORD_SEARCH_WORDS.map(w => `
+                <li class="${foundWords.includes(w) ? 'line-through text-amber-400 font-bold' : ''}">${w}</li>
+            `).join('');
+        }
+
+        function clickWordSearchCell(el, char) {
+            playSound('chalk');
+            el.classList.toggle('bg-amber-500/50');
+        }
+
+        // ================= GAME 4: MATH WORD RIDDLES =================
+        const RIDDLES_DATA = [
+            { q: "I am a 3D shape with 6 equal square faces. What am I?", a: "CUBE" },
+            { q: "The top number in a fraction is called the...", a: "NUMERATOR" },
+            { q: "A polygon with 5 sides is known as a...", a: "PENTAGON" },
+            { q: "The distance all the way around a circle is its...", a: "CIRCUMFERENCE" }
+        ];
+        let currentRiddleIdx = 0;
+
+        function initRiddles() {
+            currentRiddleIdx = 0;
+            loadRiddle();
+        }
+
+        function loadRiddle() {
+            const r = RIDDLES_DATA[currentRiddleIdx];
+            document.getElementById('riddle-idx').innerText = currentRiddleIdx + 1;
+            document.getElementById('riddle-question').innerText = `"${r.q}"`;
+            document.getElementById('riddle-input').value = '';
+            document.getElementById('riddle-feedback').innerText = '';
+
+            const scrambled = r.a.split('').sort(() => Math.random() - 0.5).join(' ');
+            document.getElementById('riddle-scramble-container').innerHTML = `
+                <span class="text-xs font-mono text-slate-300">Letter Clues: <strong class="text-chalkYellow">${scrambled}</strong></span>
+            `;
+        }
+
+        function checkRiddleAnswer() {
+            const input = document.getElementById('riddle-input').value.trim().toUpperCase();
+            const correct = RIDDLES_DATA[currentRiddleIdx].a;
+            if (input === correct) {
+                addXP(80);
+                document.getElementById('riddle-feedback').innerHTML = `<span class="text-emerald-400">🌟 Brilliant! Correct answer!</span>`;
+                setTimeout(() => {
+                    currentRiddleIdx = (currentRiddleIdx + 1) % RIDDLES_DATA.length;
+                    loadRiddle();
+                }, 1500);
+            } else {
+                playSound('wrong');
+                document.getElementById('riddle-feedback').innerHTML = `<span class="text-rose-400">Not quite right! Try again!</span>`;
+            }
+        }
+
+        // ================= GAME 5: MULTIPLICATION TRAINER =================
+        let multCurrentProblem = { a: 0, b: 0, ans: 0 };
+        let multStreak = 0;
+
+        function initMultiplicationTrainer() {
+            generateMultiplicationProblem();
+        }
+
+        function generateMultiplicationProblem() {
+            const table = document.getElementById('mult-table-select').value;
+            const a = table === 'mix' ? Math.floor(Math.random() * 12) + 1 : parseInt(table);
+            const b = Math.floor(Math.random() * 12) + 1;
+            multCurrentProblem = { a, b, ans: a * b };
+
+            document.getElementById('mult-problem-text').innerText = `${a} × ${b} = ?`;
+            document.getElementById('mult-feedback').innerText = '';
+
+            let options = [multCurrentProblem.ans];
+            while (options.length < 4) {
+                const fake = (Math.floor(Math.random() * 12) + 1) * (Math.floor(Math.random() * 12) + 1);
+                if (!options.includes(fake)) options.push(fake);
+            }
+            options.sort(() => Math.random() - 0.5);
+
+            document.getElementById('mult-options-grid').innerHTML = options.map(opt => `
+                <button onclick="checkMultiplicationAnswer(${opt})" class="py-3 rounded-xl bg-black/40 hover:bg-amber-500/30 border border-white/20 font-chalk text-2xl text-chalkYellow font-bold">${opt}</button>
+            `).join('');
+        }
+
+        function checkMultiplicationAnswer(chosen) {
+            if (chosen === multCurrentProblem.ans) {
+                multStreak++;
+                document.getElementById('mult-streak').innerText = `${multStreak} 🔥`;
+                addXP(20 * (multStreak > 3 ? 2 : 1));
+                document.getElementById('mult-feedback').innerHTML = `<span class="text-emerald-400">Awesome! ${multCurrentProblem.a} × ${multCurrentProblem.b} = ${multCurrentProblem.ans}</span>`;
+                setTimeout(generateMultiplicationProblem, 1000);
+            } else {
+                playSound('wrong');
+                multStreak = 0;
+                document.getElementById('mult-streak').innerText = `0 🔥`;
+                document.getElementById('mult-feedback').innerHTML = `<span class="text-rose-400">Oops! Correct was ${multCurrentProblem.ans}</span>`;
+            }
+        }
+
+        // ================= GAME 6: ADDITION ENGINE =================
+        let addAns = 0;
+        function initAdditionGame() {
+            const a = Math.floor(Math.random() * 45) + 5;
+            const b = Math.floor(Math.random() * 45) + 5;
+            addAns = a + b;
+            document.getElementById('add-problem-text').innerText = `${a} + ${b} = ?`;
+            document.getElementById('add-input').value = '';
+            document.getElementById('add-feedback').innerText = '';
+        }
+
+        function checkAdditionAnswer() {
+            const val = parseInt(document.getElementById('add-input').value);
+            if (val === addAns) {
+                addXP(80);
+                document.getElementById('add-feedback').innerHTML = `<span class="text-emerald-400">Correct! +80 XP</span>`;
+                setTimeout(initAdditionGame, 1000);
+            } else {
+                playSound('wrong');
+                document.getElementById('add-feedback').innerHTML = `<span class="text-rose-400">Try again!</span>`;
+            }
+        }
+
+        // ================= GAME 7: SUBTRACTION ENGINE =================
+        let subAns = 0;
+        function initSubtractionGame() {
+            const a = Math.floor(Math.random() * 60) + 20;
+            const b = Math.floor(Math.random() * (a - 5)) + 1;
+            subAns = a - b;
+            document.getElementById('sub-problem-text').innerText = `${a} - ${b} = ?`;
+            document.getElementById('sub-input').value = '';
+            document.getElementById('sub-feedback').innerText = '';
+        }
+
+        function checkSubtractionAnswer() {
+            const val = parseInt(document.getElementById('sub-input').value);
+            if (val === subAns) {
+                addXP(80);
+                document.getElementById('sub-feedback').innerHTML = `<span class="text-emerald-400">Spot on! +80 XP</span>`;
+                setTimeout(initSubtractionGame, 1000);
+            } else {
+                playSound('wrong');
+                document.getElementById('sub-feedback').innerHTML = `<span class="text-rose-400">Keep trying!</span>`;
+            }
+        }
+
+        // ================= GAME 8: DIVISION ENGINE =================
+        let divAns = 0;
+        function initDivisionGame() {
+            const b = Math.floor(Math.random() * 10) + 2;
+            const ans = Math.floor(Math.random() * 10) + 1;
+            const a = b * ans;
+            divAns = ans;
+            document.getElementById('div-problem-text').innerText = `${a} ÷ ${b} = ?`;
+            document.getElementById('div-input').value = '';
+            document.getElementById('div-feedback').innerText = '';
+        }
+
+        function checkDivisionAnswer() {
+            const val = parseInt(document.getElementById('div-input').value);
+            if (val === divAns) {
+                addXP(100);
+                document.getElementById('div-feedback').innerHTML = `<span class="text-emerald-400">Great job! +100 XP</span>`;
+                setTimeout(initDivisionGame, 1000);
+            } else {
+                playSound('wrong');
+                document.getElementById('div-feedback').innerHTML = `<span class="text-rose-400">Not quite!</span>`;
+            }
+        }
+
+        // PROFILE & MODAL MANAGERS
+        function openProfileModal() {
+            const user = getActiveUser();
+            document.getElementById('modal-user-name').innerText = user.name;
+            document.getElementById('edit-user-name-input').value = user.name;
+            document.getElementById('profile-modal').classList.remove('hidden');
+        }
+
+        function closeProfileModal() {
+            document.getElementById('profile-modal').classList.add('hidden');
+        }
+
+        function selectPresetAvatar(emoji) {
+            const user = getActiveUser();
+            user.avatar = emoji;
+            user.customAvatarUrl = null;
+            document.getElementById('modal-avatar-preview').innerText = emoji;
+            saveState();
+        }
+
+        function handleCustomAvatarUpload(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                const user = getActiveUser();
+                user.customAvatarUrl = evt.target.result;
+                document.getElementById('modal-avatar-preview').innerHTML = `<img src="${evt.target.result}" class="w-full h-full object-cover">`;
+                saveState();
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function saveProfileChanges() {
+            const newName = document.getElementById('edit-user-name-input').value.trim();
+            if (newName) {
+                const user = getActiveUser();
+                user.name = newName;
+                saveState();
+            }
+            closeProfileModal();
+        }
+
+        function openAccountSwitchModal() {
+            const list = document.getElementById('accounts-list');
+            list.innerHTML = Object.keys(state.accounts).map(accKey => {
+                const acc = state.accounts[accKey];
+                return `
+                    <div onclick="switchAccount('${accKey}')" class="p-3 rounded-xl bg-black/40 hover:bg-amber-500/20 border border-white/20 flex items-center justify-between cursor-pointer">
+                        <div class="flex items-center gap-3">
+                            <span class="text-2xl">${acc.avatar || '🦉'}</span>
+                            <span class="font-bold text-white text-sm">${acc.name}</span>
+                        </div>
+                        <span class="text-xs font-mono text-amber-300">${acc.points} XP</span>
+                    </div>
+                `;
+            }).join('');
+            document.getElementById('account-modal').classList.remove('hidden');
+        }
+
+        function closeAccountModal() {
+            document.getElementById('account-modal').classList.add('hidden');
+        }
+
+        function switchAccount(accKey) {
+            state.currentAccount = accKey;
+            saveState();
+            closeAccountModal();
+        }
+
+        function createNewAccount() {
+            const name = document.getElementById('new-account-name-input').value.trim();
+            if (!name) return;
+            const id = 'acc_' + Date.now();
+            state.accounts[id] = {
+                name,
+                avatar: '🎓',
+                customAvatarUrl: null,
+                points: 0,
+                streak: 1,
+                masteredGames: []
+            };
+            state.currentAccount = id;
+            saveState();
+            closeAccountModal();
+        }
+
+        // INITIALIZATION
+        window.addEventListener('load', () => {
+            loadState();
+            renderGamesGrid();
+            showView('home');
+        });
+    </script>
+</body>
+</html>
